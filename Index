@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>BitBrick — Learn C, one brick at a time</title>
+<meta name="description" content="A web-based playground for learning C. Write, compile and run code in your browser, guided by Professor Wáng — brick by brick." />
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=JetBrains+Mono:wght@400;500;700;800&display=swap');
+
+  :root{
+    --crimson:#A8324A;
+    --crimson-dark:#7d2537;
+    --navy:#2E3A55;
+    --navy-dark:#1C2436;
+    --gold:#C58F3A;
+    --gold-light:#E3B25E;
+    --emerald:#3F7A5C;
+    --emerald-dark:#2c5741;
+    --cream:#FAF7F2;
+    --paper:#fffdf9;
+    --ink:#2E3A55;
+    --skin:#E8C48E;
+    --skin-shade:#CBA06A;
+
+    --pixel:'Press Start 2P', monospace;
+    --mono:'JetBrains Mono', ui-monospace, monospace;
+
+    --brick:6px 6px 0 var(--navy-dark);
+    --brick-sm:4px 4px 0 var(--navy-dark);
+    --brick-gold:5px 5px 0 var(--gold);
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    font-family:var(--mono);
+    color:var(--ink);
+    background-color:var(--cream);
+    /* faint pixel-grid / graph-paper texture */
+    background-image:
+      linear-gradient(rgba(46,58,85,.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(46,58,85,.035) 1px, transparent 1px);
+    background-size:22px 22px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  svg{shape-rendering:crispEdges;}
+  img{image-rendering:pixelated;}
+  a{color:inherit;}
+  h1,h2,h3{font-family:var(--pixel);font-weight:400;line-height:1.35;margin:0;}
+  p{margin:0;}
+
+  .wrap{max-width:1140px;margin:0 auto;padding:0 24px;}
+
+  /* ---------- shared brick pieces ---------- */
+  .brick{
+    background:var(--paper);
+    border:3px solid var(--navy-dark);
+    box-shadow:var(--brick);
+  }
+  /* the little studs across the top of a brick */
+  .studs{position:relative;}
+  .studs::before{
+    content:"";
+    position:absolute;top:-11px;left:14px;right:14px;height:12px;
+    background-image:radial-gradient(circle at 8px 6px, var(--stud,var(--gold)) 0 5px, transparent 6px);
+    background-size:24px 12px;background-repeat:repeat-x;
+    pointer-events:none;
+  }
+
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    font-family:var(--mono);font-weight:800;font-size:15px;letter-spacing:.02em;
+    padding:14px 22px;border:3px solid var(--navy-dark);
+    background:var(--paper);color:var(--navy-dark);
+    box-shadow:var(--brick-sm);
+    cursor:pointer;text-decoration:none;
+    transition:transform .06s steps(2), box-shadow .06s steps(2), background .12s;
+  }
+  .btn:hover{background:#fff;}
+  .btn:active{transform:translate(4px,4px);box-shadow:0 0 0 var(--navy-dark);}
+  .btn:focus-visible{outline:3px dashed var(--gold);outline-offset:3px;}
+  .btn-primary{background:var(--crimson);color:#fff;}
+  .btn-primary:hover{background:#b83a54;}
+  .btn-gold{background:var(--gold);color:var(--navy-dark);}
+  .btn-gold:hover{background:var(--gold-light);}
+  .btn-ghost{background:transparent;box-shadow:none;border-color:transparent;padding:12px 12px;}
+  .btn-ghost:hover{background:rgba(46,58,85,.08);}
+  .btn-ghost:active{transform:none;}
+
+  .chip{
+    display:inline-block;font-size:12px;font-weight:700;letter-spacing:.04em;
+    padding:6px 12px;border:2px solid var(--navy-dark);background:var(--cream);
+  }
+
+  /* ---------- top nav ---------- */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:var(--navy);
+    border-bottom:4px solid var(--navy-dark);
+  }
+  .nav{display:flex;align-items:center;gap:20px;height:74px;}
+  .logo{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--cream);}
+  .logo .mark{width:40px;height:40px;flex:0 0 auto;}
+  .logo b{font-family:var(--pixel);font-size:16px;color:var(--gold-light);}
+  .logo span{font-size:12px;color:#c8cfdd;display:block;margin-top:2px;}
+  .nav-links{display:flex;gap:6px;margin-left:18px;}
+  .nav-links a{
+    color:#dfe4ee;text-decoration:none;font-weight:500;font-size:14px;
+    padding:8px 12px;border:2px solid transparent;
+  }
+  .nav-links a:hover{border-color:var(--gold);color:#fff;}
+  .nav-actions{margin-left:auto;display:flex;align-items:center;gap:12px;}
+  .nav-actions .btn{padding:11px 18px;font-size:14px;}
+  .nav-actions .login{color:#dfe4ee;text-decoration:none;font-weight:700;font-size:14px;padding:8px 6px;}
+  .nav-actions .login:hover{color:var(--gold-light);}
+  .burger{display:none;background:none;border:none;cursor:pointer;color:var(--cream);}
+
+  /* ---------- hero ---------- */
+  .hero{padding:64px 0 40px;}
+  .hero-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:48px;align-items:center;}
+  .hero h1{font-size:33px;line-height:1.5;color:var(--navy-dark);}
+  .hero h1 .k{color:var(--crimson);}
+  .hero .lead{font-size:17px;max-width:46ch;margin-top:22px;color:#3d485f;}
+  .hero-cta{display:flex;gap:14px;flex-wrap:wrap;margin-top:30px;}
+  .hero-note{margin-top:22px;font-size:13px;color:#5a6377;display:flex;align-items:center;gap:10px;}
+  .hero-note b{color:var(--emerald);}
+
+  /* the professor stage */
+  .stage{
+    position:relative;background:var(--navy);
+    border:3px solid var(--navy-dark);box-shadow:var(--brick);
+    padding:26px 26px 20px;
+  }
+  .stage .lantern-row{position:absolute;top:-14px;left:0;right:0;display:flex;justify-content:space-between;padding:0 30px;pointer-events:none;}
+  .lantern{width:34px;height:auto;transform-origin:top center;}
+  @media (prefers-reduced-motion:no-preference){
+    .lantern.a{animation:sway 4.2s ease-in-out infinite;}
+    .lantern.b{animation:sway 4.2s ease-in-out infinite .8s;}
+    @keyframes sway{0%,100%{transform:rotate(-4deg);}50%{transform:rotate(4deg);}}
+  }
+  .stage-inner{display:grid;grid-template-columns:auto 1fr;gap:18px;align-items:end;}
+  .board{
+    background:#12351f;border:3px solid #0c2416;
+    padding:14px 16px;color:#eafce9;font-size:12.5px;line-height:1.75;
+    box-shadow:inset 0 0 0 3px #1c4d2f;
+    min-height:150px;
+  }
+  .board .cm{color:#7fae8b;}
+  .board .kw{color:#e3b25e;}
+  .board .st{color:#f2a3b3;}
+  .board .fn{color:#8fd3ff;}
+  .prof-svg{width:150px;height:auto;display:block;}
+  .bubble{
+    margin-top:16px;background:var(--paper);border:3px solid var(--navy-dark);
+    padding:10px 14px;font-size:13px;font-weight:700;position:relative;box-shadow:var(--brick-sm);
+  }
+  .bubble::after{content:"";position:absolute;left:26px;top:-11px;width:14px;height:11px;background:var(--paper);
+    border-left:3px solid var(--navy-dark);border-top:3px solid var(--navy-dark);transform:skew(-20deg);}
+  .bubble .zh{color:var(--crimson);}
+
+  /* ---------- meander divider ---------- */
+  .meander{height:26px;width:100%;display:block;}
+
+  /* ---------- generic section ---------- */
+  .section{padding:66px 0;}
+  .section-head{margin-bottom:34px;max-width:60ch;}
+  .section-head .num{font-family:var(--pixel);font-size:12px;color:var(--gold);}
+  .section-head h2{font-size:22px;margin-top:14px;color:var(--navy-dark);line-height:1.5;}
+  .section-head p{margin-top:14px;font-size:15px;color:#4a556b;}
+
+  /* ---------- live demo ---------- */
+  .demo{background:var(--navy);color:var(--cream);}
+  .demo .section-head h2{color:var(--cream);}
+  .demo .section-head p{color:#c6cddb;}
+  .demo-grid{display:grid;grid-template-columns:1fr 340px;gap:26px;align-items:stretch;}
+  .editor{border:3px solid var(--navy-dark);background:#101827;box-shadow:var(--brick);}
+  .editor .bar{display:flex;align-items:center;gap:8px;background:var(--navy-dark);padding:10px 14px;font-size:12px;color:#aeb8cc;}
+  .dot{width:11px;height:11px;border:2px solid #000;}
+  .dot.r{background:var(--crimson);}.dot.y{background:var(--gold);}.dot.g{background:var(--emerald);}
+  .editor .bar .file{margin-left:8px;color:#dfe6f2;}
+  textarea#code{
+    width:100%;min-height:220px;resize:vertical;border:none;outline:none;
+    background:#101827;color:#e7edf7;font-family:var(--mono);font-size:14px;line-height:1.7;
+    padding:16px;tab-size:2;
+  }
+  .runbar{display:flex;gap:10px;padding:12px 14px;background:#0b111c;border-top:3px solid var(--navy-dark);}
+  .console{border:3px solid var(--navy-dark);background:#0b111c;box-shadow:var(--brick);display:flex;flex-direction:column;}
+  .console .bar{background:var(--navy-dark);padding:10px 14px;font-size:12px;color:#aeb8cc;}
+  .console .out{padding:16px;font-size:13.5px;line-height:1.7;color:#cdd6e6;flex:1;white-space:pre-wrap;min-height:150px;}
+  .console .out .ok{color:#8ee0aa;}
+  .console .out .err{color:#ff9db0;}
+  .verdict{padding:14px 16px;border-top:3px solid var(--navy-dark);font-weight:800;font-size:14px;display:flex;align-items:center;gap:10px;color:#c6cddb;}
+  .verdict.win{background:var(--emerald-dark);color:#eafff2;}
+  .verdict.lose{background:var(--crimson-dark);color:#ffe9ee;}
+  .verdict svg{flex:0 0 auto;}
+
+  /* ---------- feedback bricks ---------- */
+  .feedback-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:34px;}
+  .fb{padding:24px 22px 26px;text-align:center;}
+  .fb .face{width:96px;height:96px;margin:6px auto 16px;}
+  .fb h3{font-size:13px;line-height:1.6;}
+  .fb.win{--stud:var(--emerald);}
+  .fb.lose{--stud:var(--crimson);}
+  .fb.bye{--stud:var(--navy);}
+  .fb .tag{display:inline-block;margin-top:10px;font-size:12px;font-weight:700;padding:5px 10px;border:2px solid var(--navy-dark);}
+  .fb.win .tag{background:var(--emerald);color:#fff;}
+  .fb.lose .tag{background:var(--crimson);color:#fff;}
+  .fb.bye .tag{background:var(--navy);color:#fff;}
+  .fb p{margin-top:14px;font-size:13.5px;color:#4a556b;}
+
+  /* ---------- features ---------- */
+  .feat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:30px;}
+  .feat{display:grid;grid-template-columns:auto 1fr;gap:18px;padding:24px 22px;--stud:var(--gold);}
+  .feat .ico{width:52px;height:52px;border:3px solid var(--navy-dark);display:flex;align-items:center;justify-content:center;}
+  .feat.c1 .ico{background:var(--crimson);}
+  .feat.c2 .ico{background:var(--gold);}
+  .feat.c3 .ico{background:var(--emerald);}
+  .feat.c4 .ico{background:var(--navy);}
+  .feat h3{font-size:12.5px;line-height:1.6;}
+  .feat p{margin-top:12px;font-size:14px;color:#4a556b;}
+
+  /* ---------- learning path ---------- */
+  .path{background:var(--navy-dark);}
+  .path .section-head h2{color:var(--cream);}
+  .path .section-head p{color:#c6cddb;}
+  .path .section-head .num{color:var(--gold-light);}
+  .tower{display:flex;flex-direction:column;gap:16px;max-width:760px;}
+  .step{
+    display:grid;grid-template-columns:64px 1fr auto;align-items:center;gap:18px;
+    background:var(--paper);border:3px solid #000;box-shadow:5px 5px 0 #000;
+    padding:16px 20px;position:relative;
+  }
+  .step .no{font-family:var(--pixel);font-size:16px;width:46px;height:46px;display:flex;align-items:center;justify-content:center;border:3px solid var(--navy-dark);color:#fff;}
+  .step:nth-child(1) .no{background:var(--crimson);}
+  .step:nth-child(2) .no{background:var(--gold);color:var(--navy-dark);}
+  .step:nth-child(3) .no{background:var(--emerald);}
+  .step:nth-child(4) .no{background:var(--navy);}
+  .step:nth-child(5) .no{background:var(--crimson-dark);}
+  .step h3{font-size:13px;line-height:1.5;color:var(--navy-dark);}
+  .step p{font-size:13px;color:#5a6377;margin-top:6px;}
+  .step .state{font-size:12px;font-weight:700;white-space:nowrap;padding:6px 10px;border:2px solid var(--navy-dark);}
+  .state.done{background:var(--emerald);color:#fff;}
+  .state.now{background:var(--gold);color:var(--navy-dark);}
+  .state.lock{background:var(--cream);color:#7a8398;}
+  .tower-indent-2{margin-left:26px;}
+  .tower-indent-3{margin-left:52px;}
+  .tower-indent-4{margin-left:26px;}
+
+  /* ---------- stats ---------- */
+  .stats{background:var(--crimson);border-top:4px solid var(--navy-dark);border-bottom:4px solid var(--navy-dark);}
+  .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;text-align:center;color:#fff;}
+  .stat .n{font-family:var(--pixel);font-size:26px;color:var(--gold-light);}
+  .stat .l{margin-top:12px;font-size:13px;color:#ffe1e8;}
+
+  /* ---------- final CTA ---------- */
+  .cta{padding:80px 0;text-align:center;}
+  .cta-card{max-width:720px;margin:0 auto;padding:44px 30px 40px;text-align:center;--stud:var(--crimson);background:var(--paper);}
+  .cta h2{font-size:20px;line-height:1.55;color:var(--navy-dark);}
+  .cta p{margin:18px auto 0;max-width:44ch;font-size:15px;color:#4a556b;}
+  .cta .hero-cta{justify-content:center;margin-top:28px;}
+  .cta .seal{width:70px;height:70px;margin:0 auto 8px;}
+
+  /* ---------- footer ---------- */
+  footer{background:var(--navy);color:#cdd5e3;border-top:12px solid var(--navy-dark);position:relative;}
+  footer::before{content:"";position:absolute;top:-12px;left:0;right:0;height:12px;
+    background-image:radial-gradient(circle at 20px 6px, var(--gold) 0 6px, transparent 7px);
+    background-size:56px 12px;background-repeat:repeat-x;opacity:.85;}
+  .foot{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr;gap:30px;padding:52px 0 30px;}
+  .foot .logo b{font-size:14px;}
+  .foot p{font-size:13px;color:#aeb8cc;margin-top:14px;max-width:34ch;}
+  .foot h4{font-family:var(--mono);font-size:13px;color:var(--gold-light);margin:0 0 14px;letter-spacing:.03em;}
+  .foot ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px;}
+  .foot a{color:#cdd5e3;text-decoration:none;font-size:13px;}
+  .foot a:hover{color:#fff;text-decoration:underline;}
+  .foot-bottom{border-top:2px solid #46536f;padding:18px 0;font-size:12px;color:#9aa5bd;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;}
+  .foot-bottom .zh{color:var(--gold-light);}
+
+  /* ---------- responsive ---------- */
+  @media (max-width:900px){
+    .hero-grid{grid-template-columns:1fr;gap:40px;}
+    .demo-grid{grid-template-columns:1fr;}
+    .feedback-grid{grid-template-columns:1fr;gap:26px;max-width:420px;margin:0 auto;}
+    .feat-grid{grid-template-columns:1fr;}
+    .stats-grid{grid-template-columns:repeat(2,1fr);gap:30px;}
+    .foot{grid-template-columns:1fr 1fr;}
+    .nav-links{display:none;}
+  }
+  @media (max-width:560px){
+    .hero h1{font-size:24px;}
+    .section-head h2{font-size:18px;}
+    .stats-grid{grid-template-columns:1fr;}
+    .foot{grid-template-columns:1fr;}
+    .step{grid-template-columns:52px 1fr;}
+    .step .state{grid-column:2;justify-self:start;}
+    .tower-indent-2,.tower-indent-3,.tower-indent-4{margin-left:0;}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="#top" aria-label="BitBrick home">
+      <svg class="mark" viewBox="0 0 40 40" aria-hidden="true">
+        <rect x="2" y="12" width="36" height="26" fill="#A8324A" stroke="#1C2436" stroke-width="2"/>
+        <rect x="6" y="6" width="8" height="8" rx="0" fill="#C58F3A" stroke="#1C2436" stroke-width="2"/>
+        <rect x="18" y="6" width="8" height="8" fill="#C58F3A" stroke="#1C2436" stroke-width="2"/>
+        <text x="20" y="32" font-family="'Press Start 2P',monospace" font-size="14" fill="#FAF7F2" text-anchor="middle">C</text>
+      </svg>
+      <span><b>BitBrick</b><span>砖块 · learn C</span></span>
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="#demo">Learn</a>
+      <a href="#demo">Practice</a>
+      <a href="#path">Modules</a>
+      <a href="#stats">Community</a>
+    </nav>
+    <div class="nav-actions">
+      <a class="login" href="#login">Log in</a>
+      <a class="btn btn-gold" href="#signup">Sign up free</a>
+      <button class="burger" aria-label="Menu" onclick="document.querySelector('.nav-links').style.display= (getComputedStyle(document.querySelector('.nav-links')).display==='none'?'flex':'none')">
+        <svg width="26" height="26" viewBox="0 0 26 26"><rect x="3" y="5" width="20" height="3" fill="#FAF7F2"/><rect x="3" y="12" width="20" height="3" fill="#FAF7F2"/><rect x="3" y="19" width="20" height="3" fill="#FAF7F2"/></svg>
+      </button>
+    </div>
+  </div>
+</header>
+
+<a id="top"></a>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="chip">Front-end demo · no setup required</span>
+      <h1 style="margin-top:20px;">Learn <span class="k">C</span>,<br>one brick<br>at a time.</h1>
+      <p class="lead" style="color:#3d485f;">
+        Write, compile and run real C in your browser. Professor Wáng stacks each
+        concept like a brick — pointers, memory, structs — so the tower never
+        wobbles. Beginners welcome.
+      </p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#demo">Start learning</a>
+        <a class="btn" href="#demo">Try the compiler</a>
+      </div>
+      <p class="hero-note" style="color:#5a6377;">
+        <b>好样的!</b> Pass a module and the professor says <em>“Proud of you.”</em>
+      </p>
+    </div>
+
+    <div class="stage studs" style="--stud:var(--gold);">
+      <div class="lantern-row" aria-hidden="true">
+        <svg class="lantern a" viewBox="0 0 30 46"><rect x="12" y="0" width="6" height="6" fill="#C58F3A"/><rect x="8" y="6" width="14" height="4" fill="#C58F3A"/><rect x="4" y="10" width="22" height="22" fill="#A8324A" stroke="#7d2537" stroke-width="2"/><rect x="12" y="10" width="2" height="22" fill="#E3B25E"/><rect x="18" y="10" width="2" height="22" fill="#E3B25E"/><rect x="8" y="32" width="14" height="4" fill="#C58F3A"/><rect x="13" y="36" width="4" height="10" fill="#C58F3A"/></svg>
+        <svg class="lantern b" viewBox="0 0 30 46"><rect x="12" y="0" width="6" height="6" fill="#C58F3A"/><rect x="8" y="6" width="14" height="4" fill="#C58F3A"/><rect x="4" y="10" width="22" height="22" fill="#A8324A" stroke="#7d2537" stroke-width="2"/><rect x="12" y="10" width="2" height="22" fill="#E3B25E"/><rect x="18" y="10" width="2" height="22" fill="#E3B25E"/><rect x="8" y="32" width="14" height="4" fill="#C58F3A"/><rect x="13" y="36" width="4" height="10" fill="#C58F3A"/></svg>
+      </div>
+
+      <div class="stage-inner">
+        <!-- ====== PIXEL LEGO CHINESE PROFESSOR ====== -->
+        <svg class="prof-svg" viewBox="-5 -5 165 190" role="img" aria-label="Professor Wáng, a pixel-art Lego Chinese scholar holding a scroll of C code">
+          <!-- scroll in raised hand -->
+          <rect x="100" y="48" width="6" height="28" fill="#C58F3A" stroke="#1C2436" stroke-width="2"/>
+          <rect x="142" y="48" width="6" height="28" fill="#C58F3A" stroke="#1C2436" stroke-width="2"/>
+          <rect x="104" y="52" width="40" height="20" fill="#FAF7F2" stroke="#1C2436" stroke-width="2"/>
+          <rect x="110" y="57" width="18" height="3" fill="#A8324A"/>
+          <rect x="110" y="63" width="26" height="3" fill="#2E3A55"/>
+          <!-- hat wings -->
+          <rect x="6" y="30" width="28" height="12" fill="#C58F3A" stroke="#1C2436" stroke-width="2"/>
+          <rect x="116" y="30" width="28" height="12" fill="#C58F3A" stroke="#1C2436" stroke-width="2"/>
+          <!-- hat -->
+          <rect x="34" y="34" width="82" height="10" fill="#C58F3A" stroke="#1C2436" stroke-width="2"/>
+          <rect x="40" y="14" width="70" height="22" fill="#2E3A55" stroke="#1C2436" stroke-width="2"/>
+          <rect x="52" y="6" width="46" height="10" fill="#2E3A55" stroke="#1C2436" stroke-width="2"/>
+          <!-- lego stud on hat -->
+          <circle cx="75" cy="6" r="6" fill="#C58F3A" stroke="#1C2436" stroke-width="2"/>
+          <!-- face -->
+          <rect x="44" y="42" width="62" height="44" fill="#E8C48E" stroke="#1C2436" stroke-width="2"/>
+          <rect x="40" y="54" width="6" height="12" fill="#E8C48E" stroke="#1C2436" stroke-width="2"/>
+          <rect x="104" y="54" width="6" height="12" fill="#E8C48E" stroke="#1C2436" stroke-width="2"/>
+          <!-- brows -->
+          <rect x="50" y="50" width="16" height="4" fill="#2E3A55"/>
+          <rect x="84" y="50" width="16" height="4" fill="#2E3A55"/>
+          <!-- glasses -->
+          <rect x="48" y="56" width="20" height="14" fill="none" stroke="#C58F3A" stroke-width="3"/>
+          <rect x="82" y="56" width="20" height="14" fill="none" stroke="#C58F3A" stroke-width="3"/>
+          <rect x="68" y="61" width="14" height="3" fill="#C58F3A"/>
+          <!-- eyes -->
+          <rect x="55" y="61" width="5" height="5" fill="#1C2436"/>
+          <rect x="89" y="61" width="5" height="5" fill="#1C2436"/>
+          <!-- nose -->
+          <rect x="71" y="66" width="8" height="9" fill="#CBA06A"/>
+          <!-- mustache -->
+          <rect x="54" y="76" width="42" height="6" fill="#9AA3B2"/>
+          <rect x="54" y="82" width="6" height="14" fill="#9AA3B2"/>
+          <rect x="90" y="82" width="6" height="14" fill="#9AA3B2"/>
+          <!-- beard -->
+          <rect x="62" y="82" width="26" height="14" fill="#9AA3B2"/>
+          <rect x="66" y="96" width="18" height="12" fill="#9AA3B2"/>
+          <rect x="70" y="108" width="10" height="8" fill="#9AA3B2"/>
+          <!-- shoulders / robe -->
+          <rect x="28" y="96" width="94" height="16" fill="#A8324A" stroke="#1C2436" stroke-width="2"/>
+          <circle cx="44" cy="96" r="5" fill="#C58F3A" stroke="#1C2436" stroke-width="2"/>
+          <circle cx="106" cy="96" r="5" fill="#C58F3A" stroke="#1C2436" stroke-width="2"/>
+          <rect x="36" y="110" width="78" height="30" fill="#A8324A"/>
+          <rect x="28" y="138" width="94" height="30" fill="#A8324A" stroke="#1C2436" stroke-width="2"/>
+          <!-- collar + placket -->
+          <rect x="56" y="96" width="8" height="20" fill="#C58F3A"/>
+          <rect x="86" y="96" width="8" height="20" fill="#C58F3A"/>
+          <rect x="71" y="100" width="8" height="68" fill="#C58F3A"/>
+          <!-- jade pendant -->
+          <rect x="70" y="118" width="10" height="10" fill="#3F7A5C" stroke="#C58F3A" stroke-width="2"/>
+          <!-- sash + buckle -->
+          <rect x="36" y="134" width="78" height="10" fill="#2E3A55"/>
+          <rect x="68" y="131" width="14" height="14" fill="#C58F3A" stroke="#1C2436" stroke-width="2"/>
+          <!-- hem trim + cloud motif -->
+          <rect x="28" y="160" width="94" height="8" fill="#C58F3A" stroke="#1C2436" stroke-width="2"/>
+          <rect x="40" y="150" width="8" height="8" fill="#3F7A5C"/>
+          <rect x="60" y="150" width="8" height="8" fill="#3F7A5C"/>
+          <rect x="102" y="150" width="8" height="8" fill="#3F7A5C"/>
+          <!-- left arm + hand -->
+          <rect x="14" y="104" width="22" height="42" fill="#A8324A" stroke="#1C2436" stroke-width="2"/>
+          <rect x="14" y="140" width="22" height="6" fill="#C58F3A"/>
+          <rect x="16" y="146" width="18" height="14" fill="#E8C48E" stroke="#1C2436" stroke-width="2"/>
+          <!-- right arm raised -->
+          <rect x="114" y="100" width="22" height="34" fill="#A8324A" stroke="#1C2436" stroke-width="2"/>
+          <rect x="122" y="72" width="16" height="30" fill="#A8324A" stroke="#1C2436" stroke-width="2"/>
+          <rect x="122" y="72" width="16" height="6" fill="#C58F3A"/>
+          <rect x="124" y="62" width="14" height="12" fill="#E8C48E" stroke="#1C2436" stroke-width="2"/>
+          <!-- feet -->
+          <rect x="46" y="168" width="20" height="8" fill="#2E3A55" stroke="#1C2436" stroke-width="2"/>
+          <rect x="84" y="168" width="20" height="8" fill="#2E3A55" stroke="#1C2436" stroke-width="2"/>
+        </svg>
+
+        <!-- chalkboard -->
+        <div class="board" aria-label="Chalkboard with example C code">
+<span class="cm">// lesson 1 · hello</span>
+<span class="kw">#include</span> <span class="st">&lt;stdio.h&gt;</span>
+
+<span class="kw">int</span> <span class="fn">main</span>(<span class="kw">void</span>) {
+  <span class="fn">printf</span>(<span class="st">"你好, World!\n"</span>);
+  <span class="kw">return</span> 0;
+}
+        </div>
+      </div>
+
+      <div class="bubble">老师 Wáng: <span class="zh">“加油!”</span> Ready when you are.</div>
+    </div>
+  </div>
+</section>
+
+<!-- meander divider -->
+<svg class="meander" viewBox="0 0 120 12" preserveAspectRatio="none" aria-hidden="true">
+  <defs>
+    <pattern id="key" width="24" height="12" patternUnits="userSpaceOnUse">
+      <rect width="24" height="12" fill="#A8324A"/>
+      <path d="M2 2 H14 V10 H10 V6 H6 V10 H2 Z M18 2 H22 V10 H16 V6 H18 Z" fill="#C58F3A"/>
+    </pattern>
+  </defs>
+  <rect width="120" height="12" fill="url(#key)"/>
+</svg>
+
+<!-- ============ LIVE DEMO ============ -->
+<section class="demo section" id="demo">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="num">01 · the playground</span>
+      <h2>Run your first program</h2>
+      <p>Edit the code, press Compile &amp; Run, and watch Professor Wáng react. Get it right and he's <em>proud of you</em>. Slip up and — well, you'll see.</p>
+    </div>
+
+    <div class="demo-grid">
+      <div class="editor">
+        <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="file">main.c</span></div>
+        <textarea id="code" spellcheck="false">#include &lt;stdio.h&gt;
+
+int main(void) {
+    printf("Hello, World!\n");
+    return 0;
+}</textarea>
+        <div class="runbar">
+          <button class="btn btn-primary" id="run">Compile &amp; Run</button>
+          <button class="btn" id="reset">Reset</button>
+        </div>
+      </div>
+
+      <div class="console">
+        <div class="bar">output · stdout</div>
+        <div class="out" id="out">Press <b>Compile &amp; Run</b> to build main.c…</div>
+        <div class="verdict" id="verdict">
+          <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><rect x="3" y="3" width="20" height="20" fill="#2E3A55" stroke="#1C2436" stroke-width="2"/><rect x="9" y="9" width="3" height="3" fill="#fff"/><rect x="15" y="9" width="3" height="3" fill="#fff"/></svg>
+          <span id="verdict-text">Waiting for your code…</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FEEDBACK MECHANIC ============ -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="num">02 · the feedback loop</span>
+      <h2>Three things the professor says</h2>
+      <p>Every attempt gets a reaction. It's blunt, it's warm, and it keeps you coming back — the same loop that makes a good teacher unforgettable.</p>
+    </div>
+
+    <div class="feedback-grid">
+      <div class="fb win brick studs">
+        <svg class="face" viewBox="0 0 60 60" aria-hidden="true">
+          <rect x="8" y="8" width="44" height="44" fill="#E8C48E" stroke="#1C2436" stroke-width="3"/>
+          <rect x="6" y="4" width="48" height="8" fill="#3F7A5C" stroke="#1C2436" stroke-width="3"/>
+          <rect x="18" y="22" width="6" height="6" fill="#1C2436"/><rect x="36" y="22" width="6" height="6" fill="#1C2436"/>
+          <rect x="18" y="38" width="24" height="4" fill="#A8324A"/><rect x="14" y="34" width="6" height="6" fill="#A8324A"/><rect x="40" y="34" width="6" height="6" fill="#A8324A"/>
+        </svg>
+        <h3>Proud of you</h3>
+        <span class="tag">on success</span>
+        <p>Code compiles, tests pass, module cleared. The nod you actually wanted.</p>
+      </div>
+
+      <div class="fb lose brick studs">
+        <svg class="face" viewBox="0 0 60 60" aria-hidden="true">
+          <rect x="8" y="8" width="44" height="44" fill="#E8C48E" stroke="#1C2436" stroke-width="3"/>
+          <rect x="6" y="4" width="48" height="8" fill="#A8324A" stroke="#1C2436" stroke-width="3"/>
+          <rect x="16" y="20" width="8" height="4" fill="#1C2436"/><rect x="36" y="20" width="8" height="4" fill="#1C2436"/>
+          <rect x="20" y="26" width="4" height="4" fill="#1C2436"/><rect x="36" y="26" width="4" height="4" fill="#1C2436"/>
+          <rect x="18" y="40" width="24" height="4" fill="#7d2537"/><rect x="14" y="44" width="6" height="4" fill="#7d2537"/><rect x="40" y="44" width="6" height="4" fill="#7d2537"/>
+        </svg>
+        <h3>Shame on you</h3>
+        <span class="tag">on error</span>
+        <p>A syntax or logic slip. Said with a smirk, never a scold — try again.</p>
+      </div>
+
+      <div class="fb bye brick studs">
+        <svg class="face" viewBox="0 0 60 60" aria-hidden="true">
+          <rect x="8" y="8" width="44" height="44" fill="#E8C48E" stroke="#1C2436" stroke-width="3"/>
+          <rect x="6" y="4" width="48" height="8" fill="#2E3A55" stroke="#1C2436" stroke-width="3"/>
+          <rect x="18" y="24" width="6" height="3" fill="#1C2436"/><rect x="36" y="24" width="6" height="3" fill="#1C2436"/>
+          <rect x="22" y="38" width="16" height="4" fill="#C58F3A"/>
+          <rect x="40" y="20" width="10" height="4" fill="#C58F3A"/>
+        </svg>
+        <h3>See you</h3>
+        <span class="tag">on finish</span>
+        <p>Chapter complete. He waves you off — until the next brick in the tower.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- meander divider -->
+<svg class="meander" viewBox="0 0 120 12" preserveAspectRatio="none" aria-hidden="true"><rect width="120" height="12" fill="url(#key)"/></svg>
+
+<!-- ============ FEATURES ============ -->
+<section class="section">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="num">03 · what's in the box</span>
+      <h2>Everything a beginner needs</h2>
+      <p>No compiler to install, no cryptic errors left unexplained. The hard parts of C, made tangible.</p>
+    </div>
+
+    <div class="feat-grid">
+      <div class="feat c1 brick studs">
+        <div class="ico"><svg width="26" height="26" viewBox="0 0 26 26"><rect x="4" y="4" width="18" height="4" fill="#fff"/><rect x="4" y="11" width="12" height="4" fill="#fff"/><rect x="4" y="18" width="18" height="4" fill="#fff"/></svg></div>
+        <div><h3>Interactive tutorials</h3><p>Bite-size modules that build one on top of the last. Read a little, write a little, run it immediately.</p></div>
+      </div>
+      <div class="feat c2 brick studs">
+        <div class="ico"><svg width="26" height="26" viewBox="0 0 26 26"><rect x="4" y="6" width="6" height="6" fill="#2E3A55"/><rect x="4" y="14" width="12" height="6" fill="#2E3A55"/><rect x="16" y="6" width="6" height="14" fill="#2E3A55"/></svg></div>
+        <div><h3>In-browser compiler</h3><p>Hit run and see real output in seconds. Zero local setup — your machine stays clean, your focus stays on C.</p></div>
+      </div>
+      <div class="feat c3 brick studs">
+        <div class="ico"><svg width="26" height="26" viewBox="0 0 26 26"><rect x="4" y="4" width="4" height="18" fill="#fff"/><rect x="11" y="8" width="4" height="14" fill="#fff"/><rect x="18" y="12" width="4" height="10" fill="#fff"/></svg></div>
+        <div><h3>Step-by-step guides</h3><p>Procedural walkthroughs for pointers, memory and structs — the concepts that usually scare beginners off.</p></div>
+      </div>
+      <div class="feat c4 brick studs">
+        <div class="ico"><svg width="26" height="26" viewBox="0 0 26 26"><rect x="4" y="4" width="18" height="18" fill="none" stroke="#fff" stroke-width="3"/><rect x="8" y="9" width="4" height="4" fill="#C58F3A"/><rect x="14" y="9" width="6" height="4" fill="#A8324A"/><rect x="8" y="15" width="10" height="4" fill="#3F7A5C"/></svg></div>
+        <div><h3>Syntax highlighting</h3><p>Color-coded code that makes structure obvious, so a missing brace jumps out before the compiler ever complains.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ LEARNING PATH ============ -->
+<section class="path section" id="path">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="num">04 · the tower</span>
+      <h2>Your path, brick by brick</h2>
+      <p>Start at the base and stack upward. Each brick locks in before the next one lands.</p>
+    </div>
+
+    <div class="tower">
+      <div class="step">
+        <div class="no">1</div>
+        <div><h3>Hello, World &amp; syntax</h3><p>Your first compile. printf, main, and how a program actually starts.</p></div>
+        <span class="state done">Done</span>
+      </div>
+      <div class="step tower-indent-2">
+        <div class="no">2</div>
+        <div><h3>Variables &amp; types</h3><p>int, char, float — storing and printing values without surprises.</p></div>
+        <span class="state now">In progress</span>
+      </div>
+      <div class="step tower-indent-3">
+        <div class="no">3</div>
+        <div><h3>Pointers &amp; memory</h3><p>Addresses, dereferencing, and why C hands you the keys directly.</p></div>
+        <span class="state lock">Locked</span>
+      </div>
+      <div class="step tower-indent-4">
+        <div class="no">4</div>
+        <div><h3>Arrays &amp; strings</h3><p>Contiguous memory, indexing, and the null terminator that trips everyone.</p></div>
+        <span class="state lock">Locked</span>
+      </div>
+      <div class="step">
+        <div class="no">5</div>
+        <div><h3>Structs &amp; data structures</h3><p>Bundle data, build linked lists, and think in structures.</p></div>
+        <span class="state lock">Locked</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ STATS ============ -->
+<section class="stats section" id="stats" style="padding:52px 0;">
+  <div class="wrap stats-grid">
+    <div class="stat"><div class="n">12,400</div><div class="l">learners building</div></div>
+    <div class="stat"><div class="n">38</div><div class="l">interactive modules</div></div>
+    <div class="stat"><div class="n">520+</div><div class="l">practice exercises</div></div>
+    <div class="stat"><div class="n">1.9M</div><div class="l">programs compiled</div></div>
+  </div>
+</section>
+
+<!-- ============ FINAL CTA ============ -->
+<section class="cta" id="signup">
+  <div class="wrap">
+    <div class="cta-card brick studs">
+      <svg class="seal" viewBox="0 0 60 60" aria-hidden="true">
+        <rect x="6" y="6" width="48" height="48" fill="#A8324A" stroke="#1C2436" stroke-width="3"/>
+        <rect x="14" y="14" width="32" height="32" fill="none" stroke="#C58F3A" stroke-width="3"/>
+        <text x="30" y="40" font-family="'Press Start 2P',monospace" font-size="18" fill="#FAF7F2" text-anchor="middle">C</text>
+      </svg>
+      <h2>Ready to build?</h2>
+      <p>Create a free account and lay your first brick today. Front-end demo — no download, no credit card, just code.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#signup">Sign up free</a>
+        <a class="btn btn-gold" href="#login">Log in</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="wrap foot">
+    <div>
+      <a class="logo" href="#top" style="color:var(--cream);">
+        <svg class="mark" viewBox="0 0 40 40" aria-hidden="true">
+          <rect x="2" y="12" width="36" height="26" fill="#A8324A" stroke="#1C2436" stroke-width="2"/>
+          <rect x="6" y="6" width="8" height="8" fill="#C58F3A" stroke="#1C2436" stroke-width="2"/>
+          <rect x="18" y="6" width="8" height="8" fill="#C58F3A" stroke="#1C2436" stroke-width="2"/>
+          <text x="20" y="32" font-family="'Press Start 2P',monospace" font-size="14" fill="#FAF7F2" text-anchor="middle">C</text>
+        </svg>
+        <span><b style="color:var(--gold-light);font-family:var(--pixel);">BitBrick</b></span>
+      </a>
+      <p>A brick-by-brick playground for learning C — taught by Professor Wáng, one lesson at a time.</p>
+    </div>
+    <div>
+      <h4>Learn</h4>
+      <ul><li><a href="#demo">Playground</a></li><li><a href="#path">Modules</a></li><li><a href="#demo">Exercises</a></li><li><a href="#path">Learning path</a></li></ul>
+    </div>
+    <div>
+      <h4>Platform</h4>
+      <ul><li><a href="#signup">Sign up</a></li><li><a href="#login">Log in</a></li><li><a href="#stats">Community</a></li><li><a href="#">Roadmap</a></li></ul>
+    </div>
+    <div>
+      <h4>Project</h4>
+      <ul><li><a href="#">GitHub repo</a></li><li><a href="#">About</a></li><li><a href="#">Contribute</a></li><li><a href="#">Credits</a></li></ul>
+    </div>
+  </div>
+  <div class="wrap foot-bottom">
+    <span>© 2026 BitBrick · Front-end demo build</span>
+    <span class="zh">老师 Wáng says: 加油 — see you inside.</span>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    var starter = '#include <stdio.h>\n\nint main(void) {\n    printf("Hello, World!\\n");\n    return 0;\n}';
+    var code = document.getElementById('code');
+    var out = document.getElementById('out');
+    var verdict = document.getElementById('verdict');
+    var vtext = document.getElementById('verdict-text');
+
+    var winFace = '<svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><rect x="3" y="3" width="20" height="20" fill="#3F7A5C" stroke="#1C2436" stroke-width="2"/><rect x="8" y="9" width="3" height="3" fill="#fff"/><rect x="15" y="9" width="3" height="3" fill="#fff"/><rect x="9" y="16" width="8" height="2" fill="#fff"/></svg>';
+    var loseFace = '<svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><rect x="3" y="3" width="20" height="20" fill="#A8324A" stroke="#1C2436" stroke-width="2"/><rect x="8" y="9" width="3" height="3" fill="#fff"/><rect x="15" y="9" width="3" height="3" fill="#fff"/><rect x="9" y="17" width="8" height="2" fill="#fff"/></svg>';
+
+    // extract text inside the FIRST printf("...")
+    function firstPrintf(src){
+      var m = src.match(/printf\s*\(\s*"((?:[^"\\]|\\.)*)"/);
+      return m ? m[1] : null;
+    }
+    function render(str){
+      return str.replace(/\\n/g,'\n').replace(/\\t/g,'\t').replace(/\\"/g,'"').replace(/\\\\/g,'\\');
+    }
+
+    function run(){
+      var src = code.value;
+      var errors = [];
+
+      if(!/#include\s*<stdio\.h>/.test(src)) errors.push("main.c:1: warning: implicit declaration of 'printf' — did you #include <stdio.h>?");
+      if(!/\bint\s+main\s*\(/.test(src)) errors.push("main.c: error: no 'int main(...)' entry point found");
+      if(!/printf\s*\(/.test(src)) errors.push("main.c: error: nothing to print — try a printf(...) call");
+
+      // crude balance + semicolon checks
+      var opens=(src.match(/\{/g)||[]).length, closes=(src.match(/\}/g)||[]).length;
+      if(opens!==closes) errors.push("main.c: error: mismatched braces { } — expected '}' before end of file");
+      if(/printf\s*\([^;]*\)\s*(?!\s*;)[\r\n]/.test(src) && !/printf[\s\S]*?;/.test(src)) errors.push("main.c: error: expected ';' after statement");
+
+      if(errors.length){
+        out.innerHTML = '<span class="err">✗ Build failed (' + errors.length + ' issue' + (errors.length>1?'s':'') + ')</span>\n\n' + errors.join('\n');
+        verdict.className = 'verdict lose';
+        verdict.innerHTML = loseFace + '<span>Professor Wáng: “Shame on you.” 太可惜了 — fix it and rerun.</span>';
+        return;
+      }
+
+      var printed = firstPrintf(src);
+      var output = printed!==null ? render(printed) : '';
+      out.innerHTML = '<span class="ok">✓ Compiled main.c — running…</span>\n\n' + output.replace(/</g,'&lt;') + '\n<span class="ok">[process exited with code 0]</span>';
+      verdict.className = 'verdict win';
+      verdict.innerHTML = winFace + '<span>Professor Wáng: “Proud of you.” 好样的 — brick placed.</span>';
+    }
+
+    function reset(){
+      code.value = starter;
+      out.innerHTML = 'Press <b>Compile &amp; Run</b> to build main.c…';
+      verdict.className = 'verdict';
+      verdict.innerHTML = '<svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><rect x="3" y="3" width="20" height="20" fill="#2E3A55" stroke="#1C2436" stroke-width="2"/><rect x="9" y="9" width="3" height="3" fill="#fff"/><rect x="15" y="9" width="3" height="3" fill="#fff"/></svg><span>Waiting for your code…</span>';
+    }
+
+    document.getElementById('run').addEventListener('click', run);
+    document.getElementById('reset').addEventListener('click', reset);
+
+    // allow Tab to indent inside the editor
+    code.addEventListener('keydown', function(e){
+      if(e.key==='Tab'){ e.preventDefault();
+        var s=this.selectionStart, en=this.selectionEnd;
+        this.value=this.value.slice(0,s)+'    '+this.value.slice(en);
+        this.selectionStart=this.selectionEnd=s+4;
+      }
+    });
+  })();
+</script>
+</body>
+</html>
