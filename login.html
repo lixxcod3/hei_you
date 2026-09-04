@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Log in — Hei You</title>
+<meta name="description" content="Log in to Hei You and keep building your C tower, brick by brick." />
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=JetBrains+Mono:wght@400;500;700;800&display=swap');
+
+  :root{
+    --crimson:#A8324A;--crimson-dark:#7d2537;
+    --navy:#2E3A55;--navy-dark:#1C2436;
+    --gold:#C58F3A;--gold-light:#E3B25E;
+    --emerald:#3F7A5C;--emerald-dark:#2c5741;
+    --cream:#FAF7F2;--paper:#fffdf9;--ink:#2E3A55;
+    --skin:#E8C48E;--skin-shade:#CBA06A;
+    --pixel:'Press Start 2P',monospace;--mono:'JetBrains Mono',ui-monospace,monospace;
+    --brick:6px 6px 0 var(--navy-dark);--brick-sm:4px 4px 0 var(--navy-dark);
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;height:100%;}
+  body{
+    font-family:var(--mono);color:var(--ink);background:var(--cream);
+    background-image:linear-gradient(rgba(46,58,85,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(46,58,85,.035) 1px,transparent 1px);
+    background-size:22px 22px;line-height:1.6;-webkit-font-smoothing:antialiased;
+  }
+  svg{shape-rendering:crispEdges;}
+  h1,h2{font-family:var(--pixel);font-weight:400;margin:0;line-height:1.4;}
+  a{color:inherit;}
+
+  .auth{display:grid;grid-template-columns:1.05fr 1fr;min-height:100vh;}
+
+  /* ---- brand panel ---- */
+  .brand{
+    position:relative;background:var(--navy);color:var(--cream);
+    border-right:4px solid var(--navy-dark);
+    padding:34px 42px 0;display:flex;flex-direction:column;overflow:hidden;
+  }
+  .lantern-row{position:absolute;top:-12px;left:0;right:0;display:flex;justify-content:space-between;padding:0 48px;pointer-events:none;}
+  .lantern{width:30px;transform-origin:top center;}
+  @media (prefers-reduced-motion:no-preference){
+    .lantern.a{animation:sway 4.2s ease-in-out infinite;}
+    .lantern.b{animation:sway 4.2s ease-in-out infinite .9s;}
+    @keyframes sway{0%,100%{transform:rotate(-4deg);}50%{transform:rotate(4deg);}}
+  }
+  .logo{display:inline-flex;align-items:center;gap:12px;text-decoration:none;color:var(--cream);align-self:flex-start;}
+  .logo .mark{width:40px;height:40px;flex:0 0 auto;}
+  .logo b{font-family:var(--pixel);font-size:15px;color:var(--gold-light);display:block;}
+  .logo small{font-size:11px;color:#c8cfdd;display:block;margin-top:3px;font-weight:500;}
+  .brand-copy{margin-top:auto;padding-top:30px;max-width:30ch;}
+  .brand-copy h1{font-size:22px;line-height:1.55;}
+  .brand-copy h1 .k{color:var(--gold-light);}
+  .brand-copy p{margin-top:16px;font-size:14px;color:#cdd5e3;}
+  .ticks{list-style:none;margin:20px 0 0;padding:0;display:flex;flex-direction:column;gap:10px;}
+  .ticks li{display:flex;gap:10px;align-items:center;font-size:13px;color:#dfe4ee;}
+  .ticks .bx{width:16px;height:16px;background:var(--emerald);border:2px solid var(--navy-dark);flex:0 0 auto;}
+  .prof-wrap{margin-top:22px;display:flex;align-items:flex-end;gap:14px;}
+  .prof-svg{width:150px;height:auto;flex:0 0 auto;display:block;margin-bottom:-4px;}
+  .prof-bubble{background:var(--paper);color:var(--navy-dark);border:3px solid var(--navy-dark);padding:10px 13px;font-size:12.5px;font-weight:700;box-shadow:var(--brick-sm);position:relative;margin-bottom:34px;}
+  .prof-bubble .zh{color:var(--crimson);}
+  .prof-bubble::after{content:"";position:absolute;left:-11px;bottom:12px;width:11px;height:14px;background:var(--paper);border-left:3px solid var(--navy-dark);border-bottom:3px solid var(--navy-dark);transform:skew(0,20deg);}
+
+  /* ---- form panel ---- */
+  .panel{display:flex;align-items:center;justify-content:center;padding:44px 26px;}
+  .formwrap{width:100%;max-width:410px;}
+  .mini-logo{display:none;}
+  .head h1{font-size:20px;color:var(--navy-dark);}
+  .head p{margin:14px 0 0;font-size:14px;color:#4a556b;}
+
+  .banner{display:none;align-items:center;gap:11px;padding:12px 14px;border:3px solid var(--navy-dark);font-weight:700;font-size:13px;box-shadow:var(--brick-sm);margin:22px 0 4px;line-height:1.45;}
+  .banner.show{display:flex;}
+  .banner.lose{background:var(--crimson);color:#fff;}
+  .banner.win{background:var(--emerald);color:#fff;}
+  .banner.info{background:var(--cream);color:var(--navy-dark);}
+  .banner svg{flex:0 0 auto;}
+
+  form{margin-top:24px;}
+  .field{margin-bottom:18px;}
+  label{display:block;font-size:13px;font-weight:700;color:var(--navy-dark);margin-bottom:7px;}
+  .inpwrap{position:relative;}
+  input[type=text],input[type=email],input[type=password]{
+    width:100%;padding:13px 14px;border:3px solid var(--navy-dark);background:#fff;
+    font-family:var(--mono);font-size:15px;color:var(--ink);box-shadow:3px 3px 0 rgba(28,36,54,.16);
+    transition:box-shadow .06s steps(2),border-color .1s;
+  }
+  input::placeholder{color:#9aa3b2;}
+  input:focus{outline:none;box-shadow:3px 3px 0 var(--gold);}
+  input:focus-visible{outline:3px dashed var(--gold);outline-offset:3px;}
+  .field.bad input{border-color:var(--crimson);background:#fff5f6;box-shadow:3px 3px 0 rgba(168,50,74,.3);}
+  .field .msg{display:none;font-size:12px;font-weight:700;color:var(--crimson);margin-top:7px;}
+  .field.bad .msg{display:block;}
+  .pw-toggle{position:absolute;right:6px;top:6px;bottom:6px;padding:0 12px;border:2px solid var(--navy-dark);background:var(--cream);font-family:var(--mono);font-size:11px;font-weight:700;cursor:pointer;color:var(--navy-dark);}
+  .pw-toggle:hover{background:var(--gold-light);}
+
+  .row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:-4px 0 22px;flex-wrap:wrap;}
+  .check{display:inline-flex;align-items:center;gap:9px;cursor:pointer;font-size:13px;color:#3d485f;user-select:none;}
+  .check input{position:absolute;opacity:0;width:0;height:0;}
+  .check .box{width:20px;height:20px;border:3px solid var(--navy-dark);background:#fff;flex:0 0 auto;display:flex;align-items:center;justify-content:center;box-shadow:2px 2px 0 var(--navy-dark);}
+  .check input:checked + .box{background:var(--emerald);}
+  .check input:checked + .box::after{content:"";width:8px;height:8px;background:#fff;}
+  .check input:focus-visible + .box{outline:3px dashed var(--gold);outline-offset:2px;}
+  .link{color:var(--crimson);font-weight:700;text-decoration:none;font-size:13px;}
+  .link:hover{text-decoration:underline;}
+
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;width:100%;font-family:var(--mono);font-weight:800;font-size:15px;padding:15px 20px;border:3px solid var(--navy-dark);cursor:pointer;box-shadow:var(--brick-sm);background:var(--paper);color:var(--navy-dark);transition:transform .06s steps(2),box-shadow .06s steps(2),background .12s;text-decoration:none;}
+  .btn:hover{background:#fff;}
+  .btn:active{transform:translate(4px,4px);box-shadow:0 0 0 var(--navy-dark);}
+  .btn:focus-visible{outline:3px dashed var(--gold);outline-offset:3px;}
+  .btn-primary{background:var(--crimson);color:#fff;}
+  .btn-primary:hover{background:#b83a54;}
+  .btn[disabled]{opacity:.6;cursor:not-allowed;transform:none;box-shadow:var(--brick-sm);}
+
+  .or{display:flex;align-items:center;gap:14px;margin:22px 0;color:#7a8398;font-size:12px;font-weight:700;}
+  .or::before,.or::after{content:"";height:3px;background:repeating-linear-gradient(90deg,var(--navy-dark) 0 6px,transparent 6px 12px);flex:1;}
+  .btn-ghost{background:#fff;color:var(--navy-dark);}
+  .btn-ghost svg{margin-right:2px;}
+
+  .switch{margin-top:26px;text-align:center;font-size:14px;color:#4a556b;}
+  .switch a{color:var(--crimson);font-weight:800;text-decoration:none;}
+  .switch a:hover{text-decoration:underline;}
+  .backhome{display:inline-flex;align-items:center;gap:6px;margin-top:24px;font-size:12px;color:#7a8398;text-decoration:none;}
+  .backhome:hover{color:var(--navy-dark);}
+
+  @media (prefers-reduced-motion:no-preference){
+    .shake{animation:shake .4s;}
+    @keyframes shake{0%,100%{transform:translateX(0);}20%,60%{transform:translateX(-8px);}40%,80%{transform:translateX(8px);}}
+  }
+
+  @media (max-width:860px){
+    .auth{grid-template-columns:1fr;}
+    .brand{display:none;}
+    .mini-logo{display:flex;align-items:center;gap:12px;justify-content:center;margin-bottom:26px;text-decoration:none;color:var(--navy-dark);}
+    .mini-logo .mark{width:40px;height:40px;}
+    .mini-logo b{font-family:var(--pixel);font-size:15px;color:var(--crimson);}
+    .panel{padding:40px 22px;}
+  }
+</style>
+</head>
+<body>
+<div class="auth">
+
+  <!-- ===== brand side ===== -->
+  <aside class="brand">
+    <div class="lantern-row" aria-hidden="true">
+      <svg class="lantern a" viewBox="0 0 30 46"><rect x="12" y="0" width="6" height="6" fill="#C58F3A"/><rect x="8" y="6" width="14" height="4" fill="#C58F3A"/><rect x="4" y="10" width="22" height="22" fill="#A8324A" stroke="#7d2537" stroke-width="2"/><rect x="12" y="10" width="2" height="22" fill="#E3B25E"/><rect x="18" y="10" width="2" height="22" fill="#E3B25E"/><rect x="8" y="32" width="14" height="4" fill="#C58F3A"/><rect x="13" y="36" width="4" height="10" fill="#C58F3A"/></svg>
+      <svg class="lantern b" viewBox="0 0 30 46"><rect x="12" y="0" width="6" height="6" fill="#C58F3A"/><rect x="8" y="6" width="14" height="4" fill="#C58F3A"/><rect x="4" y="10" width="22" height="22" fill="#A8324A" stroke="#7d2537" stroke-width="2"/><rect x="12" y="10" width="2" height="22" fill="#E3B25E"/><rect x="18" y="10" width="2" height="22" fill="#E3B25E"/><rect x="8" y="32" width="14" height="4" fill="#C58F3A"/><rect x="13" y="36" width="4" height="10" fill="#C58F3A"/></svg>
+    </div>
+
+    <a class="logo" href="index.html" aria-label="Hei You home">
+      <svg class="mark" viewBox="0 0 40 40" aria-hidden="true">
+        <rect x="2" y="9" width="7" height="4" fill="#C58F3A" stroke="#1C2436" stroke-width="1.5"/><rect x="31" y="9" width="7" height="4" fill="#C58F3A" stroke="#1C2436" stroke-width="1.5"/>
+        <rect x="8" y="10" width="24" height="3" fill="#C58F3A"/><rect x="10" y="3" width="20" height="8" fill="#2E3A55" stroke="#1C2436" stroke-width="1.5"/><circle cx="20" cy="3" r="2" fill="#C58F3A"/>
+        <rect x="11" y="13" width="18" height="14" fill="#E8C48E" stroke="#1C2436" stroke-width="1.5"/>
+        <rect x="12" y="15" width="7" height="6" fill="none" stroke="#C58F3A" stroke-width="2"/><rect x="21" y="15" width="7" height="6" fill="none" stroke="#C58F3A" stroke-width="2"/><rect x="19" y="17" width="2" height="2" fill="#C58F3A"/>
+        <rect x="14" y="17" width="2" height="2" fill="#1C2436"/><rect x="23" y="17" width="2" height="2" fill="#1C2436"/>
+        <rect x="13" y="23" width="14" height="2" fill="#9AA3B2"/><rect x="13" y="25" width="2" height="3" fill="#9AA3B2"/><rect x="25" y="25" width="2" height="3" fill="#9AA3B2"/>
+        <rect x="8" y="30" width="24" height="9" fill="#A8324A" stroke="#1C2436" stroke-width="1.5"/><rect x="18" y="30" width="4" height="9" fill="#C58F3A"/><circle cx="12" cy="31" r="1.6" fill="#C58F3A"/><circle cx="28" cy="31" r="1.6" fill="#C58F3A"/>
+      </svg>
+      <span><b>Hei You</b><small>嘿，你 · learn C</small></span>
+    </a>
+
+    <div class="brand-copy">
+      <h1>Welcome<br>back, <span class="k">builder</span>.</h1>
+      <p>Your tower is waiting exactly where you left it. Log in and lay the next brick.</p>
+      <ul class="ticks">
+        <li><span class="bx"></span> Modules saved, progress intact</li>
+        <li><span class="bx"></span> Jump straight back to the playground</li>
+        <li><span class="bx"></span> Professor Wáng kept your seat warm</li>
+      </ul>
+    </div>
+
+    <div class="prof-wrap">
+      <svg class="prof-svg" viewBox="-5 -5 165 190" role="img" aria-label="Professor Wáng pointing at you">
+        <rect x="118" y="30" width="4" height="4" fill="#C58F3A"/><rect x="140" y="30" width="4" height="4" fill="#C58F3A"/><rect x="129" y="22" width="4" height="8" fill="#A8324A"/><rect x="129" y="33" width="4" height="4" fill="#A8324A"/>
+        <rect x="6" y="30" width="28" height="12" fill="#C58F3A" stroke="#1C2436" stroke-width="2"/><rect x="116" y="30" width="28" height="12" fill="#C58F3A" stroke="#1C2436" stroke-width="2"/>
+        <rect x="34" y="34" width="82" height="10" fill="#C58F3A" stroke="#1C2436" stroke-width="2"/><rect x="40" y="14" width="70" height="22" fill="#2E3A55" stroke="#1C2436" stroke-width="2"/><rect x="52" y="6" width="46" height="10" fill="#2E3A55" stroke="#1C2436" stroke-width="2"/><circle cx="75" cy="6" r="6" fill="#C58F3A" stroke="#1C2436" stroke-width="2"/>
+        <rect x="44" y="42" width="62" height="44" fill="#E8C48E" stroke="#1C2436" stroke-width="2"/><rect x="40" y="54" width="6" height="12" fill="#E8C48E" stroke="#1C2436" stroke-width="2"/><rect x="104" y="54" width="6" height="12" fill="#E8C48E" stroke="#1C2436" stroke-width="2"/>
+        <rect x="50" y="50" width="16" height="4" fill="#2E3A55"/><rect x="84" y="50" width="16" height="4" fill="#2E3A55"/>
+        <rect x="48" y="56" width="20" height="14" fill="none" stroke="#C58F3A" stroke-width="3"/><rect x="82" y="56" width="20" height="14" fill="none" stroke="#C58F3A" stroke-width="3"/><rect x="68" y="61" width="14" height="3" fill="#C58F3A"/>
+        <rect x="55" y="61" width="5" height="5" fill="#1C2436"/><rect x="89" y="61" width="5" height="5" fill="#1C2436"/><rect x="71" y="66" width="8" height="9" fill="#CBA06A"/>
+        <rect x="54" y="76" width="42" height="6" fill="#9AA3B2"/><rect x="54" y="82" width="6" height="14" fill="#9AA3B2"/><rect x="90" y="82" width="6" height="14" fill="#9AA3B2"/>
+        <rect x="62" y="82" width="26" height="14" fill="#9AA3B2"/><rect x="66" y="96" width="18" height="12" fill="#9AA3B2"/><rect x="70" y="108" width="10" height="8" fill="#9AA3B2"/>
+        <rect x="28" y="96" width="94" height="16" fill="#A8324A" stroke="#1C2436" stroke-width="2"/><circle cx="44" cy="96" r="5" fill="#C58F3A" stroke="#1C2436" stroke-width="2"/><circle cx="106" cy="96" r="5" fill="#C58F3A" stroke="#1C2436" stroke-width="2"/>
+        <rect x="36" y="110" width="78" height="30" fill="#A8324A"/><rect x="28" y="138" width="94" height="30" fill="#A8324A" stroke="#1C2436" stroke-width="2"/>
+        <rect x="56" y="96" width="8" height="20" fill="#C58F3A"/><rect x="86" y="96" width="8" height="20" fill="#C58F3A"/><rect x="71" y="100" width="8" height="68" fill="#C58F3A"/>
+        <rect x="70" y="118" width="10" height="10" fill="#3F7A5C" stroke="#C58F3A" stroke-width="2"/><rect x="36" y="134" width="78" height="10" fill="#2E3A55"/><rect x="68" y="131" width="14" height="14" fill="#C58F3A" stroke="#1C2436" stroke-width="2"/>
+        <rect x="28" y="160" width="94" height="8" fill="#C58F3A" stroke="#1C2436" stroke-width="2"/><rect x="40" y="150" width="8" height="8" fill="#3F7A5C"/><rect x="60" y="150" width="8" height="8" fill="#3F7A5C"/><rect x="102" y="150" width="8" height="8" fill="#3F7A5C"/>
+        <rect x="14" y="104" width="22" height="42" fill="#A8324A" stroke="#1C2436" stroke-width="2"/><rect x="14" y="140" width="22" height="6" fill="#C58F3A"/><rect x="16" y="146" width="18" height="14" fill="#E8C48E" stroke="#1C2436" stroke-width="2"/>
+        <rect x="114" y="100" width="22" height="34" fill="#A8324A" stroke="#1C2436" stroke-width="2"/><rect x="122" y="66" width="16" height="36" fill="#A8324A" stroke="#1C2436" stroke-width="2"/><rect x="122" y="66" width="16" height="6" fill="#C58F3A"/><rect x="122" y="52" width="18" height="16" fill="#E8C48E" stroke="#1C2436" stroke-width="2"/><rect x="127" y="38" width="7" height="16" fill="#E8C48E" stroke="#1C2436" stroke-width="2"/>
+        <rect x="46" y="168" width="20" height="8" fill="#2E3A55" stroke="#1C2436" stroke-width="2"/><rect x="84" y="168" width="20" height="8" fill="#2E3A55" stroke="#1C2436" stroke-width="2"/>
+      </svg>
+      <div class="prof-bubble"><span class="zh">“嘿，你！”</span> Back for more? 好.</div>
+    </div>
+  </aside>
+
+  <!-- ===== form side ===== -->
+  <main class="panel">
+    <div class="formwrap" id="formwrap">
+      <a class="mini-logo" href="index.html">
+        <svg class="mark" viewBox="0 0 40 40" aria-hidden="true">
+          <rect x="2" y="9" width="7" height="4" fill="#C58F3A" stroke="#1C2436" stroke-width="1.5"/><rect x="31" y="9" width="7" height="4" fill="#C58F3A" stroke="#1C2436" stroke-width="1.5"/><rect x="8" y="10" width="24" height="3" fill="#C58F3A"/><rect x="10" y="3" width="20" height="8" fill="#2E3A55" stroke="#1C2436" stroke-width="1.5"/><circle cx="20" cy="3" r="2" fill="#C58F3A"/><rect x="11" y="13" width="18" height="14" fill="#E8C48E" stroke="#1C2436" stroke-width="1.5"/><rect x="12" y="15" width="7" height="6" fill="none" stroke="#C58F3A" stroke-width="2"/><rect x="21" y="15" width="7" height="6" fill="none" stroke="#C58F3A" stroke-width="2"/><rect x="14" y="17" width="2" height="2" fill="#1C2436"/><rect x="23" y="17" width="2" height="2" fill="#1C2436"/><rect x="13" y="23" width="14" height="2" fill="#9AA3B2"/><rect x="8" y="30" width="24" height="9" fill="#A8324A" stroke="#1C2436" stroke-width="1.5"/>
+        </svg>
+        <b>Hei You</b>
+      </a>
+
+      <div class="head">
+        <h1>Log in</h1>
+        <p>Enter your details to get back to building.</p>
+      </div>
+
+      <div class="banner" id="banner" role="status" aria-live="polite"></div>
+
+      <form id="form" novalidate>
+        <div class="field" id="f-email">
+          <label for="email">Email</label>
+          <div class="inpwrap"><input type="email" id="email" name="email" placeholder="you@example.com" autocomplete="email" /></div>
+          <span class="msg" id="m-email">Enter a valid email address.</span>
+        </div>
+
+        <div class="field" id="f-pass">
+          <label for="pass">Password</label>
+          <div class="inpwrap">
+            <input type="password" id="pass" name="pass" placeholder="Your password" autocomplete="current-password" />
+            <button type="button" class="pw-toggle" id="toggle" aria-label="Show password">show</button>
+          </div>
+          <span class="msg" id="m-pass">Password must be at least 6 characters.</span>
+        </div>
+
+        <div class="row">
+          <label class="check"><input type="checkbox" id="remember" /><span class="box"></span> Remember me</label>
+          <a class="link" href="#">Forgot password?</a>
+        </div>
+
+        <button type="submit" class="btn btn-primary" id="submit">Log in</button>
+      </form>
+
+      <div class="or">or</div>
+      <button type="button" class="btn btn-ghost" id="github">
+        <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><rect x="2" y="2" width="14" height="14" fill="#1C2436"/><rect x="5" y="5" width="3" height="3" fill="#fff"/><rect x="10" y="5" width="3" height="3" fill="#fff"/><rect x="5" y="11" width="8" height="2" fill="#fff"/></svg>
+        Continue with GitHub
+      </button>
+
+      <p class="switch">New to Hei You? <a href="signup.html">Create an account</a></p>
+      <div style="text-align:center;"><a class="backhome" href="index.html">← Back to home</a></div>
+    </div>
+  </main>
+</div>
+
+<script>
+  (function(){
+    var form=document.getElementById('form');
+    var wrap=document.getElementById('formwrap');
+    var banner=document.getElementById('banner');
+    var submit=document.getElementById('submit');
+    var email=document.getElementById('email');
+    var pass=document.getElementById('pass');
+    var remember=document.getElementById('remember');
+
+    var loseIco='<svg width="24" height="24" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" fill="#7d2537" stroke="#1C2436" stroke-width="2"/><rect x="7" y="8" width="3" height="3" fill="#fff"/><rect x="14" y="8" width="3" height="3" fill="#fff"/><rect x="7" y="16" width="10" height="2" fill="#fff"/></svg>';
+    var winIco='<svg width="24" height="24" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" fill="#2c5741" stroke="#1C2436" stroke-width="2"/><rect x="7" y="8" width="3" height="3" fill="#fff"/><rect x="14" y="8" width="3" height="3" fill="#fff"/><rect x="7" y="15" width="10" height="2" fill="#fff"/></svg>';
+    var infoIco='<svg width="24" height="24" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" fill="#2E3A55" stroke="#1C2436" stroke-width="2"/><rect x="10" y="6" width="4" height="4" fill="#E3B25E"/><rect x="10" y="12" width="4" height="6" fill="#E3B25E"/></svg>';
+
+    /* ---- Hei You local store (Option A: browser-only, front-end demo) ----
+       Users live in localStorage under 'heiyou_users'. Passwords are hashed
+       with SHA-256 so plaintext isn't stored. This is fine for a scoped
+       prototype but is NOT real security — anyone with the device can read it. */
+    var USERS_KEY='heiyou_users';
+    function readUsers(){try{return JSON.parse(localStorage.getItem(USERS_KEY)||'{}');}catch(e){return {};}}
+    async function hashPassword(pw){
+      try{
+        if(window.crypto&&crypto.subtle){
+          var data=new TextEncoder().encode(pw+'::heiyou-salt');
+          var buf=await crypto.subtle.digest('SHA-256',data);
+          return 'sha256:'+Array.from(new Uint8Array(buf)).map(function(b){return b.toString(16).padStart(2,'0');}).join('');
+        }
+      }catch(e){}
+      var h=0,s=pw+'::heiyou-salt';for(var i=0;i<s.length;i++){h=(h*31+s.charCodeAt(i))>>>0;}
+      return 'weak:'+h.toString(16);
+    }
+
+    function show(type,html,ico){banner.className='banner show '+type;banner.innerHTML=(ico||'')+'<span>'+html+'</span>';}
+    function shake(){wrap.classList.remove('shake');void wrap.offsetWidth;wrap.classList.add('shake');}
+    function clearField(id){document.getElementById(id).classList.remove('bad');}
+    email.addEventListener('input',function(){clearField('f-email');});
+    pass.addEventListener('input',function(){clearField('f-pass');});
+
+    document.getElementById('toggle').addEventListener('click',function(){
+      var t=pass.type==='password';pass.type=t?'text':'password';this.textContent=t?'hide':'show';this.setAttribute('aria-label',t?'Hide password':'Show password');
+    });
+
+    document.getElementById('github').addEventListener('click',function(){
+      show('info','老师 Wáng: this is a front-end demo — wire up GitHub later. 加油!',infoIco);
+    });
+
+    form.addEventListener('submit',async function(e){
+      e.preventDefault();
+      var bad=[];
+      var reEmail=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if(!reEmail.test(email.value.trim())){document.getElementById('f-email').classList.add('bad');bad.push('email');}
+      if(pass.value.length<6){document.getElementById('f-pass').classList.add('bad');bad.push('password');}
+
+      if(bad.length){
+        show('lose','Professor Wáng: “Shame on you.” 太可惜了 — check your '+bad.join(' and ')+'.',loseIco);
+        shake();return;
+      }
+
+      var key=email.value.trim().toLowerCase();
+      var users=readUsers();
+      var user=users[key];
+
+      submit.disabled=true;submit.textContent='Logging in…';
+      var hash=await hashPassword(pass.value);
+
+      if(!user||user.pw!==hash){
+        submit.disabled=false;submit.textContent='Log in';
+        document.getElementById('f-email').classList.add('bad');
+        document.getElementById('f-pass').classList.add('bad');
+        show('lose','Professor Wáng: “Shame on you.” 太可惜了 — wrong email or password. No account yet? Sign up.',loseIco);
+        shake();return;
+      }
+
+      /* remember me -> persist across sessions; otherwise clear on tab close */
+      try{
+        if(remember&&remember.checked){localStorage.setItem('heiyou_session',key);sessionStorage.removeItem('heiyou_session');}
+        else{sessionStorage.setItem('heiyou_session',key);localStorage.removeItem('heiyou_session');}
+      }catch(e){}
+
+      show('win','Professor Wáng: “Proud of you.” 好样的 — welcome back, '+(user.name||'builder')+'. Entering the classroom…',winIco);
+      setTimeout(function(){window.location.href='index.html';},1400);
+    });
+  })();
+</script>
+</body>
+</html>
