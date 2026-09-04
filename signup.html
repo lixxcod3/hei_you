@@ -3,15 +3,79 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Log in — Hei You</title>
+  <title>Sign up — Hei You</title>
   <link rel="icon" type="image/svg+xml" href="elements/favicon.svg" />
-  <link rel="stylesheet" href="login_style.css" />
-  <meta name="description" content="Log in to Hei You and keep building your C tower, brick by brick." />
+  <link rel="stylesheet" href="signup_style.css" />
+  <meta name="description" content="Create a free Hei You account and start learning C, one brick at a time." />
 </head>
 <body>
 <div class="auth">
 
-  <!-- ===== brand side ===== -->
+  <!-- ===== form side (left) ===== -->
+  <main class="panel">
+    <div class="formwrap" id="formwrap">
+      <a class="mini-logo" href="index.html">
+        <svg class="mark" viewBox="0 0 40 40" aria-hidden="true">
+          <rect x="2" y="9" width="7" height="4" fill="#C58F3A" stroke="#1C2436" stroke-width="1.5"/><rect x="31" y="9" width="7" height="4" fill="#C58F3A" stroke="#1C2436" stroke-width="1.5"/><rect x="8" y="10" width="24" height="3" fill="#C58F3A"/><rect x="10" y="3" width="20" height="8" fill="#2E3A55" stroke="#1C2436" stroke-width="1.5"/><circle cx="20" cy="3" r="2" fill="#C58F3A"/><rect x="11" y="13" width="18" height="14" fill="#E8C48E" stroke="#1C2436" stroke-width="1.5"/><rect x="12" y="15" width="7" height="6" fill="none" stroke="#C58F3A" stroke-width="2"/><rect x="21" y="15" width="7" height="6" fill="none" stroke="#C58F3A" stroke-width="2"/><rect x="14" y="17" width="2" height="2" fill="#1C2436"/><rect x="23" y="17" width="2" height="2" fill="#1C2436"/><rect x="13" y="23" width="14" height="2" fill="#9AA3B2"/><rect x="8" y="30" width="24" height="9" fill="#A8324A" stroke="#1C2436" stroke-width="1.5"/>
+        </svg>
+        <b>Hei You</b>
+      </a>
+
+      <div class="head">
+        <h1>Sign up</h1>
+        <p>Create your free account and lay your first brick.</p>
+      </div>
+
+      <div class="banner" id="banner" role="status" aria-live="polite"></div>
+
+      <form id="form" novalidate>
+        <div class="field" id="f-name">
+          <label for="name">Username</label>
+          <div class="inpwrap"><input type="text" id="name" name="name" placeholder="brickbuilder" autocomplete="username" /></div>
+          <span class="msg" id="m-name">Pick a username of at least 3 characters.</span>
+        </div>
+
+        <div class="field" id="f-email">
+          <label for="email">Email</label>
+          <div class="inpwrap"><input type="email" id="email" name="email" placeholder="you@example.com" autocomplete="email" /></div>
+          <span class="msg" id="m-email">Enter a valid email address.</span>
+        </div>
+
+        <div class="field" id="f-pass">
+          <label for="pass">Password</label>
+          <div class="inpwrap">
+            <input type="password" id="pass" name="pass" placeholder="At least 8 characters" autocomplete="new-password" />
+            <button type="button" class="pw-toggle" id="toggle" aria-label="Show password">show</button>
+          </div>
+          <span class="msg" id="m-pass">Password must be at least 8 characters.</span>
+        </div>
+
+        <div class="field" id="f-conf">
+          <label for="conf">Confirm password</label>
+          <div class="inpwrap"><input type="password" id="conf" name="conf" placeholder="Type it again" autocomplete="new-password" /></div>
+          <span class="msg" id="m-conf">Passwords don't match.</span>
+        </div>
+
+        <label class="check" id="f-terms">
+          <input type="checkbox" id="terms" /><span class="box"></span>
+          <span>I agree to the <a href="#">Terms</a> and <a href="#">Privacy Policy</a>.</span>
+        </label>
+
+        <button type="submit" class="btn btn-primary" id="submit">Create account</button>
+      </form>
+
+      <div class="or">or</div>
+      <button type="button" class="btn btn-ghost" id="github">
+        <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><rect x="2" y="2" width="14" height="14" fill="#1C2436"/><rect x="5" y="5" width="3" height="3" fill="#fff"/><rect x="10" y="5" width="3" height="3" fill="#fff"/><rect x="5" y="11" width="8" height="2" fill="#fff"/></svg>
+        Sign up with GitHub
+      </button>
+
+      <p class="switch">Already have an account? <a href="login.html">Log in</a></p>
+      <div style="text-align:center;"><a class="backhome" href="index.html">← Back to home</a></div>
+    </div>
+  </main>
+
+  <!-- ===== brand side (right) ===== -->
   <aside class="brand">
     <div class="lantern-row" aria-hidden="true">
       <svg class="lantern a" viewBox="0 0 30 46"><rect x="12" y="0" width="6" height="6" fill="#C58F3A"/><rect x="8" y="6" width="14" height="4" fill="#C58F3A"/><rect x="4" y="10" width="22" height="22" fill="#A8324A" stroke="#7d2537" stroke-width="2"/><rect x="12" y="10" width="2" height="22" fill="#E3B25E"/><rect x="18" y="10" width="2" height="22" fill="#E3B25E"/><rect x="8" y="32" width="14" height="4" fill="#C58F3A"/><rect x="13" y="36" width="4" height="10" fill="#C58F3A"/></svg>
@@ -32,12 +96,12 @@
     </a>
 
     <div class="brand-copy">
-      <h1>Welcome<br>back, <span class="k">builder</span>.</h1>
-      <p>Your tower is waiting exactly where you left it. Log in and lay the next brick.</p>
+      <h1>New here?<br><span class="k">嘿，你！</span></h1>
+      <p>Yes — you. Start from the very first brick and stack all the way to structs. No setup, no fear.</p>
       <ul class="ticks">
-        <li><span class="bx"></span> Modules saved, progress intact</li>
-        <li><span class="bx"></span> Jump straight back to the playground</li>
-        <li><span class="bx"></span> Professor Wáng kept your seat warm</li>
+        <li><span class="bx"></span> Write &amp; run C in your browser</li>
+        <li><span class="bx"></span> Guided, bite-size modules</li>
+        <li><span class="bx"></span> Free — front-end demo, no card</li>
       </ul>
     </div>
 
@@ -61,63 +125,11 @@
         <rect x="114" y="100" width="22" height="34" fill="#A8324A" stroke="#1C2436" stroke-width="2"/><rect x="122" y="66" width="16" height="36" fill="#A8324A" stroke="#1C2436" stroke-width="2"/><rect x="122" y="66" width="16" height="6" fill="#C58F3A"/><rect x="122" y="52" width="18" height="16" fill="#E8C48E" stroke="#1C2436" stroke-width="2"/><rect x="127" y="38" width="7" height="16" fill="#E8C48E" stroke="#1C2436" stroke-width="2"/>
         <rect x="46" y="168" width="20" height="8" fill="#2E3A55" stroke="#1C2436" stroke-width="2"/><rect x="84" y="168" width="20" height="8" fill="#2E3A55" stroke="#1C2436" stroke-width="2"/>
       </svg>
-      <div class="prof-bubble"><span class="zh">“嘿，你！”</span> Back for more? 好.</div>
+      <div class="prof-bubble"><span class="zh">“嘿，你！”</span> Come build with me.</div>
     </div>
   </aside>
-
-  <!-- ===== form side ===== -->
-  <main class="panel">
-    <div class="formwrap" id="formwrap">
-      <a class="mini-logo" href="index.html">
-        <svg class="mark" viewBox="0 0 40 40" aria-hidden="true">
-          <rect x="2" y="9" width="7" height="4" fill="#C58F3A" stroke="#1C2436" stroke-width="1.5"/><rect x="31" y="9" width="7" height="4" fill="#C58F3A" stroke="#1C2436" stroke-width="1.5"/><rect x="8" y="10" width="24" height="3" fill="#C58F3A"/><rect x="10" y="3" width="20" height="8" fill="#2E3A55" stroke="#1C2436" stroke-width="1.5"/><circle cx="20" cy="3" r="2" fill="#C58F3A"/><rect x="11" y="13" width="18" height="14" fill="#E8C48E" stroke="#1C2436" stroke-width="1.5"/><rect x="12" y="15" width="7" height="6" fill="none" stroke="#C58F3A" stroke-width="2"/><rect x="21" y="15" width="7" height="6" fill="none" stroke="#C58F3A" stroke-width="2"/><rect x="14" y="17" width="2" height="2" fill="#1C2436"/><rect x="23" y="17" width="2" height="2" fill="#1C2436"/><rect x="13" y="23" width="14" height="2" fill="#9AA3B2"/><rect x="8" y="30" width="24" height="9" fill="#A8324A" stroke="#1C2436" stroke-width="1.5"/>
-        </svg>
-        <b>Hei You</b>
-      </a>
-
-      <div class="head">
-        <h1>Log in</h1>
-        <p>Enter your details to get back to building.</p>
-      </div>
-
-      <div class="banner" id="banner" role="status" aria-live="polite"></div>
-
-      <form id="form" novalidate>
-        <div class="field" id="f-email">
-          <label for="email">Email</label>
-          <div class="inpwrap"><input type="email" id="email" name="email" placeholder="you@example.com" autocomplete="email" /></div>
-          <span class="msg" id="m-email">Enter a valid email address.</span>
-        </div>
-
-        <div class="field" id="f-pass">
-          <label for="pass">Password</label>
-          <div class="inpwrap">
-            <input type="password" id="pass" name="pass" placeholder="Your password" autocomplete="current-password" />
-            <button type="button" class="pw-toggle" id="toggle" aria-label="Show password">show</button>
-          </div>
-          <span class="msg" id="m-pass">Password must be at least 6 characters.</span>
-        </div>
-
-        <div class="row">
-          <label class="check"><input type="checkbox" id="remember" /><span class="box"></span> Remember me</label>
-          <a class="link" href="#">Forgot password?</a>
-        </div>
-
-        <button type="submit" class="btn btn-primary" id="submit">Log in</button>
-      </form>
-
-      <div class="or">or</div>
-      <button type="button" class="btn btn-ghost" id="github">
-        <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><rect x="2" y="2" width="14" height="14" fill="#1C2436"/><rect x="5" y="5" width="3" height="3" fill="#fff"/><rect x="10" y="5" width="3" height="3" fill="#fff"/><rect x="5" y="11" width="8" height="2" fill="#fff"/></svg>
-        Continue with GitHub
-      </button>
-
-      <p class="switch">New to Hei You? <a href="signup.html">Create an account</a></p>
-      <div style="text-align:center;"><a class="backhome" href="index.html">← Back to home</a></div>
-    </div>
-  </main>
 </div>
 
-<script src="login_script.js"></script>
+<script src="signup_script.js"></script>
 </body>
 </html>
