@@ -8,6 +8,72 @@
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="about_style.css" />
   <meta name="description" content="Meet the Hei You team and see how our roles connect to build a beginner-friendly C learning platform." />
+  
+  <style>
+    /* Professor Wang Interactive Widget */
+    .wang-widget {
+      background: #f8f9fa;
+      border: 2px solid #2E3A55;
+      border-radius: 12px;
+      padding: 2rem;
+      text-align: center;
+      max-width: 600px;
+      margin: 2rem 0;
+      box-shadow: 4px 4px 0px #2E3A55;
+    }
+    .wang-dialogue {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #A8324A;
+      min-height: 3rem;
+      margin-bottom: 1.5rem;
+      transition: all 0.3s ease;
+    }
+    .wang-buttons {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .wang-buttons button {
+      background: #fff;
+      border: 2px solid #1C2436;
+      padding: 10px 15px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.2s;
+    }
+    .wang-buttons button:hover {
+      background: #E8C48E;
+      transform: translateY(-2px);
+      box-shadow: 2px 2px 0px #1C2436;
+    }
+
+    /* Interactive Team Cards & Chart Nodes */
+    .member, .node {
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .member:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    .node:hover .box {
+      stroke: #C58F3A;
+      stroke-width: 3px;
+    }
+    
+    /* Layout tweaks for new intro */
+    .intro-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      align-items: center;
+    }
+    @media (max-width: 768px) {
+      .intro-grid { grid-template-columns: 1fr; }
+    }
+  </style>
 </head>
 <body>
 
@@ -29,45 +95,40 @@
 <section class="page-hero">
   <div class="wrap">
     <span class="chip">About Us</span>
-    <h1>About Hei You</h1>
-    <p>The project, the background, and the six students building it — one brick at a time.</p>
+    <h1>Building Hei You</h1>
+    <p>Meet the six students building a better way to learn C — one brick at a time.</p>
   </div>
 </section>
 
 <section class="section" style="padding-bottom:0;">
-  <div class="wrap">
-    <h2><span class="secnum">1</span> What is the Project?</h2>
-    <p class="copy">The project is the development of <strong>Hei You</strong> (嗨，你), a web-based educational
-    platform designed to teach C programming fundamentals to beginners. The system features interactive
-    tutorials, syntax highlighting, and an in-browser compiler simulation. The learning experience is guided
-    by the persona of <strong>Professor Wáng</strong>, who helps students build their knowledge
-    &ldquo;one brick at a time.&rdquo; The platform provides dynamic, personality-driven feedback based on
-    student performance.</p>
-  </div>
-</section>
+  <div class="wrap intro-grid">
+    <div>
+      <h2><span class="secnum">1</span> What is Hei You?</h2>
+      <p class="copy">Learning C usually means staring at cryptic terminal errors and pulling your hair out over memory leaks. We thought, <strong>why not make it fun?</strong></p>
+      <p class="copy"><strong>Hei You</strong> (嗨，你) is a web-based playground that breaks C down into bite-sized, interactive chunks. No downloads, no messy setups—just a clean browser compiler and a little tough love from our virtual mentor, Professor Wáng.</p>
+    </div>
 
-<section class="section">
-  <div class="wrap">
-    <h2><span class="secnum">2</span> Origin &amp; Background</h2>
-    <p class="copy">This project addresses the core fundamentals of the low-level programming language C.
-    Beginners are often intimidated by cryptic compiler errors, memory-management complexities, and the lack
-    of engaging interfaces. By providing a guided, web-based experience, the project breaks down complex
-    syntax into digestible modules. The inclusion of Professor Wáng &mdash; who offers blunt but warm
-    reactions &mdash; creates a highly engaging and memorable feedback loop that keeps users motivated:</p>
-    <ul class="feedback-list">
-      <li class="fb-win"><strong>&ldquo;Proud of you.&rdquo;</strong> &mdash; on success</li>
-      <li class="fb-lose"><strong>&ldquo;Shame on you.&rdquo;</strong> &mdash; on a syntax or logic error</li>
-      <li class="fb-bye"><strong>&ldquo;See you.&rdquo;</strong> &mdash; when a chapter or module is completed</li>
-    </ul>
+    <div>
+      <h2><span class="secnum">2</span> The Professor Wáng Experience</h2>
+      <p class="copy">Instead of standard red error text, you get real feedback from Professor Wáng. He’s blunt, he’s warm, and he definitely has opinions about your code. <strong>Try it out:</strong></p>
+      
+      <div class="wang-widget">
+        <div class="wang-dialogue" id="wang-text">"Well? Write some code. Let's see what you've got."</div>
+        <div class="wang-buttons">
+          <button onclick="wangReact('win')">✅ Run Perfect Code</button>
+          <button onclick="wangReact('error')">❌ Forget a Semicolon</button>
+          <button onclick="wangReact('done')">🎓 Finish the Chapter</button>
+        </div>
+      </div>
+
+    </div>
   </div>
 </section>
 
 <section class="section">
   <div class="wrap">
     <h2><span class="secnum">3</span> How our roles connect</h2>
-    <p class="sub">The CEO sets direction; the CTO and CIO drive the build and collaborate closely;
-    design, content and testing feed into the platform. <strong>Click any name</strong> to open that
-    person's profile.</p>
+    <p class="sub">The CEO sets the vision; the CTO and CIO build the engine; design, content, and testing bring it to life. <strong>Hover or click any name</strong> to explore.</p>
 
     <div class="diagram">
       <svg viewBox="0 0 920 510" role="img" aria-label="Team role connection diagram. Kiefe (CEO) manages Felix (CTO) and Rafael (CIO), who collaborate. Felix leads Christo (Designer) and Bryan (Technical Writer); Rafael leads Richard (Lead Tester and QA).">
@@ -196,6 +257,29 @@
     <span class="zh">老师 Wáng: teamwork makes the tower stand. 加油!</span>
   </div>
 </footer>
+
+<script>
+  function wangReact(type) {
+    const textEl = document.getElementById('wang-text');
+    
+    // Add a quick fade effect
+    textEl.style.opacity = 0;
+    
+    setTimeout(() => {
+      if(type === 'win') {
+        textEl.innerHTML = "&ldquo;Proud of you.&rdquo;";
+        textEl.style.color = "#3F7A5C"; // Emerald
+      } else if(type === 'error') {
+        textEl.innerHTML = "&ldquo;Shame on you. Check line 4.&rdquo;";
+        textEl.style.color = "#A8324A"; // Crimson
+      } else if(type === 'done') {
+        textEl.innerHTML = "&ldquo;See you next lesson.&rdquo;";
+        textEl.style.color = "#2E3A55"; // Navy
+      }
+      textEl.style.opacity = 1;
+    }, 200);
+  }
+</script>
 
 </body>
 </html>
