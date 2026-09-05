@@ -1,1 +1,197 @@
-ss
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rafael Feng | Computer Science & Technology Undergraduate Student</title>
+    <style>
+        /* Color Palette & Purpose */
+        :root {
+            --crimson: #A8324A; /* Urgensi + fokus */
+            --navy: #2E3A55;    /* Kedalaman + percaya */
+            --gold: #C58F3A;    /* Pencapaian + kerja keras */
+            --emerald: #3F7A5C; /* Kemajuan + tumbuh */
+            --cream: #FAF7F2;   /* Hangat + tenang */
+        }
+
+        body {
+            font-family: "Georgia", serif;
+            background-color: var(--cream);
+            color: var(--navy);
+            line-height: 1.6;
+            margin: 0;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .profile-container {
+            max-width: 800px;
+            background: #ffffff;
+            padding: 50px;
+            box-shadow: 0 10px 30px rgba(46, 58, 85, 0.1);
+            border-top: 8px solid var(--navy);
+            border-bottom: 8px solid var(--gold);
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: var(--navy);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin: 0 0 10px 0;
+        }
+
+        .title {
+            font-size: 1.2em;
+            color: var(--crimson);
+            font-style: italic;
+            margin-bottom: 15px;
+        }
+
+        .contact-info {
+            font-size: 0.9em;
+            color: var(--navy);
+            opacity: 0.8;
+        }
+
+        .summary {
+            text-align: center;
+            font-size: 1.1em;
+            margin-bottom: 40px;
+            padding: 0 20px;
+        }
+
+        h2 {
+            font-size: 1.4em;
+            color: var(--navy);
+            border-bottom: 2px solid var(--gold);
+            padding-bottom: 5px;
+            margin-top: 30px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .entry {
+            margin-bottom: 25px;
+        }
+
+        .entry h3 {
+            font-size: 1.15em;
+            color: var(--navy);
+            margin: 0 0 5px 0;
+        }
+
+        .entry .meta {
+            font-size: 0.95em;
+            color: var(--emerald);
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .entry p {
+            margin: 0;
+            font-size: 0.95em;
+        }
+
+        ul.achievements {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ul.achievements li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 10px;
+        }
+
+        ul.achievements li::before {
+            content: "✦";
+            position: absolute;
+            left: 0;
+            color: var(--gold);
+        }
+
+        .skills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .skill-badge {
+            background-color: var(--navy);
+            color: var(--cream);
+            padding: 6px 14px;
+            border-radius: 3px;
+            font-size: 0.85em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-family: sans-serif;
+        }
+    </style>
+</head>
+<body>
+
+<div class="profile-container">
+    <header>
+        <h1>Rafael Feng</h1>
+        <div class="title">Computer Science & Technology Undergraduate Student<br>Beijing Institute of Technology</div>
+        <div class="contact-info">
+            Beijing, China | Malang, Indonesia <br>
+            rafaelfeng716@gmail.com | +62 85959651193
+        </div>
+    </header>
+
+    <div class="summary">
+        <p>An undergraduate student from Indonesia with a strong passion for mathematics and informatics. Experienced in national mathematics competitions, utilizing these opportunities to sharpen problem-solving skills for real-life situations.</p>
+    </div>
+
+    <h2>Education</h2>
+    <div class="entry">
+        <h3>Bachelor of Computer Science</h3>
+        <div class="meta">Beijing Institute of Technology | 09/2025 - Present</div>
+        <p>Status: BIT International Scholarship (4 years fully funded).</p>
+    </div>
+    <div class="entry">
+        <h3>Senior High School (National Curriculum)</h3>
+        <div class="meta">St. Albertus Catholic Senior High School | 07/2022 - 05/2025</div>
+        <p>GPA: 96.77</p>
+    </div>
+
+    <h2>Experience Highlights</h2>
+    <div class="entry">
+        <h3>Corrections and Question Division Staff</h3>
+        <div class="meta">Kontes Terbuka Olimpiade Matematika Indonesia | 09/2024 - Present</div>
+        <p>Graded participants' essay questions and created participant grade reports for the contest event.</p>
+    </div>
+    <div class="entry">
+        <h3>Mathematics Tutor</h3>
+        <div class="meta">ALC Indonesia, Scuola, Olimpiade Bersama, etc. | 01/2024 - Present</div>
+        <p>Delivered bilingual mathematics olympiad instruction, accumulating over 2,000 teaching hours and mentoring approximately 500 students for OSN 2025 preparation.</p>
+    </div>
+
+    <h2>Key Achievements</h2>
+    <ul class="achievements">
+        <li>Bronze Medal of National Math Olympiad (OSN) 2024</li>
+        <li>Second Round Participant, Indonesia Team Selection Test for International Mathematical Olympiad (IMO) 2024</li>
+        <li>Silver Medal of National Math Olympiad (OSN) 2023</li>
+    </ul>
+
+    <h2>Core Skills</h2>
+    <div class="skills-container">
+        <span class="skill-badge">Advance Math</span>
+        <span class="skill-badge">C++</span>
+        <span class="skill-badge">Python</span>
+        <span class="skill-badge">LaTeX</span>
+        <span class="skill-badge">Problem-solving</span>
+    </div>
+</div>
+
+</body>
+</html>
