@@ -15,47 +15,26 @@
 
   var USERS_KEY = 'heiyou_users';
   function readUsers() {
-    try {
-      return JSON.parse(localStorage.getItem(USERS_KEY) || '{}');
-    } catch (e) {
-      return {};
-    }
+    try { return JSON.parse(localStorage.getItem(USERS_KEY) || '{}'); } catch (e) { return {}; }
   }
-  function saveUsers(u) {
-    localStorage.setItem(USERS_KEY, JSON.stringify(u));
-  }
+  function saveUsers(u) { localStorage.setItem(USERS_KEY, JSON.stringify(u)); }
 
   async function hashPassword(pw) {
     try {
       if (window.crypto && crypto.subtle) {
         var data = new TextEncoder().encode(pw + '::heiyou-salt');
         var buf = await crypto.subtle.digest('SHA-256', data);
-        return 'sha256:' + Array.from(new Uint8Array(buf)).map(function (b) {
-          return b.toString(16).padStart(2, '0');
-        }).join('');
+        return 'sha256:' + Array.from(new Uint8Array(buf)).map(function (b) { return b.toString(16).padStart(2, '0'); }).join('');
       }
     } catch (e) {}
     var h = 0, s = pw + '::heiyou-salt';
-    for (var i = 0; i < s.length; i++) {
-      h = (h * 31 + s.charCodeAt(i)) >>> 0;
-    }
+    for (var i = 0; i < s.length; i++) { h = (h * 31 + s.charCodeAt(i)) >>> 0; }
     return 'weak:' + h.toString(16);
   }
 
-  function show(type, html, ico) {
-    banner.className = 'banner show ' + type;
-    banner.innerHTML = (ico || '') + '<span>' + html + '</span>';
-  }
-
-  function shake() {
-    wrap.classList.remove('shake');
-    void wrap.offsetWidth;
-    wrap.classList.add('shake');
-  }
-
-  function clear(id) {
-    document.getElementById(id).classList.remove('bad');
-  }
+  function show(type, html, ico) { banner.className = 'banner show ' + type; banner.innerHTML = (ico || '') + '<span>' + html + '</span>'; }
+  function shake() { wrap.classList.remove('shake'); void wrap.offsetWidth; wrap.classList.add('shake'); }
+  function clear(id) { document.getElementById(id).classList.remove('bad'); }
 
   name.addEventListener('input', function () { clear('f-name'); });
   email.addEventListener('input', function () { clear('f-email'); });
@@ -79,26 +58,11 @@
     var bad = [];
     var reEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if (name.value.trim().length < 3) {
-      document.getElementById('f-name').classList.add('bad');
-      bad.push('username');
-    }
-    if (!reEmail.test(email.value.trim())) {
-      document.getElementById('f-email').classList.add('bad');
-      bad.push('email');
-    }
-    if (pass.value.length < 8) {
-      document.getElementById('f-pass').classList.add('bad');
-      bad.push('password');
-    }
-    if (conf.value !== pass.value || conf.value === '') {
-      document.getElementById('f-conf').classList.add('bad');
-      bad.push('confirmation');
-    }
-    if (!terms.checked) {
-      document.getElementById('f-terms').classList.add('bad');
-      bad.push('terms');
-    }
+    if (name.value.trim().length < 3) { document.getElementById('f-name').classList.add('bad'); bad.push('username'); }
+    if (!reEmail.test(email.value.trim())) { document.getElementById('f-email').classList.add('bad'); bad.push('email'); }
+    if (pass.value.length < 8) { document.getElementById('f-pass').classList.add('bad'); bad.push('password'); }
+    if (conf.value !== pass.value || conf.value === '') { document.getElementById('f-conf').classList.add('bad'); bad.push('confirmation'); }
+    if (!terms.checked) { document.getElementById('f-terms').classList.add('bad'); bad.push('terms'); }
 
     if (bad.length) {
       var first = bad[0];
@@ -120,16 +84,10 @@
     submit.textContent = 'Creating…';
     try {
       var hash = await hashPassword(pass.value);
-      users[key] = {
-        name: name.value.trim(),
-        email: key,
-        pw: hash,
-        created: Date.now()
-      };
+      users[key] = { name: name.value.trim(), email: key, pw: hash, created: Date.now() };
       saveUsers(users);
-      try {
-        sessionStorage.setItem('heiyou_session', key);
-      } catch (e) {}
+      /* persist the session so the logged-in area (dashboard, profile) works reliably */
+      try { localStorage.setItem('heiyou_session', key); sessionStorage.removeItem('heiyou_session'); } catch (e) {}
     } catch (err) {
       submit.disabled = false;
       submit.textContent = 'Create account';
@@ -138,8 +96,6 @@
     }
 
     show('win', 'Professor Wáng: “Proud of you.” 好样的 — account created. Entering the classroom…', winIco);
-    setTimeout(function () {
-      window.location.href = 'index.html';
-    }, 1600);
+    setTimeout(function () { window.location.href = 'dashboard.html'; }, 1600);
   });
 })();
