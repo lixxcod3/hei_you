@@ -1,160 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Classroom — Hei You</title>
-  <link rel="icon" type="image/svg+xml" href="elements/favicon.svg" />
-  <link rel="stylesheet" href="dashboard_style.css" />
-  <meta name="description" content="Your Hei You classroom — pick up where you left off and stack the next brick." />
-  <!-- gate runs before the page renders -->
-  <script src="dashboard_script.js"></script>
+  <link rel="icon" href="elements/favicon.svg">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="dashboard_style.css">
 </head>
-<body>
-
+<body class="dash">
 <header>
   <div class="wrap nav">
-    <a class="logo" href="index.html" aria-label="Hei You home">
-      <svg class="mark" viewBox="0 0 40 40" aria-hidden="true"><rect x="2" y="9" width="7" height="4" fill="#C58F3A" stroke="#1C2436" stroke-width="1.5"/><rect x="31" y="9" width="7" height="4" fill="#C58F3A" stroke="#1C2436" stroke-width="1.5"/><rect x="8" y="10" width="24" height="3" fill="#C58F3A"/><rect x="10" y="3" width="20" height="8" fill="#2E3A55" stroke="#1C2436" stroke-width="1.5"/><circle cx="20" cy="3" r="2" fill="#C58F3A"/><rect x="11" y="13" width="18" height="14" fill="#E8C48E" stroke="#1C2436" stroke-width="1.5"/><rect x="12" y="15" width="7" height="6" fill="none" stroke="#C58F3A" stroke-width="2"/><rect x="21" y="15" width="7" height="6" fill="none" stroke="#C58F3A" stroke-width="2"/><rect x="19" y="17" width="2" height="2" fill="#C58F3A"/><rect x="14" y="17" width="2" height="2" fill="#1C2436"/><rect x="23" y="17" width="2" height="2" fill="#1C2436"/><rect x="13" y="23" width="14" height="2" fill="#9AA3B2"/><rect x="13" y="25" width="2" height="3" fill="#9AA3B2"/><rect x="25" y="25" width="2" height="3" fill="#9AA3B2"/><rect x="8" y="30" width="24" height="9" fill="#A8324A" stroke="#1C2436" stroke-width="1.5"/><rect x="18" y="30" width="4" height="9" fill="#C58F3A"/><circle cx="12" cy="31" r="1.6" fill="#C58F3A"/><circle cx="28" cy="31" r="1.6" fill="#C58F3A"/></svg>
-      <span><b>Hei You</b><small>classroom</small></span>
+    <a class="logo" href="index.html">
+      <svg class="mark" viewBox="0 0 40 40" aria-hidden="true"><rect x="2" y="9" width="7" height="4" fill="#C58F3A" stroke="#1C2436" stroke-width="1.5"/><rect x="31" y="9" width="7" height="4" fill="#C58F3A" stroke="#1C2436" stroke-width="1.5"/><rect x="8" y="10" width="24" height="3" fill="#C58F3A"/><rect x="10" y="3" width="20" height="8" fill="#2E3A55" stroke="#1C2436" stroke-width="1.5"/><circle cx="20" cy="3" r="2" fill="#C58F3A"/><rect x="11" y="13" width="18" height="14" fill="#E8C48E" stroke="#1C2436" stroke-width="1.5"/><rect x="12" y="15" width="7" height="6" fill="none" stroke="#C58F3A" stroke-width="2"/><rect x="21" y="15" width="7" height="6" fill="none" stroke="#C58F3A" stroke-width="2"/><rect x="14" y="17" width="2" height="2" fill="#1C2436"/><rect x="23" y="17" width="2" height="2" fill="#1C2436"/><rect x="13" y="23" width="14" height="2" fill="#9AA3B2"/><rect x="8" y="30" width="24" height="9" fill="#A8324A" stroke="#1C2436" stroke-width="1.5"/></svg>
+      <span><b>Hei You</b><small>Classroom</small></span>
     </a>
-    <nav class="nav-links" aria-label="Primary">
-      <a href="#modules">Modules</a>
+    <nav class="nav-links">
+      <a href="modules.html">Modules</a>
       <a href="index.html#demo">Playground</a>
-      <a href="index.html">Home</a>
     </nav>
-    <div class="nav-right">
-      <span class="who">Hi, <b id="who">builder</b></span>
-      <a class="btn btn-sm" href="profile.html">Profile</a>
-      <button class="btn btn-gold btn-sm" id="logout">Log out</button>
-    </div>
+    <div class="nav-right" id="nav-actions"></div>
   </div>
 </header>
 
 <main class="wrap">
-  <div class="banner" id="banner" role="status" aria-live="polite"></div>
-
+  <div class="banner" id="banner" role="status" aria-live="polite" style="display:none; margin-top:20px;"></div>
+  
   <section class="welcome">
     <div>
-      <h1><span class="zh">嘿，你</span>, <span id="hello-name">builder</span>! Welcome to class.</h1>
-      <p id="welcome-line">Professor Wáng kept your seat warm. Pick up your tower where you left off and place the next brick.</p>
-      <div class="cta">
-        <a class="btn btn-primary" id="resume" href="#modules">Resume current brick</a>
-        <a class="btn btn-gold" href="index.html#demo">Open the playground</a>
+      <h1><span class="zh" style="color:var(--gold-light);">嘿，你</span>, <span id="hello-name">builder</span>!</h1>
+      <p style="color:#cdd5e3; margin-top:10px;">Professor Wáng kept your seat warm. Pick up your tower where you left off and place the next brick.</p>
+      <div class="welcome-cta">
+        <a class="btn btn-primary" href="modules.html">Resume current brick</a>
+        <a class="btn btn-gold" href="index.html#demo">Playground</a>
       </div>
     </div>
-    <svg class="prof-svg" viewBox="-5 -5 165 190" role="img" aria-label="Professor Wáng, a pixel-art Lego Chinese scholar pointing straight at you">
-          <!-- emphasis sparks around the pointing finger -->
-          <rect x="118" y="30" width="4" height="4" fill="#C58F3A"/>
-          <rect x="140" y="30" width="4" height="4" fill="#C58F3A"/>
-          <rect x="129" y="22" width="4" height="8" fill="#A8324A"/>
-          <rect x="129" y="33" width="4" height="4" fill="#A8324A"/>
-          <!-- hat wings -->
-          <rect x="6" y="30" width="28" height="12" fill="#C58F3A" stroke="#1C2436" stroke-width="2"/>
-          <rect x="116" y="30" width="28" height="12" fill="#C58F3A" stroke="#1C2436" stroke-width="2"/>
-          <!-- hat -->
-          <rect x="34" y="34" width="82" height="10" fill="#C58F3A" stroke="#1C2436" stroke-width="2"/>
-          <rect x="40" y="14" width="70" height="22" fill="#2E3A55" stroke="#1C2436" stroke-width="2"/>
-          <rect x="52" y="6" width="46" height="10" fill="#2E3A55" stroke="#1C2436" stroke-width="2"/>
-          <!-- lego stud on hat -->
-          <circle cx="75" cy="6" r="6" fill="#C58F3A" stroke="#1C2436" stroke-width="2"/>
-          <!-- face -->
-          <rect x="44" y="42" width="62" height="44" fill="#E8C48E" stroke="#1C2436" stroke-width="2"/>
-          <rect x="40" y="54" width="6" height="12" fill="#E8C48E" stroke="#1C2436" stroke-width="2"/>
-          <rect x="104" y="54" width="6" height="12" fill="#E8C48E" stroke="#1C2436" stroke-width="2"/>
-          <!-- brows -->
-          <rect x="50" y="50" width="16" height="4" fill="#2E3A55"/>
-          <rect x="84" y="50" width="16" height="4" fill="#2E3A55"/>
-          <!-- glasses -->
-          <rect x="48" y="56" width="20" height="14" fill="none" stroke="#C58F3A" stroke-width="3"/>
-          <rect x="82" y="56" width="20" height="14" fill="none" stroke="#C58F3A" stroke-width="3"/>
-          <rect x="68" y="61" width="14" height="3" fill="#C58F3A"/>
-          <!-- eyes -->
-          <rect x="55" y="61" width="5" height="5" fill="#1C2436"/>
-          <rect x="89" y="61" width="5" height="5" fill="#1C2436"/>
-          <!-- nose -->
-          <rect x="71" y="66" width="8" height="9" fill="#CBA06A"/>
-          <!-- mustache -->
-          <rect x="54" y="76" width="42" height="6" fill="#9AA3B2"/>
-          <rect x="54" y="82" width="6" height="14" fill="#9AA3B2"/>
-          <rect x="90" y="82" width="6" height="14" fill="#9AA3B2"/>
-          <!-- beard -->
-          <rect x="62" y="82" width="26" height="14" fill="#9AA3B2"/>
-          <rect x="66" y="96" width="18" height="12" fill="#9AA3B2"/>
-          <rect x="70" y="108" width="10" height="8" fill="#9AA3B2"/>
-          <!-- shoulders / robe -->
-          <rect x="28" y="96" width="94" height="16" fill="#A8324A" stroke="#1C2436" stroke-width="2"/>
-          <circle cx="44" cy="96" r="5" fill="#C58F3A" stroke="#1C2436" stroke-width="2"/>
-          <circle cx="106" cy="96" r="5" fill="#C58F3A" stroke="#1C2436" stroke-width="2"/>
-          <rect x="36" y="110" width="78" height="30" fill="#A8324A"/>
-          <rect x="28" y="138" width="94" height="30" fill="#A8324A" stroke="#1C2436" stroke-width="2"/>
-          <!-- collar + placket -->
-          <rect x="56" y="96" width="8" height="20" fill="#C58F3A"/>
-          <rect x="86" y="96" width="8" height="20" fill="#C58F3A"/>
-          <rect x="71" y="100" width="8" height="68" fill="#C58F3A"/>
-          <!-- jade pendant -->
-          <rect x="70" y="118" width="10" height="10" fill="#3F7A5C" stroke="#C58F3A" stroke-width="2"/>
-          <!-- sash + buckle -->
-          <rect x="36" y="134" width="78" height="10" fill="#2E3A55"/>
-          <rect x="68" y="131" width="14" height="14" fill="#C58F3A" stroke="#1C2436" stroke-width="2"/>
-          <!-- hem trim + cloud motif -->
-          <rect x="28" y="160" width="94" height="8" fill="#C58F3A" stroke="#1C2436" stroke-width="2"/>
-          <rect x="40" y="150" width="8" height="8" fill="#3F7A5C"/>
-          <rect x="60" y="150" width="8" height="8" fill="#3F7A5C"/>
-          <rect x="102" y="150" width="8" height="8" fill="#3F7A5C"/>
-          <!-- left arm + hand -->
-          <rect x="14" y="104" width="22" height="42" fill="#A8324A" stroke="#1C2436" stroke-width="2"/>
-          <rect x="14" y="140" width="22" height="6" fill="#C58F3A"/>
-          <rect x="16" y="146" width="18" height="14" fill="#E8C48E" stroke="#1C2436" stroke-width="2"/>
-          <!-- right arm raised, pointing at YOU -->
-          <rect x="114" y="100" width="22" height="34" fill="#A8324A" stroke="#1C2436" stroke-width="2"/>
-          <rect x="122" y="66" width="16" height="36" fill="#A8324A" stroke="#1C2436" stroke-width="2"/>
-          <rect x="122" y="66" width="16" height="6" fill="#C58F3A"/>
-          <!-- fist -->
-          <rect x="122" y="52" width="18" height="16" fill="#E8C48E" stroke="#1C2436" stroke-width="2"/>
-          <!-- extended index finger -->
-          <rect x="127" y="38" width="7" height="16" fill="#E8C48E" stroke="#1C2436" stroke-width="2"/>
-          <!-- feet -->
-          <rect x="46" y="168" width="20" height="8" fill="#2E3A55" stroke="#1C2436" stroke-width="2"/>
-          <rect x="84" y="168" width="20" height="8" fill="#2E3A55" stroke="#1C2436" stroke-width="2"/>
-        </svg>
+    <svg class="prof-svg" viewBox="-5 -5 165 190" width="130" style="filter: drop-shadow(4px 4px 0px var(--navy-dark));">
+      <rect x="34" y="34" width="82" height="10" fill="#C58F3A" stroke="#1C2436" stroke-width="2"/>
+      <rect x="40" y="14" width="70" height="22" fill="#2E3A55" stroke="#1C2436" stroke-width="2"/>
+      <rect x="52" y="6" width="46" height="10" fill="#2E3A55" stroke="#1C2436" stroke-width="2"/>
+      <circle cx="75" cy="6" r="6" fill="#C58F3A" stroke="#1C2436" stroke-width="2"/>
+      <rect x="44" y="42" width="62" height="44" fill="#E8C48E" stroke="#1C2436" stroke-width="2"/>
+      <rect x="48" y="56" width="20" height="14" fill="none" stroke="#C58F3A" stroke-width="3"/>
+      <rect x="82" y="56" width="20" height="14" fill="none" stroke="#C58F3A" stroke-width="3"/>
+      <rect x="55" y="61" width="5" height="5" fill="#1C2436"/>
+      <rect x="89" y="61" width="5" height="5" fill="#1C2436"/>
+      <rect x="54" y="76" width="42" height="6" fill="#9AA3B2"/>
+      <rect x="28" y="96" width="94" height="42" fill="#A8324A" stroke="#1C2436" stroke-width="2"/>
+    </svg>
   </section>
 
   <div class="grid2">
     <section class="card" id="modules">
-      <h2>Your tower</h2>
-      <p class="sub">Stack the bricks in order. Finish the highlighted one to unlock the next.</p>
-      <div class="progress-label"><span>Progress</span><span class="pct"><span id="done-count">0</span>/5 bricks placed</span></div>
-      <div class="progress" id="progress" aria-hidden="true"></div>
+      <h2 style="font-size:18px; margin-bottom:5px;">Your tower</h2>
+      <p style="font-size:14px; color:var(--muted); margin-bottom:20px;">Finish the highlighted module to unlock the next.</p>
+      
+      <div class="progress-label"><span>Progress</span><span class="pct" style="color:var(--crimson);"><span id="done-count">0</span>/5 bricks</span></div>
+      <div class="progress"><div class="progress-bar" id="progress-bar" style="width:0%"></div></div>
+      
       <div class="tower" id="tower"></div>
     </section>
 
     <aside>
       <section class="side-card">
-        <h2>This week</h2>
+        <h2 style="font-size:18px; margin-bottom:15px;">Your Stats</h2>
         <div class="stat-row">
-          <div class="stat"><div class="n" id="s-streak">1</div><div class="l">day streak</div></div>
-          <div class="stat"><div class="n" id="s-done">0</div><div class="l">bricks placed</div></div>
-          <div class="stat"><div class="n">7</div><div class="l">exercises</div></div>
-          <div class="stat"><div class="n">14</div><div class="l">compiles</div></div>
+          <div class="stat-box"><div class="n">1</div><div class="l">Day Streak</div></div>
+          <div class="stat-box"><div class="n" id="s-done">0</div><div class="l">Bricks Placed</div></div>
         </div>
       </section>
       <section class="side-card">
-        <h2>Playground</h2>
-        <p>Practice anything, anytime. Write C, hit run, and let Professor Wáng grade the vibe.</p>
-        <a class="btn btn-primary" href="index.html#demo">Open the playground</a>
-        <div><button class="reset" id="reset">Reset my progress</button></div>
+        <h2 style="font-size:18px; margin-bottom:10px;">Danger Zone</h2>
+        <p style="font-size:13px; color:var(--muted); margin-bottom:15px;">Want to start over?</p>
+        <button class="btn btn-sm" id="reset-progress" style="width:100%; background:#fff; border-color:var(--crimson); color:var(--crimson);">Reset Progress</button>
       </section>
     </aside>
   </div>
 </main>
 
-<footer>
-  <div class="wrap foot">
-    <span>© 2026 Hei You · Classroom (front-end demo)</span>
-    <span class="zh">老师 Wáng: keep stacking. 加油!</span>
-  </div>
-</footer>
-
+<script src="session.js"></script>
+<script src="dashboard_script.js"></script>
 </body>
 </html>
