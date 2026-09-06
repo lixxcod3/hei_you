@@ -1,0 +1,714 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Christopher Kevin Hartono - designer and Computer Science student at Beijing Institute of Technology, keeping a log of ideas on their way into the real world.">
+</head>
+<body>
+<title>Christopher Kevin Hartono</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;1,9..144,500&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Caveat:wght@500;700&display=swap">
+<style>
+:root{
+  --bg:#101B3D;
+  --bg-2:#16234A;
+  --surface:#1B2A55;
+  --surface-2:#233263;
+  --paper:#F7EFDC;
+  --paper-2:#EFE3C9;
+  --ink:#1B2340;
+  --ink-soft:#5B6591;
+  --text:#EDE6D5;
+  --text-soft:#A8B2D2;
+  --gold:#E7B84B;
+  --rose:#D4636B;
+  --sage:#86B39A;
+  --peri:#8093DA;
+  --copper:#D9915F;
+  --line:rgba(237,230,213,.30);
+  --line-strong:rgba(237,230,213,.55);
+  --glow:rgba(231,184,75,.22);
+  --hand:255px 15px 225px 15px/15px 225px 15px 255px;
+  --hand-2:15px 225px 15px 255px/225px 15px 255px 15px;
+}
+[data-mode="dawn"]{
+  --bg:#F2E1C9;
+  --bg-2:#EBD2B4;
+  --surface:#FBF3E3;
+  --surface-2:#F5E8D2;
+  --paper:#FDF8EC;
+  --paper-2:#F3E7D1;
+  --ink:#2B2242;
+  --ink-soft:#6E6384;
+  --text:#2B2242;
+  --text-soft:#6E6384;
+  --gold:#C1872A;
+  --rose:#C24E5B;
+  --sage:#5E8E74;
+  --peri:#5C6FBE;
+  --copper:#B96C39;
+  --line:rgba(43,34,66,.26);
+  --line-strong:rgba(43,34,66,.48);
+  --glow:rgba(193,135,42,.18);
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto} }
+
+body{
+  margin:0;
+  font-family:"EB Garamond",Georgia,"Times New Roman",serif;
+  font-size:18px;line-height:1.68;
+  color:var(--text);
+  background-color:var(--bg);
+  background-image:
+    radial-gradient(1100px 620px at 78% -8%, var(--glow), transparent 62%),
+    radial-gradient(900px 520px at 10% 108%, rgba(128,147,218,.16), transparent 65%),
+    linear-gradient(178deg, var(--bg) 0%, var(--bg-2) 100%);
+  transition:background-color .5s ease,color .5s ease;
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%}
+a{color:var(--gold)}
+button{font:inherit;color:inherit}
+::selection{background:var(--gold);color:#101B3D}
+:focus-visible{outline:2px dashed var(--gold);outline-offset:4px}
+
+.d{font-family:"Fraunces","EB Garamond",Georgia,serif;font-weight:700;line-height:1.12;text-wrap:balance;margin:0;letter-spacing:-.01em}
+h1.d{font-size:clamp(2.5rem,6.4vw,4.6rem)}
+h2.d{font-size:clamp(1.8rem,3.9vw,2.9rem)}
+h3.d{font-size:1.28rem;font-weight:700}
+.hand{font-family:"Caveat",ui-rounded,cursive;font-size:1.32rem;line-height:1.35;color:var(--gold)}
+.eyebrow{
+  font-family:"EB Garamond",serif;font-style:italic;font-size:1rem;
+  letter-spacing:.18em;text-transform:uppercase;color:var(--gold);
+  margin:0 0 1rem;display:flex;align-items:center;gap:.7rem;
+}
+.eyebrow::before{content:"✧";font-style:normal;font-size:.9rem}
+.eyebrow::after{content:"";flex:1;height:1px;background:var(--line);max-width:180px}
+p{margin:0 0 1.05rem;max-width:66ch}
+.lead{font-size:1.14rem;color:var(--text)}
+.muted{color:var(--text-soft)}
+
+.wrap{width:min(1120px,100% - 2.6rem);margin-inline:auto}
+section{padding:clamp(3.6rem,8vw,6.4rem) 0;position:relative}
+
+.top{
+  position:sticky;top:0;z-index:30;
+  backdrop-filter:blur(9px);
+  background:var(--bg);
+  background:color-mix(in srgb, var(--bg) 82%, transparent);
+  border-bottom:1px solid var(--line);
+}
+.top .wrap{display:flex;align-items:center;gap:1.2rem;padding:.75rem 0}
+.mark{display:flex;align-items:center;gap:.65rem;text-decoration:none;color:var(--text);margin-right:auto}
+.mark .seal{
+  width:38px;height:38px;flex:none;border:2px solid var(--gold);color:var(--gold);
+  border-radius:50%;display:grid;place-items:center;
+  font-family:"Fraunces",serif;font-weight:700;font-size:.95rem;
+}
+.mark b{font-family:"Fraunces",serif;font-size:1.02rem;font-weight:700;letter-spacing:.01em}
+.mark span{display:block;font-size:.82rem;color:var(--text-soft);font-style:italic}
+.topnav{display:flex;gap:1.3rem}
+.topnav a{color:var(--text-soft);text-decoration:none;font-size:1rem;border-bottom:1px dashed transparent;padding-bottom:2px}
+.topnav a:hover{color:var(--gold);border-bottom-color:var(--gold)}
+@media (max-width:820px){ .topnav{display:none} }
+.lamp{
+  display:flex;align-items:center;gap:.5rem;cursor:pointer;
+  background:transparent;border:1px solid var(--line-strong);border-radius:var(--hand);
+  padding:.42rem .9rem;font-size:.95rem;color:var(--text);white-space:nowrap;
+  transition:border-color .2s,color .2s;
+}
+.lamp:hover{border-color:var(--gold);color:var(--gold)}
+.lamp .flame{width:9px;height:9px;border-radius:50%;background:var(--gold);box-shadow:0 0 10px 2px var(--glow);flex:none}
+
+.hero{padding-top:clamp(3rem,7vw,5rem);padding-bottom:clamp(3rem,7vw,5rem);overflow:hidden}
+#sky{position:absolute;inset:0;width:100%;height:100%;z-index:0;transition:opacity .6s ease}
+[data-mode="dawn"] #sky{opacity:.30}
+.hero .wrap{position:relative;z-index:1}
+.hero-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,.85fr);gap:clamp(2rem,5vw,4rem);align-items:center}
+@media (max-width:900px){ .hero-grid{grid-template-columns:1fr} }
+.role{
+  display:inline-flex;align-items:center;gap:.6rem;
+  border:2px solid var(--gold);color:var(--gold);
+  border-radius:var(--hand);padding:.35rem 1.1rem;margin-bottom:1.4rem;
+  font-family:"Fraunces",serif;font-weight:700;font-size:.9rem;
+  letter-spacing:.2em;text-transform:uppercase;
+}
+.role::before{content:"✎";font-family:inherit;letter-spacing:0}
+h1.d em{font-style:italic;color:var(--gold);font-weight:500}
+.hero p.lead{margin-top:1.6rem}
+.hero-actions{display:flex;gap:1.4rem;align-items:center;flex-wrap:wrap;margin-top:2rem}
+.btn{
+  display:inline-block;text-decoration:none;cursor:pointer;
+  background:var(--gold);color:#131C3C;border:2px solid var(--gold);
+  border-radius:var(--hand);padding:.7rem 1.6rem;
+  font-family:"Fraunces",serif;font-weight:700;font-size:1rem;
+  transition:transform .18s ease,box-shadow .18s ease;
+}
+.btn:hover{transform:translateY(-2px);box-shadow:0 8px 0 -4px var(--glow)}
+.btn--line{background:transparent;color:var(--text);border-color:var(--line-strong)}
+.btn--line:hover{border-color:var(--gold);color:var(--gold)}
+
+.hero-art{position:relative;display:grid;place-items:center}
+.hero-art svg{width:min(100%,380px);height:auto;overflow:visible}
+.orbiting{transform-origin:190px 200px;animation:orbit 26s linear infinite}
+@keyframes orbit{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){ .orbiting{animation:none} }
+.ink{fill:none;stroke:var(--text);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.ink-soft{fill:none;stroke:var(--line-strong);stroke-width:1.4;stroke-linecap:round}
+.note-float{
+  position:absolute;right:-6px;bottom:-8px;max-width:210px;
+  font-family:"Caveat",cursive;font-size:1.22rem;color:var(--gold);
+  transform:rotate(-4deg);line-height:1.3;
+}
+
+.paper{
+  background:var(--paper);color:var(--ink);
+  border:2px solid var(--ink);border-radius:var(--hand);
+  padding:1.7rem 1.8rem;position:relative;
+}
+.paper:nth-child(even){border-radius:var(--hand-2)}
+.paper::after{
+  content:"";position:absolute;inset:5px;border:1px dashed rgba(27,35,64,.32);
+  border-radius:inherit;pointer-events:none;
+}
+[data-mode="dawn"] .paper::after{border-color:rgba(43,34,66,.28)}
+.paper h3{margin-bottom:.6rem;color:var(--ink)}
+.paper p{color:var(--ink);margin-bottom:0}
+.paper p + p{margin-top:.9rem}
+.paper .kicker{
+  font-style:italic;letter-spacing:.14em;text-transform:uppercase;
+  font-size:.82rem;color:var(--rose);margin-bottom:.5rem;display:block;
+}
+.about-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-top:2.4rem;align-items:start}
+.margin-note{margin-top:2rem;display:flex;gap:.9rem;align-items:flex-start;max-width:60ch}
+.margin-note svg{flex:none;margin-top:.2rem}
+
+.map-wrap{
+  margin-top:2.6rem;border:1px solid var(--line);border-radius:var(--hand);
+  background:rgba(255,255,255,.03);padding:1rem .6rem .4rem;
+}
+[data-mode="dawn"] .map-wrap{background:rgba(43,34,66,.04)}
+#map{width:100%;height:auto;display:block;touch-action:manipulation}
+.route{fill:none;stroke:var(--line-strong);stroke-width:1.6;stroke-dasharray:2 9;stroke-linecap:round}
+.planet{cursor:pointer}
+.planet .halo{fill:none;stroke:var(--gold);stroke-width:1.5;stroke-dasharray:3 6;opacity:0;transition:opacity .25s}
+.planet .bodyc{stroke:var(--text);stroke-width:2;transition:transform .25s ease}
+.planet .pnum{font-family:"Fraunces",serif;font-weight:700;font-size:15px;fill:var(--bg);text-anchor:middle;dominant-baseline:central}
+.planet .plabel{font-family:"EB Garamond",serif;font-style:italic;font-size:15px;fill:var(--text-soft);text-anchor:middle;letter-spacing:.04em}
+.planet:hover .plabel,.planet[aria-pressed="true"] .plabel{fill:var(--gold)}
+.planet[aria-pressed="true"] .halo{opacity:1}
+.planet:hover .bodyc{transform:translateY(-4px)}
+.mapstar{fill:var(--text-soft);opacity:.5}
+
+.log{display:grid;grid-template-columns:minmax(0,150px) minmax(0,1fr);gap:1.8rem;align-items:start;margin-top:2rem}
+@media (max-width:640px){ .log{grid-template-columns:1fr} }
+.log-art{width:100%;height:auto}
+.log-body .dream{
+  font-family:"Fraunces",serif;font-size:1.02rem;font-weight:500;
+  color:var(--gold);border-left:2px solid var(--gold);padding-left:.9rem;margin:.2rem 0 1rem;
+}
+.log-body .stamp{
+  font-family:"EB Garamond",serif;font-style:italic;letter-spacing:.18em;
+  text-transform:uppercase;font-size:.8rem;color:var(--text-soft);
+}
+
+.sketch-shell{
+  margin-top:2.4rem;background:var(--paper);border:2px solid var(--ink);
+  border-radius:var(--hand);padding:1.1rem;position:relative;
+}
+#pad{display:block;width:100%;height:auto;border-radius:calc(var(--hand));cursor:crosshair;touch-action:none;background:var(--paper)}
+.tools{display:flex;gap:.7rem;align-items:center;flex-wrap:wrap;margin-top:1rem;padding-top:.9rem;border-top:1px dashed rgba(27,35,64,.3)}
+[data-mode="dawn"] .tools{border-top-color:rgba(43,34,66,.28)}
+.swatch{
+  width:30px;height:30px;border-radius:50%;border:2px solid var(--ink);
+  cursor:pointer;padding:0;transition:transform .15s;
+}
+.swatch[aria-pressed="true"]{transform:scale(1.22);box-shadow:0 0 0 2px var(--paper),0 0 0 4px var(--ink)}
+.tool-label{font-style:italic;color:var(--ink);font-size:.95rem;margin-right:.3rem}
+.clear{
+  margin-left:auto;background:transparent;border:2px solid var(--ink);color:var(--ink);
+  border-radius:var(--hand-2);padding:.35rem 1rem;cursor:pointer;font-size:.95rem;
+}
+.clear:hover{background:var(--ink);color:var(--paper)}
+
+.plan{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.4rem;margin-top:2.4rem}
+.plan-item{border-top:1px solid var(--line);padding-top:1rem}
+.plan-item b{display:block;font-family:"Fraunces",serif;font-size:1.1rem;margin-bottom:.35rem}
+.plan-item p{margin:0;color:var(--text-soft);font-size:1rem}
+
+footer{border-top:1px solid var(--line);padding:2.6rem 0 3.2rem;color:var(--text-soft);font-size:.98rem}
+footer .wrap{display:flex;justify-content:space-between;gap:1.2rem;flex-wrap:wrap;align-items:baseline}
+footer em{color:var(--gold);font-family:"Caveat",cursive;font-size:1.3rem;font-style:normal}
+</style>
+
+<header class="top">
+  <div class="wrap">
+    <a class="mark" href="#top">
+      <span class="seal">C</span>
+      <span>
+        <b>Christopher Kevin Hartono</b>
+        <span>designer · computer science, BIT</span>
+      </span>
+    </a>
+    <nav class="topnav">
+      <a href="#about">About</a>
+      <a href="#planets">Five planets</a>
+      <a href="#sketch">Sketch box</a>
+      <a href="#log">The log</a>
+    </nav>
+    <button class="lamp" id="lamp" aria-pressed="false">
+      <span class="flame" aria-hidden="true"></span>
+      <span id="lampText">Light the lamps</span>
+    </button>
+  </div>
+</header>
+
+<main id="top">
+
+    <section class="hero">
+    <canvas id="sky" aria-hidden="true"></canvas>
+    <div class="wrap hero-grid">
+      <div>
+        <span class="role">Designer</span>
+        <h1 class="d">I keep drawing<br>things that<br><em>don't exist yet.</em></h1>
+        <p class="lead">
+          I'm Christopher Kevin Hartono, and I study Computer Science at Beijing Institute of Technology.
+          I picked this degree because technology has fascinated me since I was small, and because I'd
+          like the things I imagine to end up somewhere other than my own head.
+        </p>
+        <div class="hero-actions">
+          <a class="btn" href="#planets">Visit the five planets</a>
+          <a class="btn btn--line" href="#sketch">Draw something first</a>
+        </div>
+      </div>
+
+      <div class="hero-art">
+        <svg viewBox="0 0 380 400" role="img" aria-label="Ink drawing of a small planet with a drafting compass, a sapling and a moon in orbit">
+          <g class="orbiting">
+            <circle class="ink-soft" cx="190" cy="200" r="150"></circle>
+            <circle cx="190" cy="50" r="9" fill="var(--gold)"></circle>
+            <circle cx="340" cy="200" r="4.5" fill="var(--rose)"></circle>
+          </g>
+          <circle cx="190" cy="230" r="92" fill="var(--surface-2)" stroke="var(--text)" stroke-width="2"></circle>
+          <path class="ink-soft" d="M112 200 q40 22 78 16 t88 -22"></path>
+          <path class="ink-soft" d="M104 258 q52 26 100 14 t74 -30"></path>
+          <ellipse cx="150" cy="212" rx="17" ry="10" fill="none" stroke="var(--text)" stroke-width="1.6" opacity=".6"></ellipse>
+          <ellipse cx="228" cy="264" rx="12" ry="7" fill="none" stroke="var(--text)" stroke-width="1.6" opacity=".6"></ellipse>
+                    <path class="ink" d="M190 138 v-34"></path>
+          <path class="ink" d="M190 116 q-22 -6 -26 -26 q22 2 26 26z" fill="var(--sage)" opacity=".9"></path>
+          <path class="ink" d="M190 124 q22 -8 27 -28 q-23 3 -27 28z" fill="var(--sage)" opacity=".7"></path>
+                    <path class="ink" d="M258 176 l-16 44"></path>
+          <path class="ink" d="M258 176 l14 46"></path>
+          <circle cx="258" cy="172" r="5" fill="var(--gold)" stroke="var(--text)" stroke-width="2"></circle>
+          <path class="ink-soft" d="M246 206 q12 7 24 1"></path>
+                    <path class="ink" d="M74 96 v14 M67 103 h14" stroke="var(--gold)"></path>
+          <path class="ink" d="M312 118 v10 M307 123 h10" stroke="var(--gold)"></path>
+        </svg>
+        <p class="note-float">my own small planet. still building it.</p>
+      </div>
+    </div>
+  </section>
+
+    <section id="about">
+    <div class="wrap">
+      <p class="eyebrow">Field notes on the traveller</p>
+      <h2 class="d">Three things worth knowing before we set off.</h2>
+
+      <div class="about-grid">
+        <article class="paper">
+          <span class="kicker">the habit</span>
+          <h3 class="d">Keeping watch on what's arriving</h3>
+          <p>From a very young age I've kept up with where technology is going. It has never once felt
+            like homework. The field moves fast and I want to see everything it has to offer.</p>
+        </article>
+
+        <article class="paper">
+          <span class="kicker">the reputation</span>
+          <h3 class="d">Friends call me the creative one</h3>
+          <p>Friends and classmates describe me as a highly creative person. I like working with my
+            imagination, taking a simple idea and building it out until it's something unique and
+            completely my own.</p>
+          <p>Creativity isn't only about thinking differently. It's also about having the practical
+            skills to turn a bright idea into something real.</p>
+        </article>
+
+        <article class="paper">
+          <span class="kicker">the reason for CS</span>
+          <h3 class="d">Getting the childhood ideas out</h3>
+          <p>My goal is to bring the wild, wonderful imaginations I had as a kid into the real world.
+            That might be a fun interactive video game, or a whole new kind of digital experience.
+            Things people can genuinely enjoy.</p>
+        </article>
+      </div>
+
+      <div class="margin-note">
+        <svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true">
+          <path class="ink" d="M6 24 L20 8 l4 4 L10 28 z" stroke="var(--gold)"></path>
+          <path class="ink" d="M6 24 l-2 6 l6 -2" stroke="var(--gold)"></path>
+        </svg>
+        <p class="hand" style="margin:0">most of these ideas started on the back of a lecture handout</p>
+      </div>
+    </div>
+  </section>
+
+    <section id="planets">
+    <div class="wrap">
+      <p class="eyebrow">The route after graduation</p>
+      <h2 class="d">Five small planets, in the order I plan to reach them.</h2>
+      <p class="lead muted" style="margin-top:1rem">
+        Five things I want for myself once the degree is finished. Pick a planet to land on it
+        and the log page below fills in.
+      </p>
+
+      <div class="map-wrap">
+        <svg id="map" viewBox="0 0 900 400" role="group" aria-label="A dotted route between five small planets">
+          <path class="route" d="M120 250 Q195 148 275 142 Q370 152 455 252 Q545 182 640 128 Q735 148 800 244"></path>
+          <circle class="mapstar" cx="60" cy="90" r="2"></circle>
+          <circle class="mapstar" cx="185" cy="55" r="1.6"></circle>
+          <circle class="mapstar" cx="380" cy="70" r="2.2"></circle>
+          <circle class="mapstar" cx="520" cy="330" r="1.8"></circle>
+          <circle class="mapstar" cx="700" cy="330" r="2"></circle>
+          <circle class="mapstar" cx="855" cy="120" r="1.7"></circle>
+          <circle class="mapstar" cx="300" cy="345" r="2"></circle>
+
+          <g class="planet" data-p="0" role="button" tabindex="0" aria-pressed="true">
+            <circle class="halo" cx="120" cy="250" r="56"></circle>
+            <circle class="bodyc" cx="120" cy="250" r="42" fill="var(--rose)"></circle>
+            <text class="pnum" x="120" y="250">01</text>
+            <text class="plabel" x="120" y="322">the engine room</text>
+          </g>
+          <g class="planet" data-p="1" role="button" tabindex="0" aria-pressed="false">
+            <circle class="halo" cx="275" cy="142" r="48"></circle>
+            <circle class="bodyc" cx="275" cy="142" r="34" fill="var(--sage)"></circle>
+            <text class="pnum" x="275" y="142">02</text>
+            <text class="plabel" x="275" y="204">the archive</text>
+          </g>
+          <g class="planet" data-p="2" role="button" tabindex="0" aria-pressed="false">
+            <circle class="halo" cx="455" cy="252" r="54"></circle>
+            <circle class="bodyc" cx="455" cy="252" r="39" fill="var(--gold)"></circle>
+            <text class="pnum" x="455" y="252">03</text>
+            <text class="plabel" x="455" y="320">the face of things</text>
+          </g>
+          <g class="planet" data-p="3" role="button" tabindex="0" aria-pressed="false">
+            <circle class="halo" cx="640" cy="128" r="50"></circle>
+            <circle class="bodyc" cx="640" cy="128" r="36" fill="var(--peri)"></circle>
+            <text class="pnum" x="640" y="128">04</text>
+            <text class="plabel" x="640" y="192">the proof field</text>
+          </g>
+          <g class="planet" data-p="4" role="button" tabindex="0" aria-pressed="false">
+            <circle class="halo" cx="800" cy="244" r="45"></circle>
+            <circle class="bodyc" cx="800" cy="244" r="31" fill="var(--copper)"></circle>
+            <text class="pnum" x="800" y="244">05</text>
+            <text class="plabel" x="800" y="306">the watchtower</text>
+          </g>
+        </svg>
+      </div>
+
+      <div class="log" aria-live="polite">
+        <div id="logArt"></div>
+        <div class="log-body">
+          <p class="stamp" id="logStamp">Planet 01 · landed</p>
+          <h3 class="d" id="logTitle">The engine room</h3>
+          <p class="dream" id="logDream">Master code for game programming.</p>
+          <p id="logText">The first planet, and the one with the strongest gravity. This is where I learn to write
+            the code a game actually runs on: the loop, the physics, the thousand small systems nobody notices
+            while they're having fun. Nothing further along the route works until I can build here.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+    <section id="sketch">
+    <div class="wrap">
+      <p class="eyebrow">The sketch box</p>
+      <h2 class="d">Every project starts as a bad drawing.</h2>
+      <p class="lead muted" style="margin-top:1rem">
+        Mine usually do. Here's a blank one. Draw whatever you'd like me to build and I'll
+        treat it as a formal request.
+      </p>
+
+      <div class="sketch-shell">
+        <canvas id="pad" width="1400" height="620" aria-label="A drawing pad you can sketch on with your mouse or finger"></canvas>
+        <div class="tools">
+          <span class="tool-label">ink</span>
+          <button class="swatch" data-color="#1B2340" style="background:#1B2340" aria-pressed="true" aria-label="Midnight ink"></button>
+          <button class="swatch" data-color="#D4636B" style="background:#D4636B" aria-pressed="false" aria-label="Rose"></button>
+          <button class="swatch" data-color="#E7B84B" style="background:#E7B84B" aria-pressed="false" aria-label="Gold"></button>
+          <button class="swatch" data-color="#5E8E74" style="background:#5E8E74" aria-pressed="false" aria-label="Sage"></button>
+          <button class="swatch" data-color="#5C6FBE" style="background:#5C6FBE" aria-pressed="false" aria-label="Periwinkle"></button>
+          <button class="clear" id="clearPad">start over</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+    <section id="log">
+    <div class="wrap">
+      <p class="eyebrow">Why this page exists</p>
+      <h2 class="d">A record of the work while it's happening.</h2>
+      <p class="lead" style="margin-top:1rem">
+        I want to share the creative journey as I go, write down the technical progress next to it,
+        and show how an idea gets from my head into something real, step by step. That includes the
+        steps that don't work.
+      </p>
+
+      <div class="plan">
+        <div class="plan-item">
+          <b>The sketches</b>
+          <p>Where an idea still looks like nothing. Napkins, margins, bad thumbnails, first shapes.</p>
+        </div>
+        <div class="plan-item">
+          <b>The progress</b>
+          <p>What I'm learning and what broke this week, written down even when it isn't interesting.</p>
+        </div>
+        <div class="plan-item">
+          <b>The landings</b>
+          <p>Finished things people can open, play, or press a button on.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>Christopher Kevin Hartono · Computer Science, Beijing Institute of Technology</span>
+    <a href="#top" style="text-decoration:none;border-bottom:1px dashed currentColor">Back to the top</a>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    var lamp = document.getElementById("lamp");
+  var lampText = document.getElementById("lampText");
+  function setMode(mode){
+    if(mode === "dawn"){
+      document.documentElement.setAttribute("data-mode","dawn");
+      lamp.setAttribute("aria-pressed","true");
+      lampText.textContent = "Put out the lamps";
+    } else {
+      document.documentElement.removeAttribute("data-mode");
+      lamp.setAttribute("aria-pressed","false");
+      lampText.textContent = "Light the lamps";
+    }
+    try{ localStorage.setItem("ckh-mode", mode); }catch(e){}
+  }
+  try{
+    var saved = localStorage.getItem("ckh-mode");
+    if(saved === "dawn") setMode("dawn");
+  }catch(e){}
+  lamp.addEventListener("click", function(){
+    setMode(document.documentElement.getAttribute("data-mode") === "dawn" ? "night" : "dawn");
+  });
+
+    var sky = document.getElementById("sky");
+  var ctx = sky.getContext("2d");
+  var stars = [], shooting = null, dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+  function sizeSky(){
+    var r = sky.getBoundingClientRect();
+    sky.width = Math.max(1, Math.floor(r.width * dpr));
+    sky.height = Math.max(1, Math.floor(r.height * dpr));
+    stars = [];
+    var count = Math.round((r.width * r.height) / 9000);
+    for(var i=0;i<count;i++){
+      stars.push({
+        x: Math.random() * r.width,
+        y: Math.random() * r.height,
+        r: Math.random() * 1.5 + 0.4,
+        p: Math.random() * Math.PI * 2,
+        s: Math.random() * 0.02 + 0.006,
+        gold: Math.random() < 0.16
+      });
+    }
+  }
+
+  function drawSky(t){
+    var r = sky.getBoundingClientRect();
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+    ctx.clearRect(0,0,r.width,r.height);
+    for(var i=0;i<stars.length;i++){
+      var st = stars[i];
+      var a = reduce ? 0.7 : (0.35 + 0.45 * Math.sin(st.p + t * st.s));
+      ctx.globalAlpha = Math.max(0.08, a);
+      ctx.fillStyle = st.gold ? "#E7B84B" : "#F3EEDF";
+      ctx.beginPath();
+      ctx.arc(st.x, st.y, st.r, 0, Math.PI*2);
+      ctx.fill();
+    }
+    if(shooting){
+      ctx.globalAlpha = shooting.life;
+      ctx.strokeStyle = "#E7B84B";
+      ctx.lineWidth = 1.6;
+      ctx.beginPath();
+      ctx.moveTo(shooting.x, shooting.y);
+      ctx.lineTo(shooting.x - 70, shooting.y - 26);
+      ctx.stroke();
+      shooting.x += 7; shooting.y += 2.6; shooting.life -= 0.014;
+      if(shooting.life <= 0) shooting = null;
+    } else if(!reduce && Math.random() < 0.0016){
+      shooting = { x: Math.random() * r.width * 0.6, y: Math.random() * r.height * 0.5, life: 1 };
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  var frame = 0;
+  function loop(){
+    frame += 1;
+    drawSky(frame);
+    requestAnimationFrame(loop);
+  }
+  sizeSky();
+  drawSky(0);
+  if(!reduce) loop();
+  window.addEventListener("resize", function(){ sizeSky(); drawSky(frame); });
+
+    var PLANETS = [
+    { name:"The engine room", color:"var(--rose)",
+      dream:"Master code for game programming.",
+      text:"The first planet, and the one with the strongest gravity. This is where I learn to write the code a game actually runs on: the loop, the physics, the thousand small systems nobody notices while they're having fun. Nothing further along the route works until I can build here.",
+      art:'<circle cx="60" cy="70" r="34" fill="var(--rose)" stroke="var(--ink-line)" stroke-width="2"/>'+
+          '<ellipse cx="60" cy="70" rx="52" ry="17" fill="none" stroke="var(--ink-line)" stroke-width="2" transform="rotate(-18 60 70)"/>'+
+          '<path d="M46 62 l-8 8 l8 8 M74 62 l8 8 l-8 8" fill="none" stroke="var(--paper-line)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>'+
+          '<path d="M30 22 v10 M25 27 h10" stroke="var(--gold)" stroke-width="2" stroke-linecap="round"/>' },
+    { name:"The archive", color:"var(--sage)",
+      dream:"Turn childhood ideas into games.",
+      text:"Everything I dreamed up as a kid is still filed away on this planet, boxes of it. The plan is to bring those ideas down one at a time and build each one until somebody else can pick it up and play it.",
+      art:'<circle cx="60" cy="76" r="32" fill="var(--sage)" stroke="var(--ink-line)" stroke-width="2"/>'+
+          '<path d="M60 44 v-20" stroke="var(--ink-line)" stroke-width="2" stroke-linecap="round"/>'+
+          '<path d="M60 32 q-16 -4 -19 -19 q16 2 19 19z" fill="var(--sage)" stroke="var(--ink-line)" stroke-width="1.6"/>'+
+          '<path d="M60 38 q16 -5 20 -20 q-17 2 -20 20z" fill="var(--sage)" stroke="var(--ink-line)" stroke-width="1.6"/>'+
+          '<path d="M40 70 q20 10 40 -2" fill="none" stroke="var(--paper-line)" stroke-width="1.6" opacity=".7"/>' },
+    { name:"The face of things", color:"var(--gold)",
+      dream:"Design visually appealing game interfaces.",
+      text:"People see a game long before they play it. This planet is all surface, in the best sense: menus, HUDs, the first ten seconds. My job here is to make an interface people want to reach out and touch.",
+      art:'<circle cx="60" cy="80" r="30" fill="var(--gold)" stroke="var(--ink-line)" stroke-width="2"/>'+
+          '<rect x="26" y="16" width="40" height="26" rx="4" fill="var(--paper-fill)" stroke="var(--ink-line)" stroke-width="2"/>'+
+          '<rect x="58" y="34" width="36" height="22" rx="4" fill="var(--paper-fill)" stroke="var(--ink-line)" stroke-width="2"/>'+
+          '<path d="M33 25 h20 M33 32 h13" stroke="var(--ink-line)" stroke-width="1.6" stroke-linecap="round"/>'+
+          '<path d="M65 42 h18 M65 49 h11" stroke="var(--ink-line)" stroke-width="1.6" stroke-linecap="round"/>' },
+    { name:"The proof field", color:"var(--peri)",
+      dream:"Build a strong project portfolio.",
+      text:"A portfolio that adds up to more than a row of screenshots. Every finished project gets planted here, and each one is proof that an idea made it the whole way out of my head. Getting them out has always been the hard part.",
+      art:'<circle cx="60" cy="78" r="31" fill="var(--peri)" stroke="var(--ink-line)" stroke-width="2"/>'+
+          '<rect x="24" y="30" width="24" height="24" fill="var(--paper-fill)" stroke="var(--ink-line)" stroke-width="2"/>'+
+          '<rect x="52" y="18" width="24" height="24" fill="var(--paper-fill)" stroke="var(--ink-line)" stroke-width="2"/>'+
+          '<rect x="80" y="34" width="22" height="22" fill="var(--paper-fill)" stroke="var(--ink-line)" stroke-width="2"/>'+
+          '<path d="M36 54 v10 M64 42 v14 M91 56 v8" stroke="var(--ink-line)" stroke-width="1.8" stroke-linecap="round"/>' },
+    { name:"The watchtower", color:"var(--copper)",
+      dream:"Stay updated on new tech.",
+      text:"The oldest habit I have, given a planet of its own. There is nothing up here but an antenna and a good chair. I sit, watch what's arriving next, and make sure I'm never the last one to hear about it.",
+      art:'<circle cx="60" cy="82" r="29" fill="var(--copper)" stroke="var(--ink-line)" stroke-width="2"/>'+
+          '<path d="M60 53 v-26" stroke="var(--ink-line)" stroke-width="2" stroke-linecap="round"/>'+
+          '<circle cx="60" cy="24" r="5" fill="var(--gold)" stroke="var(--ink-line)" stroke-width="2"/>'+
+          '<path d="M74 20 q10 10 6 24 M86 12 q16 16 10 38" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round"/>'+
+          '<path d="M46 20 q-10 10 -6 24" fill="none" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" opacity=".6"/>' }
+  ];
+
+  var groups = document.querySelectorAll(".planet");
+  var logArt = document.getElementById("logArt");
+  var logStamp = document.getElementById("logStamp");
+  var logTitle = document.getElementById("logTitle");
+  var logDream = document.getElementById("logDream");
+  var logText = document.getElementById("logText");
+
+  function drawArt(i){
+    var p = PLANETS[i];
+    logArt.innerHTML =
+      '<svg class="log-art" viewBox="0 0 120 120" role="img" aria-label="Ink sketch of planet ' + (i+1) + '"' +
+      ' style="--ink-line:var(--text);--paper-line:var(--bg);--paper-fill:var(--surface)">' + p.art + '</svg>';
+  }
+
+  function select(i){
+    Array.prototype.forEach.call(groups, function(g, gi){
+      g.setAttribute("aria-pressed", gi === i ? "true" : "false");
+    });
+    var p = PLANETS[i];
+    logStamp.textContent = "Planet 0" + (i+1) + " · landed";
+    logTitle.textContent = p.name;
+    logDream.textContent = p.dream;
+    logText.textContent = p.text;
+    drawArt(i);
+  }
+
+  Array.prototype.forEach.call(groups, function(g){
+    var i = parseInt(g.getAttribute("data-p"), 10);
+    g.setAttribute("aria-label", "Planet 0" + (i+1) + ", " + PLANETS[i].name);
+    g.addEventListener("click", function(){ select(i); });
+    g.addEventListener("keydown", function(e){
+      if(e.key === "Enter" || e.key === " "){ e.preventDefault(); select(i); }
+    });
+  });
+  drawArt(0);
+
+    var pad = document.getElementById("pad");
+  var pctx = pad.getContext("2d");
+  var color = "#1B2340", drawing = false, last = null;
+
+  function guide(){
+    pctx.clearRect(0,0,pad.width,pad.height);
+    pctx.save();
+    pctx.strokeStyle = "rgba(27,35,64,.28)";
+    pctx.setLineDash([6,12]);
+    pctx.lineWidth = 3;
+    pctx.strokeRect(24,24,pad.width-48,pad.height-48);
+    pctx.setLineDash([]);
+    pctx.fillStyle = "rgba(27,35,64,.30)";
+    pctx.font = "italic 40px 'EB Garamond', Georgia, serif";
+    pctx.textAlign = "center";
+    pctx.fillText("draw here", pad.width/2, pad.height/2 + 12);
+    pctx.restore();
+  }
+  guide();
+
+  function pos(e){
+    var r = pad.getBoundingClientRect();
+    return {
+      x: (e.clientX - r.left) * (pad.width / r.width),
+      y: (e.clientY - r.top) * (pad.height / r.height)
+    };
+  }
+  pad.addEventListener("pointerdown", function(e){
+    drawing = true; last = pos(e);
+    pad.setPointerCapture(e.pointerId);
+  });
+  pad.addEventListener("pointermove", function(e){
+    if(!drawing) return;
+    var p = pos(e);
+    pctx.strokeStyle = color;
+    pctx.lineWidth = 5;
+    pctx.lineCap = "round";
+    pctx.lineJoin = "round";
+    pctx.beginPath();
+    pctx.moveTo(last.x, last.y);
+    pctx.lineTo(p.x, p.y);
+    pctx.stroke();
+    last = p;
+  });
+  function stop(){ drawing = false; last = null; }
+  pad.addEventListener("pointerup", stop);
+  pad.addEventListener("pointercancel", stop);
+  pad.addEventListener("pointerleave", stop);
+
+  Array.prototype.forEach.call(document.querySelectorAll(".swatch"), function(s){
+    s.addEventListener("click", function(){
+      color = s.getAttribute("data-color");
+      Array.prototype.forEach.call(document.querySelectorAll(".swatch"), function(o){
+        o.setAttribute("aria-pressed", o === s ? "true" : "false");
+      });
+    });
+  });
+  document.getElementById("clearPad").addEventListener("click", guide);
+})();
+</script>
+
+</body>
+</html>
