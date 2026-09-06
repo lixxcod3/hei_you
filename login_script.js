@@ -1,81 +1,116 @@
-(function(){
-  var form=document.getElementById('form');
-  var wrap=document.getElementById('formwrap');
-  var banner=document.getElementById('banner');
-  var submit=document.getElementById('submit');
-  var email=document.getElementById('email');
-  var pass=document.getElementById('pass');
-  var remember=document.getElementById('remember');
+/* lesson_script.js  */
 
-  var loseIco='<svg width="24" height="24" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" fill="#7d2537" stroke="#1C2436" stroke-width="2"/><rect x="7" y="8" width="3" height="3" fill="#fff"/><rect x="14" y="8" width="3" height="3" fill="#fff"/><rect x="7" y="16" width="10" height="2" fill="#fff"/></svg>';
-  var winIco='<svg width="24" height="24" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" fill="#2c5741" stroke="#1C2436" stroke-width="2"/><rect x="7" y="8" width="3" height="3" fill="#fff"/><rect x="14" y="8" width="3" height="3" fill="#fff"/><rect x="7" y="15" width="10" height="2" fill="#fff"/></svg>';
-  var infoIco='<svg width="24" height="24" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" fill="#2E3A55" stroke="#1C2436" stroke-width="2"/><rect x="10" y="6" width="4" height="4" fill="#E3B25E"/><rect x="10" y="12" width="4" height="6" fill="#E3B25E"/></svg>';
+(function () {
+  "use strict";
 
-  /* ---- Hei You local store (Option A: browser-only, front-end demo) ----
-     Users live in localStorage under 'heiyou_users'. Passwords are hashed
-     with SHA-256 so plaintext isn't stored. This is fine for a scoped
-     prototype but is NOT real security — anyone with the device can read it. */
-  var USERS_KEY='heiyou_users';
-  function readUsers(){try{return JSON.parse(localStorage.getItem(USERS_KEY)||'{}');}catch(e){return {};}}
-  async function hashPassword(pw){
-    try{
-      if(window.crypto&&crypto.subtle){
-        var data=new TextEncoder().encode(pw+'::heiyou-salt');
-        var buf=await crypto.subtle.digest('SHA-256',data);
-        return 'sha256:'+Array.from(new Uint8Array(buf)).map(function(b){return b.toString(16).padStart(2,'0');}).join('');
-      }
-    }catch(e){}
-    var h=0,s=pw+'::heiyou-salt';for(var i=0;i<s.length;i++){h=(h*31+s.charCodeAt(i))>>>0;}
-    return 'weak:'+h.toString(16);
+  // Auth check
+  var key = localStorage.getItem('heiyou_session') || sessionStorage.getItem('heiyou_session');
+  if (!key) { window.location.href = 'login.html'; return; }
+  
+  var users = JSON.parse(localStorage.getItem('heiyou_users') || '{}');
+  var user = users[key];
+
+  // Parse URL parameters
+  var urlParams = new URLSearchParams(window.location.search);
+  var modIndex = parseInt(urlParams.get('mod')) || 0;
+  var subIndex = parseInt(urlParams.get('sub')) || 0;
+
+  // Load data from curriculum_data.js
+  var moduleData = curriculum[modIndex];
+  if (!moduleData || !moduleData.sub_lessons[subIndex]) { 
+      window.location.href = 'dashboard.html'; 
+      return; 
   }
 
-  function show(type,html,ico){banner.className='banner show '+type;banner.innerHTML=(ico||'')+'<span>'+html+'</span>';}
-  function shake(){wrap.classList.remove('shake');void wrap.offsetWidth;wrap.classList.add('shake');}
-  function clearField(id){document.getElementById(id).classList.remove('bad');}
-  email.addEventListener('input',function(){clearField('f-email');});
-  pass.addEventListener('input',function(){clearField('f-pass');});
+  var lesson = moduleData.sub_lessons[subIndex];
+  var totalSubs = moduleData.sub_lessons.length;
 
-  document.getElementById('toggle').addEventListener('click',function(){
-    var t=pass.type==='password';pass.type=t?'text':'password';this.textContent=t?'hide':'show';this.setAttribute('aria-label',t?'Hide password':'Show password');
+  // Render UI
+  document.getElementById('lesson-title').textContent = "Module " + (modIndex + 1) + ": " + moduleData.title;
+  document.getElementById('sub-nav').textContent = `Sub-lesson ${subIndex + 1} of ${totalSubs}: ${lesson.title}`;
+  document.getElementById('content-body').innerHTML = lesson.theory;
+  
+  var codeEl = document.getElementById('code');
+  var outEl = document.getElementById('out');
+  var verdictEl = document.getElementById('verdict');
+  var completeBtn = document.getElementById('btn-complete');
+
+  codeEl.value = lesson.starter;
+
+  // Indent with Tab key in textarea
+  codeEl.addEventListener('keydown', function (e) {
+    if (e.key === 'Tab') {
+      e.preventDefault();
+      var s = this.selectionStart;
+      this.value = this.value.slice(0, s) + '    ' + this.value.slice(this.selectionEnd);
+      this.selectionStart = this.selectionEnd = s + 4;
+    }
   });
 
-  document.getElementById('github').addEventListener('click',function(){
-    show('info','老师 Wáng: this is a front-end demo — wire up GitHub later. 加油!',infoIco);
+  // Print PDF trigger
+  document.getElementById('btn-print').addEventListener('click', function() {
+    window.print();
   });
 
-  form.addEventListener('submit',async function(e){
-    e.preventDefault();
-    var bad=[];
-    var reEmail=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if(!reEmail.test(email.value.trim())){document.getElementById('f-email').classList.add('bad');bad.push('email');}
-    if(pass.value.length<6){document.getElementById('f-pass').classList.add('bad');bad.push('password');}
+  // SVG Icons for feedback
+  var winFace = '<svg width="26" height="26" viewBox="0 0 26 26"><rect x="3" y="3" width="20" height="20" fill="#3F7A5C" stroke="#1C2436" stroke-width="2"/><g class="eyes"><rect x="8" y="9" width="3" height="3" fill="#fff"/><rect x="15" y="9" width="3" height="3" fill="#fff"/></g><rect x="9" y="16" width="8" height="2" fill="#fff"/></svg>';
+  var loseFace = '<svg width="26" height="26" viewBox="0 0 26 26"><rect x="3" y="3" width="20" height="20" fill="#A8324A" stroke="#1C2436" stroke-width="2"/><g class="eyes"><rect x="8" y="9" width="3" height="3" fill="#fff"/><rect x="15" y="9" width="3" height="3" fill="#fff"/></g><rect x="9" y="17" width="8" height="2" fill="#fff"/></svg>';
 
-    if(bad.length){
-      show('lose','Professor Wáng: “Shame on you.” 太可惜了 — check your '+bad.join(' and ')+'.',loseIco);
-      shake();return;
+  // Evaluate user code
+  document.getElementById('run').addEventListener('click', function() {
+    var src = codeEl.value;
+    var evalResult = lesson.validate(src); // Call specific validation from JSON
+
+    if (evalResult !== true) {
+      outEl.innerHTML = '<span class="err">✗ Build failed</span>\n\n' + evalResult;
+      verdictEl.className = 'verdict lose';
+      verdictEl.innerHTML = loseFace + '<span>Professor Wáng: “Shame on you.” Check your syntax.</span>';
+      
+      completeBtn.disabled = true;
+      completeBtn.textContent = 'Run successful code to unlock';
+      completeBtn.style.background = '#e2e7f0';
+      completeBtn.style.color = '#7a8398';
+    } else {
+      outEl.innerHTML = '<span class="ok">✓ Compiled successfully</span>\n\n[process exited with code 0]';
+      verdictEl.className = 'verdict win';
+      verdictEl.innerHTML = winFace + '<span>Professor Wáng: “Proud of you.” Code looks good!</span>';
+      
+      completeBtn.disabled = false;
+      completeBtn.style.background = 'var(--gold)';
+      completeBtn.style.color = 'var(--navy-dark)';
+      
+      // Update button text depending on progress
+      if (subIndex + 1 < totalSubs) {
+         completeBtn.textContent = 'Next Sub-lesson →';
+      } else {
+         completeBtn.textContent = 'Complete Module & Return →';
+      }
     }
+  });
 
-    var key=email.value.trim().toLowerCase();
-    var users=readUsers();
-    var user=users[key];
+  // Reset code editor
+  document.getElementById('reset').addEventListener('click', function() {
+    codeEl.value = lesson.starter;
+    outEl.innerHTML = 'Write your solution above and press <b>Compile &amp; Run</b>...';
+    verdictEl.className = 'verdict';
+    verdictEl.innerHTML = '<svg width="26" height="26" viewBox="0 0 26 26"><rect x="3" y="3" width="20" height="20" fill="#2E3A55" stroke="#1C2436" stroke-width="2"/><g class="eyes"><rect x="9" y="9" width="3" height="3" fill="#fff"/><rect x="15" y="9" width="3" height="3" fill="#fff"/></g></svg><span>Professor Wáng is watching.</span>';
+    completeBtn.disabled = true;
+  });
 
-    submit.disabled=true;submit.textContent='Logging in…';
-    var hash=await hashPassword(pass.value);
-
-    if(!user||user.pw!==hash){
-      submit.disabled=false;submit.textContent='Log in';
-      document.getElementById('f-email').classList.add('bad');
-      document.getElementById('f-pass').classList.add('bad');
-      show('lose','Professor Wáng: “Shame on you.” 太可惜了 — wrong email or password. No account yet? Sign up.',loseIco);
-      shake();return;
+  // Handle progression to next sub-lesson or dashboard
+  completeBtn.addEventListener('click', function() {
+    if (subIndex + 1 < totalSubs) {
+      // Go to next sub-lesson in the same module
+      window.location.href = `lesson.html?mod=${modIndex}&sub=${subIndex + 1}`;
+    } else {
+      // Module complete, update global user progress
+      if (user.progress <= modIndex) {
+        user.progress = modIndex + 1;
+        users[key] = user;
+        localStorage.setItem('heiyou_users', JSON.stringify(users));
+      }
+      window.location.href = 'dashboard.html';
     }
+  });
 
-    /* remember me -> persist across sessions; otherwise clear on tab close */
-    try{
-      if(remember&&remember.checked){localStorage.setItem('heiyou_session',key);sessionStorage.removeItem('heiyou_session');}
-      else{sessionStorage.setItem('heiyou_session',key);localStorage.removeItem('heiyou_session');}
-    }catch(e){}
-
-    show('win','Professor Wáng: “Proud of you.” 好样的 — welcome back, '+(user.name||'builder')+'. Entering the classroom…',winIco);
-    setTimeout(function(){window.location.href='dashboard.html';},1400);  });
 })();
