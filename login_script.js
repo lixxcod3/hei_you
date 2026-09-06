@@ -40,7 +40,7 @@
   });
 
   document.getElementById('github').addEventListener('click',function(){
-    show('info','老师 Wáng: this is a front-end demo — wire up GitHub later. 加油!',infoIco);
+    show('info','老师 Wáng: We will do it later! 加油!',infoIco);
   });
 
   form.addEventListener('submit',async function(e){
