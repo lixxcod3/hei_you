@@ -1,5 +1,3 @@
-/* profile_script.js — account profile (front-end, localStorage).
-   Included in <head> for the gate; the rest runs on DOMContentLoaded. */
 (function () {
   "use strict";
   function getSession() {
