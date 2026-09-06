@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bryan Buntaran — Content Writer</title>
+<style>
+  :root {
+    --paper: #F6F4EF;
+    --panel: #FFFFFF;
+    --ink: #1E2229;
+    --ink-soft: #4B5158;
+    --rule: #DAD4C6;
+    --steel: #2E4E6E;
+    --steel-deep: #1F374F;
+    --amber: #B4763A;
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body {
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: "Iowan Old Style", "Palatino Linotype", Georgia, "Times New Roman", serif;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    max-width: 1040px;
+    margin: 0 auto;
+    padding: 56px 28px 80px;
+  }
+
+  header.masthead {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-bottom: 2px solid var(--ink);
+    padding-bottom: 18px;
+    margin-bottom: 40px;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .masthead-title {
+    font-size: 0.82rem;
+    letter-spacing: 0.03em;
+    color: var(--ink-soft);
+    font-family: "Courier New", Consolas, monospace;
+  }
+
+  .masthead-title span {
+    color: var(--steel);
+  }
+
+  .masthead-project {
+    font-size: 0.95rem;
+    color: var(--ink-soft);
+    text-align: right;
+    font-family: "Courier New", Consolas, monospace;
+  }
+
+  .layout {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 48px;
+  }
+
+  @media (max-width: 780px) {
+    .layout {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .id-panel {
+    background: var(--panel);
+    border: 1px solid var(--rule);
+    padding: 32px 28px;
+    height: fit-content;
+    position: relative;
+  }
+
+  .id-panel::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: var(--steel);
+  }
+
+  .id-name {
+    font-size: 1.55rem;
+    font-weight: 600;
+    color: var(--ink);
+    margin: 0 0 2px;
+  }
+
+  .id-name-cn {
+    font-size: 1.1rem;
+    color: var(--ink-soft);
+    margin: 0 0 18px;
+    font-weight: 400;
+  }
+
+  .id-role {
+    font-size: 0.95rem;
+    color: var(--steel-deep);
+    font-style: italic;
+    margin: 0 0 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .id-field {
+    margin-bottom: 16px;
+  }
+
+  .id-field:last-child {
+    margin-bottom: 0;
+  }
+
+  .id-label {
+    display: block;
+    font-family: "Courier New", Consolas, monospace;
+    font-size: 0.72rem;
+    color: var(--ink-soft);
+    margin-bottom: 3px;
+  }
+
+  .id-value {
+    font-size: 0.98rem;
+    color: var(--ink);
+  }
+
+  main h1 {
+    font-size: 2.1rem;
+    line-height: 1.25;
+    margin: 0 0 6px;
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  main .subhead {
+    color: var(--steel-deep);
+    font-size: 1.05rem;
+    margin: 0 0 28px;
+    font-style: italic;
+  }
+
+  main section {
+    margin-bottom: 40px;
+  }
+
+  main h2 {
+    font-size: 1.05rem;
+    text-transform: none;
+    color: var(--ink);
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 8px;
+    margin-bottom: 16px;
+    font-weight: 600;
+  }
+
+  main p {
+    max-width: 68ch;
+    color: var(--ink);
+    margin: 0 0 16px;
+  }
+
+  .responsibilities {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    counter-reset: resp;
+    max-width: 68ch;
+  }
+
+  .responsibilities li {
+    counter-increment: resp;
+    display: flex;
+    gap: 14px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .responsibilities li:last-child {
+    border-bottom: none;
+  }
+
+  .responsibilities li::before {
+    content: counter(resp, decimal-leading-zero);
+    font-family: "Courier New", Consolas, monospace;
+    color: var(--amber);
+    font-size: 0.85rem;
+    flex-shrink: 0;
+    padding-top: 2px;
+  }
+
+  .resp-body strong {
+    display: block;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 0.95rem;
+    color: var(--ink);
+    margin-bottom: 3px;
+  }
+
+  .resp-body span {
+    font-size: 0.92rem;
+    color: var(--ink-soft);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+
+  @media (max-width: 560px) {
+    .skills-grid { grid-template-columns: 1fr; }
+  }
+
+  .skill-group {
+    background: var(--panel);
+    border: 1px solid var(--rule);
+    border-left: 3px solid var(--steel);
+    padding: 18px 20px;
+  }
+
+  .skill-group h3 {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 0.9rem;
+    color: var(--steel-deep);
+    margin: 0 0 12px;
+    font-weight: 600;
+  }
+
+  .skill-group ul {
+    margin: 0;
+    padding: 0 0 0 18px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 0.88rem;
+    color: var(--ink-soft);
+  }
+
+  .skill-group li {
+    margin-bottom: 6px;
+  }
+
+  .skill-group li:last-child {
+    margin-bottom: 0;
+  }
+
+  footer {
+    margin-top: 56px;
+    padding-top: 18px;
+    border-top: 1px solid var(--rule);
+    font-family: "Courier New", Consolas, monospace;
+    font-size: 0.75rem;
+    color: var(--ink-soft);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="layout">
+
+    <aside class="id-panel">
+      <p class="id-name">Bryan Buntaran</p>
+      <p class="id-name-cn">钟秉宏</p>
+      <p class="id-role">Content Writer &amp; Documentation Lead</p>
+
+      <div class="id-field">
+        <span class="id-label">STUDENT ID</span>
+        <span class="id-value">1820252101</span>
+      </div>
+      <div class="id-field">
+        <span class="id-label">MAJOR</span>
+        <span class="id-value">Computer Science and Technology</span>
+      </div>
+      <div class="id-field">
+        <span class="id-label">INSTITUTION</span>
+        <span class="id-value">Beijing Institute of Technology</span>
+      </div>
+    </aside>
+
+    <main>
+      <h1>Introduction</h1>
+      <p class="subhead">Role: Content Writer, E-Learning Platform Team</p>
+
+      <section>
+        <p>
+          My name is Bryan Buntaran (钟秉宏), and I am a Computer Science and Technology student at Beijing Institute of Technology, with student ID 1820252101. Within our team's project, an e-learning website designed to introduce the fundamentals of C programming to beginners, I serve as the content writer responsible for the project's written materials and the instructional content delivered through the platform.
+        </p>
+        <p>
+          My involvement begins at the planning stage, where I draft the project to-do list that guides our team's weekly progress and keeps every member aligned on outstanding tasks and deadlines. As the project advances, I am responsible for preparing project documents, including proposals, progress reports, and other written records required for academic evaluation, as well as summarising the discussions and decisions made during team meetings so that our progress remains clearly documented and easy to reference.
+        </p>
+        <p>
+          Beyond internal documentation, a substantial part of my responsibility concerns the e-learning website itself. I write the instructional content that introduces C programming concepts to beginner learners, aiming for explanations that are accurate, approachable, and paced appropriately for readers with little to no prior programming background. I am also responsible for organising this content across the website, ensuring that lessons follow a logical sequence, that terminology remains consistent from one module to the next, and that the overall structure supports a smooth and coherent learning experience for our intended audience.
+        </p>
+        <p>
+          Through these responsibilities, I aim to strengthen the clarity and coherence of both our project's internal documentation and its final educational product.
+        </p>
+      </section>
+
+      <section>
+        <h2>Core Responsibilities</h2>
+        <ul class="responsibilities">
+          <li>
+            <div class="resp-body">
+              <strong>Project Planning</strong>
+              <span>Drafting and maintaining the project to-do list to track tasks and deadlines.</span>
+            </div>
+          </li>
+          <li>
+            <div class="resp-body">
+              <strong>Project Documentation</strong>
+              <span>Writing project documents, reports, and other materials required for the course.</span>
+            </div>
+          </li>
+          <li>
+            <div class="resp-body">
+              <strong>Meeting Summaries</strong>
+              <span>Recording and summarising team meetings to keep decisions clearly documented.</span>
+            </div>
+          </li>
+          <li>
+            <div class="resp-body">
+              <strong>Website Content Writing</strong>
+              <span>Writing beginner-friendly C programming lessons and explanations for the e-learning site.</span>
+            </div>
+          </li>
+          <li>
+            <div class="resp-body">
+              <strong>Content Organisation</strong>
+              <span>Structuring and sequencing written content on the website for a coherent learning path.</span>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>Skill Set</h2>
+        <div class="skills-grid">
+          <div class="skill-group">
+            <h3>Writing &amp; Documentation</h3>
+            <ul>
+              <li>Technical and instructional writing</li>
+              <li>Report and proposal drafting</li>
+              <li>Meeting minutes and summarisation</li>
+            </ul>
+          </div>
+          <div class="skill-group">
+            <h3>Content Organisation</h3>
+            <ul>
+              <li>Curriculum and content sequencing</li>
+              <li>Information structuring</li>
+              <li>Editing for clarity and consistency</li>
+            </ul>
+          </div>
+          <div class="skill-group">
+            <h3>Technical Foundation</h3>
+            <ul>
+              <li>Fundamentals of C programming</li>
+              <li>Basic web content formatting (HTML)</li>
+              <li>Version control basics (Git)</li>
+            </ul>
+          </div>
+          <div class="skill-group">
+            <h3>Collaboration</h3>
+            <ul>
+              <li>Task and timeline tracking</li>
+              <li>Team communication</li>
+              <li>Cross-checking content with development team</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+</div>
+</body>
+</html>

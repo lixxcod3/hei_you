@@ -1,0 +1,1013 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Kiefe Edward - Computer Science student at Beijing Institute of Technology. Builder, self-directed learner, and project team CEO.">
+</head>
+<body>
+<title>Kiefe Edward</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<style>
+:root{
+  --paper:#F7F2E4;
+  --paper-2:#EFE8D5;
+  --ink:#26314F;
+  --ink-2:#33415F;
+  --ink-soft:#6B7690;
+  --gold:#D9A441;
+  --gold-dim:#B8862F;
+  --crimson:#A93B4A;
+  --crimson-dark:#7E2B37;
+  --board:#1C4430;
+  --jade:#4E8C63;
+  --grid:rgba(38,49,79,.10);
+  --grid-dark:rgba(247,242,228,.07);
+  --shadow:6px 6px 0 var(--ink);
+  --shadow-sm:4px 4px 0 var(--ink);
+  --shadow-gold:6px 6px 0 var(--gold-dim);
+  --muted:#6B7690;
+  --muted-light:#A9B4CC;
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){ html{scroll-behavior:auto} }
+
+body{
+  margin:0;
+  font-family:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:16px;
+  line-height:1.65;
+  color:var(--ink);
+  background-color:var(--paper);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size:26px 26px;
+  -webkit-font-smoothing:antialiased;
+}
+img{max-width:100%}
+a{color:inherit}
+button{font:inherit;color:inherit}
+
+::selection{background:var(--gold);color:var(--ink)}
+
+:focus-visible{outline:3px solid var(--gold);outline-offset:3px}
+
+.display{
+  font-family:"Silkscreen","JetBrains Mono",monospace;
+  font-weight:700;
+  letter-spacing:.02em;
+  line-height:1.15;
+  text-wrap:balance;
+  margin:0;
+}
+h1.display{font-size:clamp(2.2rem,6.2vw,4.1rem)}
+h2.display{font-size:clamp(1.6rem,3.6vw,2.6rem)}
+h3.display{font-size:1.05rem;letter-spacing:.04em}
+
+.eyebrow{
+  font-family:"Silkscreen",monospace;
+  font-size:.78rem;
+  letter-spacing:.16em;
+  text-transform:lowercase;
+  color:var(--gold-dim);
+  margin:0 0 .9rem;
+  display:flex;align-items:center;gap:.6rem;
+}
+.eyebrow::after{content:"";flex:1;height:3px;background:repeating-linear-gradient(90deg,var(--gold) 0 6px,transparent 6px 12px);opacity:.7}
+.band--navy .eyebrow{color:var(--gold)}
+.band--navy .eyebrow::after{opacity:.55}
+
+p{margin:0 0 1rem;max-width:64ch}
+.lead{font-size:1.06rem;color:var(--ink-2)}
+.band--navy{color:var(--paper)}
+.band--navy .lead{color:#C9D3E6}
+
+.wrap{width:min(1140px,100% - 2.5rem);margin-inline:auto}
+.band{padding:clamp(3.2rem,7vw,5.6rem) 0}
+.band--navy{
+  background-color:var(--ink);
+  background-image:
+    linear-gradient(var(--grid-dark) 1px,transparent 1px),
+    linear-gradient(90deg,var(--grid-dark) 1px,transparent 1px);
+  background-size:26px 26px;
+}
+.band--paper2{background-color:var(--paper-2)}
+
+.brickstrip{
+  height:26px;
+  background-color:var(--crimson);
+  border-top:3px solid var(--ink);
+  border-bottom:3px solid var(--ink);
+  background-image:
+    repeating-linear-gradient(90deg,var(--gold) 0 54px,transparent 54px 60px),
+    repeating-linear-gradient(90deg,transparent 0 30px,var(--gold) 30px 84px,transparent 84px 90px);
+  background-size:60px 8px,90px 8px;
+  background-position:0 3px,0 13px;
+  background-repeat:repeat-x;
+}
+
+.topbar{position:sticky;top:0;z-index:40}
+.nav{
+  background:var(--ink);
+  border-bottom:3px solid var(--ink-2);
+  display:flex;align-items:center;gap:1.4rem;
+  padding:.7rem 0;
+}
+.nav .wrap{display:flex;align-items:center;gap:1.4rem;width:min(1140px,100% - 2.5rem)}
+.brand{display:flex;align-items:center;gap:.65rem;text-decoration:none;margin-right:auto}
+.monogram{
+  width:34px;height:34px;flex:none;
+  background:var(--gold);border:3px solid #12182a;
+  display:grid;place-items:center;
+  font-family:"Silkscreen",monospace;font-size:.85rem;color:#12182a;
+  box-shadow:3px 3px 0 var(--crimson);
+}
+.brand-name{font-family:"Silkscreen",monospace;font-size:1rem;color:var(--paper)}
+.brand-sub{font-size:.68rem;color:var(--muted-light);letter-spacing:.08em}
+.navlinks{display:flex;gap:1.1rem;flex-wrap:wrap}
+.navlinks a{
+  font-size:.82rem;text-decoration:none;color:#C9D3E6;
+  padding:.25rem .15rem;border-bottom:3px solid transparent;
+}
+.navlinks a:hover,.navlinks a:focus-visible{color:var(--gold);border-bottom-color:var(--gold)}
+.backlink{
+  font-family:"Silkscreen",monospace;font-size:.72rem;text-decoration:none;
+  color:#12182a;background:var(--paper-2);border:3px solid #12182a;
+  padding:.35rem .6rem;box-shadow:3px 3px 0 var(--crimson);white-space:nowrap;
+}
+.backlink:hover{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--crimson)}
+.progress{height:6px;background:var(--ink-2)}
+.progress span{display:block;height:100%;width:0;background:var(--gold);transition:width .1s linear}
+@media (max-width:780px){ .navlinks{display:none} }
+
+.btn{
+  display:inline-block;font-family:"Silkscreen",monospace;font-size:.86rem;
+  text-decoration:none;cursor:pointer;
+  padding:.85rem 1.4rem;border:3px solid var(--ink);
+  background:var(--crimson);color:var(--paper);
+  box-shadow:var(--shadow-sm);
+  transition:transform .08s steps(2),box-shadow .08s steps(2);
+}
+.btn:hover{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--ink)}
+.btn:active{transform:translate(4px,4px);box-shadow:0 0 0 var(--ink)}
+.btn--ghost{background:var(--paper);color:var(--ink)}
+.btn--gold{background:var(--gold);color:var(--ink)}
+.btn-row{display:flex;gap:1rem;flex-wrap:wrap;margin-top:1.8rem}
+
+.hero{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.02fr);gap:clamp(2rem,5vw,4rem);align-items:center}
+@media (max-width:920px){ .hero{grid-template-columns:1fr} }
+.hero h1 .accent{color:var(--crimson)}
+.badge{
+  display:inline-flex;align-items:center;gap:.6rem;
+  background:var(--gold);border:3px solid var(--ink);
+  box-shadow:5px 5px 0 var(--crimson);
+  padding:.5rem .95rem;margin-bottom:1.3rem;
+  font-family:"Silkscreen",monospace;font-size:1rem;letter-spacing:.1em;color:var(--ink);
+}
+.badge svg{display:block;flex:none;width:21px;height:15px}
+.badge b{color:var(--crimson-dark)}
+.badge .sep{color:var(--crimson);padding:0 .1rem}
+.hero-tag{
+  margin-top:2rem;font-size:.9rem;color:var(--ink-2);
+  border-left:5px solid var(--jade);padding-left:.9rem;
+}
+.hero-tag b{color:var(--jade);font-weight:700}
+
+.stage{
+  background:var(--ink);border:3px solid var(--ink);
+  box-shadow:10px 10px 0 var(--gold-dim);
+  padding:1.4rem 1.4rem 1.6rem;
+  position:relative;
+}
+.lanterns{display:flex;align-items:center;gap:0;margin:-1.4rem -1.4rem 1.2rem;padding:0 1rem;height:22px;background:repeating-linear-gradient(90deg,var(--gold) 0 9px,transparent 9px 34px);background-size:34px 9px;background-position:0 6px;background-repeat:repeat-x;border-bottom:0}
+.stage-row{display:grid;grid-template-columns:auto minmax(0,1fr);gap:1.1rem;align-items:center}
+@media (max-width:520px){ .stage-row{grid-template-columns:1fr;justify-items:center} }
+.sprite{width:132px;height:auto;image-rendering:pixelated;display:block}
+.sprite-wrap{position:relative;width:132px;height:143px;flex:none}
+.sprite-wrap svg{position:absolute;inset:0}
+.sprite-blink{opacity:0}
+.bobbing{animation:bob 2.6s steps(2,end) infinite}
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+@media (prefers-reduced-motion:reduce){ .bobbing{animation:none} }
+
+.board{
+  background:var(--board);border:4px solid #C9A227;
+  padding:.9rem 1rem;font-size:.78rem;line-height:1.75;
+  color:#DCEBDF;overflow-x:auto;white-space:pre;
+}
+.board .c{color:#6F9C7F}
+.board .k{color:#E8B84B}
+.board .s{color:#E7A98F}
+.board .f{color:#9FD3B3}
+.bubble{
+  margin-top:1.2rem;background:var(--paper);color:var(--ink);
+  border:3px solid #12182a;padding:.85rem 1rem;font-size:.85rem;position:relative;
+}
+.bubble::before{content:"";position:absolute;top:-13px;left:26px;width:14px;height:13px;background:var(--paper);border-left:3px solid #12182a;border-top:3px solid #12182a;transform:skewX(-20deg)}
+.bubble .hz{color:var(--crimson);font-weight:700}
+
+.term{
+  border:3px solid var(--ink);background:#141B2E;
+  box-shadow:10px 10px 0 var(--crimson-dark);
+  max-width:860px;
+}
+.term-bar{
+  display:flex;align-items:center;gap:.5rem;
+  background:var(--ink-2);border-bottom:3px solid var(--ink);
+  padding:.5rem .8rem;font-family:"Silkscreen",monospace;font-size:.72rem;color:#C9D3E6;
+}
+.dot{width:11px;height:11px;flex:none}
+.dot.r{background:var(--crimson)}.dot.y{background:var(--gold)}.dot.g{background:var(--jade)}
+.term-body{padding:1rem;height:340px;overflow-y:auto;font-size:.83rem;line-height:1.7;color:#D4DCEC;cursor:text}
+.term-body::-webkit-scrollbar{width:10px}
+.term-body::-webkit-scrollbar-track{background:#141B2E}
+.term-body::-webkit-scrollbar-thumb{background:var(--ink-2)}
+.tl{white-space:pre-wrap;word-break:break-word;margin:0}
+.tl .prompt{color:var(--jade)}
+.tl .cmdtxt{color:var(--gold)}
+.tl.out{color:#C1CAE0}
+.tl.hi{color:var(--gold)}
+.tl.err{color:#E1808C}
+.tl.dim{color:#7C88A6}
+.term-input-row{display:flex;gap:.5rem;align-items:baseline}
+.term-input-row .prompt{color:var(--jade);flex:none}
+#terminput{
+  flex:1;background:transparent;border:0;outline:none;
+  font:inherit;color:var(--paper);caret-color:var(--gold);padding:0;
+}
+.blink{display:inline-block;width:9px;height:1.05em;background:var(--gold);vertical-align:-2px;animation:bl 1.05s steps(1,end) infinite}
+@keyframes bl{0%,50%{opacity:1}50.01%,100%{opacity:0}}
+@media (prefers-reduced-motion:reduce){ .blink{animation:none} }
+.hintrow{display:flex;gap:.5rem;flex-wrap:wrap;margin-top:1rem}
+.chip{
+  font-family:"Silkscreen",monospace;font-size:.7rem;cursor:pointer;
+  background:var(--paper);border:3px solid var(--ink);color:var(--ink);
+  padding:.35rem .55rem;box-shadow:3px 3px 0 var(--gold-dim);
+}
+.band--navy .chip{background:var(--ink-2);color:var(--paper);border-color:#0F1526;box-shadow:3px 3px 0 var(--crimson-dark)}
+.chip:hover{transform:translate(2px,2px);box-shadow:1px 1px 0 var(--gold-dim)}
+.band--navy .chip:hover{box-shadow:1px 1px 0 var(--crimson-dark)}
+
+.wall-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:clamp(1.6rem,4vw,3rem);align-items:start;margin-top:2.2rem}
+@media (max-width:900px){ .wall-grid{grid-template-columns:1fr} }
+.wall{display:flex;flex-direction:column;gap:10px}
+.course{display:flex;gap:10px}
+.course--off{padding-left:38px}
+@media (max-width:520px){ .course--off{padding-left:0} .course{flex-wrap:wrap} }
+.brick{
+  flex:1 1 0;min-width:0;cursor:pointer;text-align:left;
+  background:var(--crimson);color:#FBEFD8;
+  border:3px solid var(--ink);border-top-color:#C4586A;
+  padding:.75rem .8rem;
+  font-family:"Silkscreen",monospace;font-size:.74rem;letter-spacing:.02em;
+  box-shadow:5px 5px 0 var(--crimson-dark);
+  transition:transform .1s steps(2),box-shadow .1s steps(2),background .1s;
+}
+.brick:hover{transform:translate(-2px,-2px);box-shadow:7px 7px 0 var(--crimson-dark)}
+.brick[aria-pressed="true"]{
+  background:var(--gold);color:var(--ink);border-top-color:#F0CE86;
+  transform:translate(-4px,-4px);box-shadow:9px 9px 0 var(--ink);
+}
+.mortar{height:8px;background:repeating-linear-gradient(90deg,var(--ink) 0 3px,transparent 3px 9px);opacity:.25}
+.note{
+  background:var(--paper);border:3px solid var(--ink);box-shadow:var(--shadow);
+  padding:1.4rem 1.5rem;position:sticky;top:104px;
+}
+.note-kicker{font-family:"Silkscreen",monospace;font-size:.7rem;letter-spacing:.14em;color:var(--crimson)}
+.note h3{margin:.5rem 0 .8rem}
+.note p{font-size:.9rem;margin-bottom:.9rem}
+.note-foot{border-top:3px dashed rgba(38,49,79,.28);padding-top:.8rem;font-size:.78rem;color:var(--ink-soft)}
+.note-foot b{color:var(--jade)}
+
+.ceo-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:clamp(1.6rem,4vw,3rem);align-items:start;margin-top:2.4rem}
+@media (max-width:900px){ .ceo-grid{grid-template-columns:1fr} }
+.stats{display:flex;gap:.8rem;flex-wrap:wrap;margin:1.6rem 0 0}
+.stat{background:var(--ink-2);border:3px solid #0F1526;padding:.7rem .9rem;box-shadow:4px 4px 0 var(--crimson-dark)}
+.stat b{display:block;font-family:"Silkscreen",monospace;font-size:1.4rem;color:var(--gold);line-height:1.2;font-variant-numeric:tabular-nums}
+.stat span{font-size:.72rem;color:#B7C2DA;letter-spacing:.06em}
+
+.panel{background:#1B2440;border:3px solid #0F1526;box-shadow:10px 10px 0 var(--gold-dim);padding:1.3rem}
+.panel-head{display:flex;justify-content:space-between;align-items:center;gap:1rem;margin-bottom:1.1rem}
+.panel-head h3{color:var(--paper);margin:0}
+.lane{margin-bottom:1rem}
+.lane-top{display:flex;justify-content:space-between;align-items:baseline;gap:1rem;margin-bottom:.4rem}
+.lane-name{
+  background:none;border:0;padding:0;cursor:pointer;
+  font-family:"Silkscreen",monospace;font-size:.76rem;color:var(--paper);
+  border-bottom:3px solid transparent;
+}
+.lane-name:hover{color:var(--gold);border-bottom-color:var(--gold)}
+.lane-name[aria-expanded="true"]{color:var(--gold);border-bottom-color:var(--gold)}
+.lane-pct{font-size:.74rem;color:var(--muted-light);font-variant-numeric:tabular-nums}
+.track{display:grid;grid-template-columns:repeat(20,1fr);gap:3px;height:20px}
+.cell{background:#2C3654;border:1px solid #0F1526}
+.cell.on{background:var(--jade)}
+.lane[data-lane="words"] .cell.on{background:var(--gold)}
+.lane[data-lane="build"] .cell.on{background:var(--crimson)}
+.lane-note{font-size:.8rem;color:#C1CAE0;margin:.55rem 0 0;max-width:60ch;display:none}
+.lane-note.show{display:block}
+.panel-foot{display:flex;align-items:center;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-top:1.3rem;border-top:3px solid #2C3654;padding-top:1.1rem}
+.stamp{
+  font-family:"Silkscreen",monospace;font-size:.8rem;color:var(--crimson);
+  border:3px solid var(--crimson);padding:.4rem .7rem;transform:rotate(-5deg);
+  letter-spacing:.06em;background:rgba(169,59,74,.12);
+}
+.stamp.pending{color:var(--muted-light);border-color:var(--muted-light);background:transparent}
+
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.2rem;margin-top:2.2rem}
+.card{
+  background:var(--paper);border:3px solid var(--ink);box-shadow:var(--shadow-sm);
+  padding:1.2rem 1.2rem 1.3rem;display:flex;flex-direction:column;gap:.5rem;
+}
+.card .num{font-family:"Silkscreen",monospace;font-size:.7rem;color:var(--crimson);letter-spacing:.12em}
+.card h3{margin:0}
+.card p{font-size:.86rem;margin:0;color:var(--ink-2)}
+.card:hover{transform:translate(-2px,-2px);box-shadow:8px 8px 0 var(--ink)}
+.card{transition:transform .1s steps(2),box-shadow .1s steps(2)}
+
+.cta{
+  margin-top:2.6rem;background:var(--gold);border:3px solid var(--ink);
+  box-shadow:var(--shadow);padding:clamp(1.4rem,3vw,2rem);
+  display:flex;gap:1.4rem;align-items:center;justify-content:space-between;flex-wrap:wrap;
+}
+.cta p{margin:0;color:var(--ink);font-size:.95rem;max-width:52ch}
+.cta-mark{
+  font-family:"Silkscreen",monospace;font-size:1.5rem;color:var(--crimson);
+  border:3px solid var(--ink);padding:.5rem .8rem;background:rgba(247,242,228,.5);
+  white-space:nowrap;
+}
+.cta .display{color:var(--ink);margin-bottom:.4rem}
+
+footer{background:var(--ink);color:#B7C2DA;padding:2.2rem 0 2.6rem;font-size:.78rem}
+footer .wrap{display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;align-items:center}
+footer a{color:var(--gold)}
+
+#confetti{position:fixed;inset:0;pointer-events:none;z-index:60;overflow:hidden}
+.conf{position:absolute;width:12px;height:12px;top:-20px;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(180deg)}}
+.toast{
+  position:fixed;left:50%;bottom:28px;transform:translateX(-50%);z-index:70;
+  background:var(--jade);color:#F7F2E4;border:3px solid var(--ink);
+  box-shadow:var(--shadow-sm);padding:.8rem 1.2rem;
+  font-family:"Silkscreen",monospace;font-size:.8rem;
+}
+</style>
+
+<div class="topbar">
+  <nav class="nav">
+    <div class="wrap">
+      <a class="brand" href="#top">
+        <span class="monogram">KE</span>
+        <span>
+          <span class="brand-name">Kiefe Edward</span><br>
+          <span class="brand-sub">北理工 · cs undergrad</span>
+        </span>
+      </a>
+      <div class="navlinks">
+        <a href="#terminal">Terminal</a>
+        <a href="#outside">Outside class</a>
+        <a href="#ceo">The CEO seat</a>
+        <a href="#next">What's next</a>
+      </div>
+            <a class="backlink" href="/">&larr; back</a>
+    </div>
+  </nav>
+  <div class="progress"><span id="progbar"></span></div>
+</div>
+
+<main id="top">
+
+    <section class="band">
+    <div class="wrap hero">
+      <div>
+        <p class="eyebrow">// whoami</p>
+        <p class="badge">
+          <svg width="17" height="13" viewBox="0 0 7 5" shape-rendering="crispEdges" aria-hidden="true">
+            <rect x="0" y="0" width="1" height="3" fill="#26314F"></rect>
+            <rect x="3" y="0" width="1" height="3" fill="#26314F"></rect>
+            <rect x="6" y="0" width="1" height="3" fill="#26314F"></rect>
+            <rect x="0" y="2" width="7" height="3" fill="#26314F"></rect>
+          </svg>
+          <span><b>CEO</b></span>
+        </p>
+        <h1 class="display">Hey, I'm <span class="accent">Kiefe</span>.<br>I build and<br>I lead.</h1>
+        <p class="lead" style="margin-top:1.6rem">
+          Computer Science at Beijing Institute of Technology, with a serious drive for
+          building software and running the teams that build it. My free time goes to
+          figuring out how things actually work underneath all the tech we use.
+        </p>
+        <div class="btn-row">
+          <a class="btn" href="#terminal">Talk to the terminal</a>
+          <a class="btn btn--ghost" href="#outside">See what I'm into</a>
+        </div>
+        <p class="hero-tag"><b>好样的</b> — the classes give you the syllabus. Everything else, you go and find.</p>
+      </div>
+
+      <div class="stage">
+        <div class="lanterns" aria-hidden="true"></div>
+        <div class="stage-row">
+          <div class="sprite-wrap" id="spritewrap" aria-hidden="true"></div>
+          <div class="board">
+<span class="c">// about.c — still compiling</span>
+<span class="k">#include</span> <span class="s">&lt;curiosity.h&gt;</span>
+
+<span class="k">int</span> <span class="f">main</span>(<span class="k">void</span>) {
+  <span class="k">while</span> (curious) {
+    <span class="f">dig</span>();  <span class="f">build</span>();  <span class="f">lead</span>();
+    <span class="f">ship</span>(<span class="s">"on time"</span>);
+  }
+  <span class="k">return</span> 0;
+}</div>
+        </div>
+        <div class="bubble">
+          <span class="hz">嘿，你！</span> Yes — you. Pull up a chair, this page is a bit clickable.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="brickstrip" role="presentation"></div>
+
+    <section class="band band--navy" id="terminal">
+    <div class="wrap">
+      <p class="eyebrow">// ask me things</p>
+      <h2 class="display">A shell, because that's how I'd rather be interviewed.</h2>
+      <p class="lead" style="margin-top:1rem">
+        Type a command and press Enter. <b>Tab</b> completes, <b>&uarr;</b> and <b>&darr;</b> walk your history.
+        Start with <b>help</b>, or just run <b>cat about.txt</b> and read the whole thing.
+      </p>
+
+      <div class="term" style="margin-top:2rem">
+        <div class="term-bar">
+          <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+          <span style="margin-left:.6rem">kiefe@bit — ~/about</span>
+        </div>
+        <div class="term-body" id="termbody">
+          <p class="tl dim">Last login: today, somewhere between a lecture and a rabbit hole.</p>
+          <p class="tl out">Welcome. This shell knows one subject: me.</p>
+          <p class="tl hi">Try: help · whoami · interests · lead · cat about.txt</p>
+          <p class="tl"><span class="prompt">kiefe@bit:~$</span> <span class="cmdtxt">whoami</span></p>
+          <p class="tl out">kiefe edward — cs undergrad @ beijing institute of technology.
+builds software. prefers leading the people building it.
+two semesters as CEO of our project teams. security+ certified.</p>
+          <div class="term-input-row" id="inputrow">
+            <span class="prompt">kiefe@bit:~$</span>
+            <input id="terminput" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Terminal command input">
+          </div>
+        </div>
+      </div>
+
+      <div class="hintrow">
+        <button class="chip" data-cmd="help">help</button>
+        <button class="chip" data-cmd="interests">interests</button>
+        <button class="chip" data-cmd="lead">lead</button>
+        <button class="chip" data-cmd="outside">outside</button>
+        <button class="chip" data-cmd="stack">stack</button>
+        <button class="chip" data-cmd="certs">certs</button>
+        <button class="chip" data-cmd="cat about.txt">cat about.txt</button>
+        <button class="chip" data-cmd="clear">clear</button>
+      </div>
+    </div>
+  </section>
+
+  <div class="brickstrip" role="presentation"></div>
+
+    <section class="band" id="outside">
+    <div class="wrap">
+      <p class="eyebrow">// outside class</p>
+      <h2 class="display">The coursework is the floor.<br>These are the bricks I stack on top.</h2>
+      <p class="lead" style="margin-top:1rem">
+        In my view, true learning happens outside of class — where nobody assigns the reading and you
+        follow the thing because you actually want to know. Pull a brick out and see what's under it.
+      </p>
+
+      <div class="wall-grid">
+        <div class="wall" id="wall">
+          <div class="course">
+            <button class="brick" data-b="crypto" aria-pressed="true">ethereum</button>
+            <button class="brick" data-b="sec" aria-pressed="false">cybersecurity</button>
+          </div>
+          <div class="mortar" aria-hidden="true"></div>
+          <div class="course course--off">
+            <button class="brick" data-b="ai" aria-pressed="false">artificial intelligence</button>
+            <button class="brick" data-b="under" aria-pressed="false">under the hood</button>
+          </div>
+          <div class="mortar" aria-hidden="true"></div>
+          <div class="course">
+            <button class="brick" data-b="stack" aria-pressed="false">the stack</button>
+            <button class="brick" data-b="method" aria-pressed="false">how I learn</button>
+          </div>
+        </div>
+
+        <div class="note" id="note" aria-live="polite">
+          <p class="note-kicker" id="noteKicker">brick 01 · ethereum</p>
+          <h3 class="display" id="noteTitle">Smart contracts</h3>
+          <p id="noteBody">Ethereum is the part of crypto I actually find interesting — a network you can put
+            programs on. I've been learning Solidity and writing smart contracts to see how far that idea goes.</p>
+          <p class="note-foot" id="noteFoot"><b>why this one:</b> nobody assigned it. That's the point.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="brickstrip" role="presentation"></div>
+
+    <section class="band band--navy" id="ceo">
+    <div class="wrap">
+      <p class="eyebrow">// the ceo seat</p>
+      <h2 class="display">Two semesters running the team, not just the repo.</h2>
+      <div class="ceo-grid">
+        <div>
+          <p class="lead">
+            For two semesters straight, in Professor Zhao's classes, I served as CEO of our project teams.
+            That meant a lot more than writing code: setting the overall strategy, keeping designers,
+            writers and devs pointed at the same target, and making sure we actually shipped quality work on time.
+          </p>
+          <p class="lead">
+            This doesn't mean I'm clueless about the code — I can sit in it when I need to. I just do more good
+            in the seat where I can see all three teams at once and keep them moving together.
+          </p>
+          <div class="stats">
+            <div class="stat"><b>2</b><span>semesters as CEO</span></div>
+            <div class="stat"><b>3</b><span>teams aligned</span></div>
+            <div class="stat"><b>100%</b><span>shipped on time</span></div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-head">
+            <h3 class="display">the teams</h3>
+            <span class="lane-pct">click a team</span>
+          </div>
+
+          <div class="lane" data-lane="design">
+            <div class="lane-top">
+              <button class="lane-name" aria-expanded="false" aria-controls="n-design">design team</button>
+              <span class="lane-pct" data-pct>100%</span>
+            </div>
+            <div class="track" data-track></div>
+            <p class="lane-note" id="n-design">Designers need the decision early, not the deadline early. I got them the
+              direction, the constraints and the one thing the work had to prove — then stayed out of the file.</p>
+          </div>
+
+          <div class="lane" data-lane="words">
+            <div class="lane-top">
+              <button class="lane-name" aria-expanded="false" aria-controls="n-words">writing team</button>
+              <span class="lane-pct" data-pct>100%</span>
+            </div>
+            <div class="track" data-track></div>
+            <p class="lane-note" id="n-words">Writers were briefed off the same strategy as everyone else, so the copy
+              described the product we were actually building instead of the one from week one.</p>
+          </div>
+
+          <div class="lane" data-lane="build">
+            <div class="lane-top">
+              <button class="lane-name" aria-expanded="false" aria-controls="n-build">dev team</button>
+              <span class="lane-pct" data-pct>100%</span>
+            </div>
+            <div class="track" data-track></div>
+            <p class="lane-note" id="n-build">Scope is the lever, not the weekend. I cut features before I cut quality,
+              and I could read the code well enough to know which cut was cheap and which one was a lie.</p>
+          </div>
+
+          <div class="panel-foot">
+            <span class="stamp" id="stamp">shipped · on time</span>
+            <button class="chip" id="runSprint">run the project again</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="brickstrip" role="presentation"></div>
+
+    <section class="band band--paper2" id="next">
+    <div class="wrap">
+      <p class="eyebrow">// what's next</p>
+      <h2 class="display">Always looking for the next challenge.</h2>
+      <p class="lead" style="margin-top:1rem">Three shapes it usually takes:</p>
+
+      <div class="cards">
+        <div class="card">
+          <span class="num">a new stack</span>
+          <h3 class="display">Learn the thing I can't do yet</h3>
+          <p>Give me the docs and a real reason to use it. I'd rather be three weeks into something unfamiliar than fluent in something finished.</p>
+        </div>
+        <div class="card">
+          <span class="num">a hard project</span>
+          <h3 class="display">Take on the tough one</h3>
+          <p>The problems worth doing are the ones where the answer isn't in the lecture slides. Those are the ones I want on my desk.</p>
+        </div>
+        <div class="card">
+          <span class="num">a team</span>
+          <h3 class="display">Get something real out the door</h3>
+          <p>Strategy, alignment, delivery. Lead a group of people to put something into the actual world — not just into a submission folder.</p>
+        </div>
+      </div>
+
+      <div class="cta">
+        <div>
+          <h3 class="display">The door's open.</h3>
+          <p>If you have a question, a project, or something you're stuck on, you can contact me any time.
+            No agenda needed — I like talking about this stuff.</p>
+        </div>
+        <span class="cta-mark" aria-hidden="true">嘿，你</span>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="brickstrip" role="presentation"></div>
+<footer>
+  <div class="wrap">
+    <span>Kiefe Edward · Computer Science, Beijing Institute of Technology</span>
+    <span>Built brick by brick. Type <b style="color:var(--gold)">brick</b> anywhere for a small surprise.</span>
+  </div>
+</footer>
+
+<div id="confetti" aria-hidden="true"></div>
+
+<script>
+(function(){
+  "use strict";
+  var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    var PAL = {
+    K:"#1B2233", k:"#313E63", S:"#F0C9A0", s:"#D9A67C", G:"#D9A441",
+    W:"#F7F2E4", E:"#1B2233", R:"#A93B4A", r:"#7E2B37"
+  };
+  var ROWS = [
+    "........................",
+    ".........KKKKKK.........",
+    ".......KKKKKKKKKK.......",
+    "......KKKKKKKKKKKK......",
+    "......KKKKKKKKKKKK......",
+    "......KKkkkkkkkkKK......",
+    "......KKSSSSSSSSKK......",
+    "......KSSSSSSSSSSK......",
+    "......KSSSSSSSSSSK......",
+    "......KGGGGGGGGGGK......",
+    "......KGWWEGGEWWGK......",
+    "......KGWWEGGEWWGK......",
+    "......KGGGGGGGGGGK......",
+    "......KSSSSSSSSSSK......",
+    "......KSSSSssSSSSK......",
+    ".......SSSSSSSSSS.......",
+    "........sSSSSSSs........",
+    "........ssSSSSss........",
+    ".....RRRRRRssRRRRRR.....",
+    "....RRRRRRRGGRRRRRRR....",
+    "....RRRRRRRGGRRRRRRR....",
+    "...RRRRRRRRGGRRRRRRRR...",
+    "...RrrRRRRRGGRRRRRrrR...",
+    "...RrrRRRRRGGRRRRRrrR...",
+    "...rrrRRRRRGGRRRRRrrr...",
+    "...rrrrrrrrrrrrrrrrrr..."
+  ];
+
+  function svgFrom(rows){
+    var w = 0, i, j;
+    for(i=0;i<rows.length;i++){ if(rows[i].length>w) w = rows[i].length; }
+    var h = rows.length, out = "";
+    for(i=0;i<h;i++){
+      var row = rows[i];
+      j = 0;
+      while(j < row.length){
+        var ch = row[j];
+        if(!PAL[ch]){ j++; continue; }
+        var run = 1;
+        while(j+run < row.length && row[j+run] === ch){ run++; }
+        out += '<rect x="'+j+'" y="'+i+'" width="'+run+'" height="1" fill="'+PAL[ch]+'"/>';
+        j += run;
+      }
+    }
+    return '<svg viewBox="0 0 '+w+' '+h+'" width="132" shape-rendering="crispEdges" class="sprite">'+out+'</svg>';
+  }
+
+  var closed = ROWS.slice();
+  closed[10] = closed[10].replace(/W/g,"S").replace(/E/g,"s");
+  closed[11] = closed[11].replace(/W/g,"S").replace(/E/g,"s");
+
+  var wrap = document.getElementById("spritewrap");
+  if(wrap){
+    wrap.innerHTML = svgFrom(ROWS) + svgFrom(closed);
+    var eyesOpen = wrap.children[0], eyesShut = wrap.children[1];
+    eyesShut.classList.add("sprite-blink");
+    if(!reduce){
+      wrap.classList.add("bobbing");
+      setInterval(function(){
+        eyesShut.style.opacity = "1"; eyesOpen.style.opacity = "0";
+        setTimeout(function(){ eyesShut.style.opacity = "0"; eyesOpen.style.opacity = "1"; }, 130);
+      }, 4200);
+    }
+  }
+
+    var bar = document.getElementById("progbar");
+  function onScroll(){
+    var max = document.documentElement.scrollHeight - window.innerHeight;
+    var p = max > 0 ? (window.scrollY / max) * 100 : 0;
+    bar.style.width = Math.min(100, Math.max(0, p)) + "%";
+  }
+  window.addEventListener("scroll", onScroll, {passive:true});
+  window.addEventListener("resize", onScroll);
+  onScroll();
+
+    var body = document.getElementById("termbody");
+  var input = document.getElementById("terminput");
+  var inputRow = document.getElementById("inputrow");
+  var history = [], hIdx = -1;
+
+  var ABOUT = "Hey, I'm Kiefe Edward, a Computer Science student at Beijing Institute of\n" +
+    "Technology with a serious drive for building software and leading tech\n" +
+    "projects. I enjoy spending my free time figuring out how things actually\n" +
+    "work under all the tech we see.\n\n" +
+    "Outside of my required coursework, I'm usually falling down new\n" +
+    "technologies -- lately cryptocurrency, cybersecurity and artificial\n" +
+    "intelligence. In my view, true learning is done outside of classes, where\n" +
+    "we can deeply explore our interests.\n\n" +
+    "I also really enjoy the team management and operational side of tech. For\n" +
+    "two semesters straight in Professor Zhao's classes, I served as CEO for our\n" +
+    "project teams -- running strategy, keeping designers, writers and devs on\n" +
+    "the same page, and making sure we shipped quality work on time. I'm always\n" +
+    "looking for the next challenge.";
+
+  var CMDS = {
+    "help": {out:
+      "available commands\n" +
+      "  whoami        the one-line version\n" +
+      "  interests     what I'm chasing right now\n" +
+      "  outside       why the good stuff isn't on the syllabus\n" +
+      "  lead          two semesters in the CEO seat\n" +
+      "  stack         what I build with\n" +
+      "  certs         the paper I've actually earned\n" +
+      "  school        where I study\n" +
+      "  cat about.txt the full, unabridged bio\n" +
+      "  ls            what's on this page\n" +
+      "  contact       how to reach me\n" +
+      "  clear         wipe the screen", cls:"out"},
+    "whoami": {out:
+      "kiefe edward -- cs undergrad @ beijing institute of technology.\n" +
+      "builds software. prefers leading the people building it.\n" +
+      "two semesters as CEO of our project teams. security+ certified.", cls:"out"},
+    "interests": {out:
+      "[##########] ethereum         -- smart contracts; been learning solidity\n" +
+      "[##########] cybersecurity    -- studied CEH, passed security+\n" +
+      "[##########] artificial intel -- past the demos, into how it actually works\n" +
+      "[#####-----] and whatever's next, because the list keeps growing", cls:"out"},
+    "outside": {out:
+      "true learning is done outside of classes.\n" +
+      "coursework gives you the floor. the interesting part is what you go and\n" +
+      "stack on top of it -- the things nobody grades, chased far enough that\n" +
+      "you understand what's under the abstraction.", cls:"out"},
+    "lead": {out:
+      "role   : CEO, project teams -- Professor Zhao's classes\n" +
+      "term   : two semesters, back to back\n" +
+      "did    : strategy, alignment across designers/writers/devs, delivery\n" +
+      "note   : not clueless about the code. i just do more good in the seat\n" +
+      "         where i can see all three lanes at once.", cls:"out"},
+    "ceo": {alias:"lead"},
+    "stack": {out:
+      "a lot of frameworks, over a lot of projects. the most recent ones:\n" +
+      "  web    : node.js · django · next.js · react\n" +
+      "  chain  : solidity, for anything living on ethereum\n" +
+      "that's the current page of the list, not the whole list -- give me a\n" +
+      "new one and a real reason to use it and i'll be productive in it fast.", cls:"out"},
+    "certs": {out:
+      "CompTIA Security+   -- certified.\n" +
+      "CEH                 -- studied it properly, and enjoyed it more than\n" +
+      "                       most things on my actual timetable.", cls:"out"},
+    "school": {out:
+      "beijing institute of technology (北京理工大学)\n" +
+      "major: computer science", cls:"out"},
+    "ls": {out:
+      "whoami/   terminal/   outside-class/   the-ceo-seat/   whats-next/", cls:"out"},
+    "contact": {out:
+      "no forms, no funnels. if you have a question, a project, or something\n" +
+      "you're stuck on -- reach out any time. happy to talk.", cls:"hi"},
+    "cat": {out:ABOUT, cls:"out"},
+    "sudo": {out:"nice try. 权限不足 -- you are not in the sudoers file.", cls:"err"},
+    "exit": {out:"there's no exit. keep scrolling.", cls:"dim"},
+    "xyzzy": {out:"a hollow voice says: 好样的.", cls:"hi", egg:true}
+  };
+
+  function line(text, cls){
+    var p = document.createElement("p");
+    p.className = "tl " + (cls || "out");
+    p.textContent = text;
+    body.insertBefore(p, inputRow);
+    return p;
+  }
+  function echo(cmd){
+    var p = document.createElement("p");
+    p.className = "tl";
+    var a = document.createElement("span"); a.className = "prompt"; a.textContent = "kiefe@bit:~$";
+    var b = document.createElement("span"); b.className = "cmdtxt"; b.textContent = " " + cmd;
+    p.appendChild(a); p.appendChild(b);
+    body.insertBefore(p, inputRow);
+  }
+
+  function run(raw){
+    var cmd = raw.trim();
+    if(!cmd){ echo(""); return; }
+    history.push(cmd); hIdx = history.length;
+    echo(cmd);
+
+    var lower = cmd.toLowerCase();
+    if(lower === "clear"){
+      var nodes = Array.prototype.slice.call(body.querySelectorAll(".tl"));
+      nodes.forEach(function(n){ n.remove(); });
+      line("screen cleared. type help if you get lost.", "dim");
+      return;
+    }
+    var key = lower.split(/\s+/)[0];
+    var entry = CMDS[key];
+    if(entry && entry.alias) entry = CMDS[entry.alias];
+
+    if(key === "cat"){
+      var arg = lower.split(/\s+/)[1] || "";
+      if(arg && arg.indexOf("about") === -1){
+        line("cat: " + arg + ": No such file or directory. Try about.txt", "err");
+        return;
+      }
+      line(ABOUT, "out");
+      return;
+    }
+    if(entry){
+      line(entry.out, entry.cls);
+      if(entry.egg) celebrate();
+      return;
+    }
+    line("command not found: " + cmd.split(/\s+/)[0] + "  --  type help for the list.", "err");
+  }
+
+  function submit(cmd){
+    run(cmd);
+    body.scrollTop = body.scrollHeight;
+  }
+
+  input.addEventListener("keydown", function(e){
+    if(e.key === "Enter"){
+      submit(input.value);
+      input.value = "";
+    } else if(e.key === "ArrowUp"){
+      e.preventDefault();
+      if(history.length){ hIdx = Math.max(0, hIdx - 1); input.value = history[hIdx] || ""; }
+    } else if(e.key === "ArrowDown"){
+      e.preventDefault();
+      if(history.length){
+        hIdx = Math.min(history.length, hIdx + 1);
+        input.value = hIdx === history.length ? "" : history[hIdx];
+      }
+    } else if(e.key === "Tab"){
+      e.preventDefault();
+      var v = input.value.trim().toLowerCase();
+      if(!v) return;
+      var names = Object.keys(CMDS).filter(function(n){ return n.indexOf(v) === 0; });
+      if(names.length === 1) input.value = names[0] === "cat" ? "cat about.txt" : names[0];
+      else if(names.length > 1) line(names.join("   "), "dim");
+    }
+  });
+  body.addEventListener("click", function(e){
+    if(window.getSelection().toString()) return;
+    if(e.target.tagName !== "INPUT") input.focus();
+  });
+  Array.prototype.forEach.call(document.querySelectorAll(".chip[data-cmd]"), function(btn){
+    btn.addEventListener("click", function(){
+      submit(btn.getAttribute("data-cmd"));
+      input.focus();
+    });
+  });
+
+    var BRICKS = {
+    crypto:{n:"01", label:"ethereum", title:"Smart contracts",
+      body:"Ethereum is the part of crypto I actually find interesting — a network you can put programs on. I've been learning Solidity and writing smart contracts to see how far that idea goes.",
+      foot:"<b>why this one:</b> nobody assigned it. That's the point."},
+    sec:{n:"02", label:"cybersecurity", title:"CEH and Security+",
+      body:"This is the corner I've gone deepest on. I really enjoyed my time studying CEH, and I took the CompTIA Security+ certification and passed it. Learning how systems break taught me more about how they're built than any tidy diagram ever did.",
+      foot:"<b>why this one:</b> the assumptions are where the truth hides."},
+    ai:{n:"03", label:"artificial intelligence", title:"Past the demo, into the mechanism",
+      body:"Everyone has seen what AI can do. Fewer people sit with how it does it. I'd rather spend an evening on what's actually happening inside the thing than collect another list of tools I half-understand.",
+      foot:"<b>why this one:</b> the demo is the marketing. The mechanism is the education."},
+    under:{n:"04", label:"under the hood", title:"How it actually works down there",
+      body:"The habit under all of these: I want to know what's under the tech we see every day. Not the interface — the layer below it, and the layer below that, until something finally stops being magic and starts being a decision somebody made.",
+      foot:"<b>why this one:</b> it's the same curiosity, pointed at whatever's in front of me."},
+    stack:{n:"05", label:"the stack", title:"A lot of frameworks, and counting",
+      body:"I've worked with a lot of frameworks by now — enough that a new one is a weekend, not a semester. The most recent ones are Node.js and Django on the back end, Next.js and React on the front, and Solidity when it belongs on-chain. That list is just where I am at the moment, not where it stops.",
+      foot:"<b>why this one:</b> being current is temporary. Being fast at learning isn't."},
+    method:{n:"06", label:"how I learn", title:"Depth over coverage",
+      body:"True learning is done outside of classes, where you can go deep on what you actually care about instead of wide on what fits a semester. So I pick one thing, follow it further than is strictly reasonable, and let it teach me the neighbouring things on the way down.",
+      foot:"<b>why this one:</b> one topic understood beats ten topics attended."}
+  };
+  var bricks = document.querySelectorAll(".brick");
+  var noteKicker = document.getElementById("noteKicker");
+  var noteTitle = document.getElementById("noteTitle");
+  var noteBody = document.getElementById("noteBody");
+  var noteFoot = document.getElementById("noteFoot");
+
+  Array.prototype.forEach.call(bricks, function(b){
+    b.addEventListener("click", function(){
+      var d = BRICKS[b.getAttribute("data-b")];
+      if(!d) return;
+      Array.prototype.forEach.call(bricks, function(o){ o.setAttribute("aria-pressed", o === b ? "true" : "false"); });
+      noteKicker.textContent = "brick " + d.n + " · " + d.label;
+      noteTitle.textContent = d.title;
+      noteBody.textContent = d.body;
+      noteFoot.innerHTML = d.foot;
+    });
+  });
+
+    var tracks = document.querySelectorAll("[data-track]");
+  Array.prototype.forEach.call(tracks, function(t){
+    for(var i=0;i<20;i++){
+      var c = document.createElement("span");
+      c.className = "cell on";
+      t.appendChild(c);
+    }
+  });
+  var lanes = document.querySelectorAll(".lane");
+  var stamp = document.getElementById("stamp");
+  var running = false;
+
+  document.getElementById("runSprint").addEventListener("click", function(){
+    if(running) return;
+    running = true;
+    stamp.textContent = "in progress";
+    stamp.classList.add("pending");
+    var done = 0;
+    Array.prototype.forEach.call(lanes, function(lane, li){
+      var cells = lane.querySelectorAll(".cell");
+      var pct = lane.querySelector("[data-pct]");
+      Array.prototype.forEach.call(cells, function(c){ c.classList.remove("on"); });
+      pct.textContent = "0%";
+      var i = 0;
+      var speed = reduce ? 8 : (34 + li * 10);
+      var timer = setInterval(function(){
+        cells[i].classList.add("on");
+        i++;
+        pct.textContent = Math.round((i/cells.length)*100) + "%";
+        if(i >= cells.length){
+          clearInterval(timer);
+          done++;
+          if(done === lanes.length){
+            stamp.textContent = "shipped · on time";
+            stamp.classList.remove("pending");
+            running = false;
+          }
+        }
+      }, speed);
+    });
+  });
+
+  Array.prototype.forEach.call(document.querySelectorAll(".lane-name"), function(btn){
+    btn.addEventListener("click", function(){
+      var note = document.getElementById(btn.getAttribute("aria-controls"));
+      var open = btn.getAttribute("aria-expanded") === "true";
+      btn.setAttribute("aria-expanded", open ? "false" : "true");
+      note.classList.toggle("show", !open);
+    });
+  });
+
+    var buf = "";
+  document.addEventListener("keydown", function(e){
+    if(e.target === input) return;
+    if(e.key && e.key.length === 1){
+      buf = (buf + e.key.toLowerCase()).slice(-8);
+      if(buf.indexOf("brick") !== -1){ buf = ""; celebrate(); }
+    }
+  });
+
+  var toastEl = null;
+  function celebrate(){
+    var field = document.getElementById("confetti");
+    var colors = ["#D9A441","#A93B4A","#4E8C63","#F7F2E4","#33415F"];
+    if(!reduce){
+      for(var i=0;i<44;i++){
+        (function(){
+          var d = document.createElement("i");
+          d.className = "conf";
+          d.style.background = colors[Math.floor(Math.random()*colors.length)];
+          d.style.left = (Math.random()*100) + "%";
+          d.style.animationDuration = (1.5 + Math.random()*1.6) + "s";
+          d.style.animationDelay = (Math.random()*0.5) + "s";
+          field.appendChild(d);
+          setTimeout(function(){ d.remove(); }, 4200);
+        })();
+      }
+    }
+    if(toastEl) toastEl.remove();
+    toastEl = document.createElement("div");
+    toastEl.className = "toast";
+    toastEl.textContent = "好样的 — proud of you.";
+    document.body.appendChild(toastEl);
+    setTimeout(function(){ if(toastEl){ toastEl.remove(); toastEl = null; } }, 2600);
+  }
+})();
+</script>
+
+</body>
+</html>

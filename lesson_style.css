@@ -1,0 +1,85 @@
+/* lesson_style.css — Styles for the split-pane interactive lesson interface */
+
+.lesson-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  height: calc(100vh - 74px); /* Subtract header height */
+  overflow: hidden;
+}
+
+/* Left Panel: Content */
+.lesson-content {
+  background: var(--paper);
+  border-right: 4px solid var(--navy-dark);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  position: relative;
+}
+.content-body {
+  padding: 40px;
+  flex: 1;
+  font-size: 16px;
+  color: var(--ink);
+  line-height: 1.7;
+}
+.content-body h2 { font-size: 24px; margin-bottom: 20px; color: var(--navy-dark); }
+.content-body h3 { font-size: 18px; margin: 30px 0 15px; color: var(--crimson); }
+.content-body p { margin-bottom: 20px; }
+.content-body code {
+  background: #f0f2f5;
+  border: 1px solid #d1d5df;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: var(--mono);
+  font-size: 0.9em;
+  color: var(--crimson-dark);
+}
+.content-body pre {
+  background: var(--navy);
+  color: var(--cream);
+  padding: 15px;
+  border: 3px solid var(--navy-dark);
+  box-shadow: 4px 4px 0 var(--gold);
+  overflow-x: auto;
+  font-family: var(--mono);
+  font-size: 14px;
+  margin-bottom: 25px;
+}
+.content-body ul { padding-left: 20px; margin-bottom: 20px; }
+.content-body li { margin-bottom: 10px; }
+.content-body .task-box {
+  background: #fcf4e8;
+  border: 3px solid var(--gold);
+  padding: 20px;
+  margin-top: 30px;
+}
+.content-body .task-box h3 { margin-top: 0; color: var(--gold); filter: drop-shadow(1px 1px 0px var(--navy-dark)); }
+
+.lesson-footer {
+  padding: 20px 40px;
+  background: #fff;
+  border-top: 3px solid var(--navy-dark);
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Right Panel: Editor */
+.lesson-editor {
+  display: flex;
+  flex-direction: column;
+  background: #f8f9fa;
+  padding: 0;
+}
+.lesson-editor .editor, .lesson-editor .console {
+  border: none;
+  box-shadow: none;
+  border-bottom: 4px solid var(--navy-dark);
+}
+.lesson-editor .console { border-bottom: none; }
+.lesson-title { font-family: var(--pixel); font-size: 14px; color: var(--gold-light); margin-left: 20px; border-left: 2px solid var(--muted); padding-left: 20px; }
+
+@media (max-width: 900px) {
+  .lesson-layout { grid-template-columns: 1fr; overflow-y: auto; height: auto; }
+  .lesson-editor { height: 800px; border-top: 4px solid var(--navy-dark); }
+}

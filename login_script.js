@@ -77,6 +77,5 @@
     }catch(e){}
 
     show('win','Professor Wáng: “Proud of you.” 好样的 — welcome back, '+(user.name||'builder')+'. Entering the classroom…',winIco);
-    setTimeout(function(){window.location.href='index.html';},1400);
-  });
+    setTimeout(function(){window.location.href='dashboard.html';},1400);  });
 })();

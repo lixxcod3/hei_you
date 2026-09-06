@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About Us — Hei You</title>
+  <link rel="icon" type="image/svg+xml" href="elements/favicon.svg" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="about_style.css" />
+  <meta name="description" content="Meet the Hei You team and see how our roles connect to build a beginner-friendly C learning platform." />
+  
+  <style>
+    /* Professor Wang Interactive Widget */
+    .wang-widget {
+      background: #f8f9fa;
+      border: 2px solid #2E3A55;
+      border-radius: 12px;
+      padding: 2rem;
+      text-align: center;
+      max-width: 600px;
+      margin: 2rem 0;
+      box-shadow: 4px 4px 0px #2E3A55;
+    }
+    .wang-dialogue {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #A8324A;
+      min-height: 3rem;
+      margin-bottom: 1.5rem;
+      transition: all 0.3s ease;
+    }
+    .wang-buttons {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .wang-buttons button {
+      background: #fff;
+      border: 2px solid #1C2436;
+      padding: 10px 15px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: all 0.2s;
+    }
+    .wang-buttons button:hover {
+      background: #E8C48E;
+      transform: translateY(-2px);
+      box-shadow: 2px 2px 0px #1C2436;
+    }
+
+    /* Interactive Team Cards & Chart Nodes */
+    .member, .node {
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .member:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    .node:hover .box {
+      stroke: #C58F3A;
+      stroke-width: 3px;
+    }
+    
+    /* Layout tweaks for new intro */
+    .intro-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      align-items: center;
+    }
+    @media (max-width: 768px) {
+      .intro-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="index.html" aria-label="Hei You home">
+      <svg class="mark" viewBox="0 0 65 40" aria-label="Professor Wáng icon" role="img">
+        <g class="logo-head">
+          <rect x="2" y="9" width="7" height="4" fill="#C58F3A" stroke="#1C2436" stroke-width="1.5"/>
+          <rect x="31" y="9" width="7" height="4" fill="#C58F3A" stroke="#1C2436" stroke-width="1.5"/>
+          <rect x="8" y="10" width="24" height="3" fill="#C58F3A"/>
+          <rect x="10" y="3" width="20" height="8" fill="#2E3A55" stroke="#1C2436" stroke-width="1.5"/>
+          <circle cx="20" cy="3" r="2" fill="#C58F3A"/>
+          <rect x="11" y="13" width="18" height="14" fill="#E8C48E" stroke="#1C2436" stroke-width="1.5"/>
+          <rect x="12" y="15" width="7" height="6" fill="none" stroke="#C58F3A" stroke-width="2"/>
+          <rect x="21" y="15" width="7" height="6" fill="none" stroke="#C58F3A" stroke-width="2"/>
+          <rect x="19" y="17" width="2" height="2" fill="#C58F3A"/>
+          <g class="eyes">
+            <rect x="14" y="17" width="2" height="2" fill="#1C2436"/>
+            <rect x="23" y="17" width="2" height="2" fill="#1C2436"/>
+          </g>
+          <rect x="13" y="23" width="14" height="2" fill="#9AA3B2"/>
+          <rect x="13" y="25" width="2" height="3" fill="#9AA3B2"/>
+          <rect x="25" y="25" width="2" height="3" fill="#9AA3B2"/>
+          <rect x="8" y="30" width="24" height="9" fill="#A8324A" stroke="#1C2436" stroke-width="1.5"/>
+          <rect x="18" y="30" width="4" height="9" fill="#C58F3A"/>
+          <circle cx="12" cy="31" r="1.6" fill="#C58F3A"/>
+          <circle cx="28" cy="31" r="1.6" fill="#C58F3A"/>
+        </g>
+        <g class="logo-block">
+          <rect x="40" y="12" width="20" height="20" fill="#3F7A5C" stroke="#1C2436" stroke-width="1.5"/>
+          <rect x="42" y="14" width="16" height="2" fill="#529c76"/>
+          <rect x="46" y="17" width="8" height="2" fill="#fff"/>
+          <rect x="44" y="19" width="2" height="6" fill="#fff"/>
+          <rect x="46" y="25" width="8" height="2" fill="#fff"/>
+        </g>
+      </svg>
+      <span><b>Hei You</b><span>嘿，你 · learn C</span></span>
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="index.html">Home</a>
+      <a href="index.html#demo">Playground</a>
+      <a href="about.html" aria-current="page">About Us</a>
+    </nav>
+    <div class="nav-right">
+      <a class="btn btn-sm" href="login.html">Log in</a>
+      <a class="btn btn-gold btn-sm" href="signup.html">Sign up</a>
+    </div>
+  </div>
+</header>
+
+<section class="page-hero">
+  <div class="wrap">
+    <span class="chip">About Us</span>
+    <h1>Building Hei You</h1>
+    <p>Meet the six students building a better way to learn C — one brick at a time.</p>
+  </div>
+</section>
+
+<section class="section" style="padding-bottom:0;">
+  <div class="wrap intro-grid">
+    <div>
+      <h2><span class="secnum">1</span> What is Hei You?</h2>
+      <p class="copy">Learning C usually means staring at cryptic terminal errors and pulling your hair out over memory leaks. We thought, <strong>why not make it fun?</strong></p>
+      <p class="copy"><strong>Hei You</strong> (嗨，你) is a web-based playground that breaks C down into bite-sized, interactive chunks. No downloads, no messy setups—just a clean browser compiler and a little tough love from our virtual mentor, Professor Wáng.</p>
+    </div>
+
+    <div>
+      <h2><span class="secnum">2</span> The Professor Wáng Experience</h2>
+      <p class="copy">Instead of standard red error text, you get real feedback from Professor Wáng. He’s blunt, he’s warm, and he definitely has opinions about your code. <strong>Try it out:</strong></p>
+      
+      <div class="wang-widget">
+        <div class="wang-dialogue" id="wang-text">"Well? Write some code. Let's see what you've got."</div>
+        <div class="wang-buttons">
+          <button onclick="wangReact('win')">✅ Run Perfect Code</button>
+          <button onclick="wangReact('error')">❌ Forget a Semicolon</button>
+          <button onclick="wangReact('done')">🎓 Finish the Chapter</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <h2><span class="secnum">3</span> How our roles connect</h2>
+    <p class="sub">The CEO sets the vision; the CTO and CIO build the engine; design, content, and testing bring it to life. <strong>Hover or click any name</strong> to explore.</p>
+
+    <div class="diagram">
+      <svg viewBox="0 0 920 510" role="img" aria-label="Team role connection diagram. Kiefe (CEO) manages Felix (CTO) and Rafael (CIO), who collaborate. Felix leads Christo (Designer) and Bryan (Technical Writer); Rafael leads Richard (Lead Tester and QA).">
+        
+      <line class="edge" x1="460" y1="110" x2="250" y2="220"/>
+      <line class="edge" x1="460" y1="110" x2="670" y2="220"/>
+      <line class="edge" x1="250" y1="300" x2="120" y2="410"/>
+      <line class="edge" x1="250" y1="300" x2="350" y2="410"/>
+      <line class="edge" x1="670" y1="300" x2="720" y2="410"/>
+      <line class="edge-dash" x1="350" y1="260" x2="570" y2="260"/>
+      <text class="edge-label" x="300" y="165">manages</text>
+      <text class="edge-label" x="585" y="165">manages</text>
+      <text class="edge-label" x="405" y="252" text-anchor="middle">collaborate</text>
+
+        <a class="node" href="members/kiefe.html" aria-label="Kiefe, Chief Executive Officer">
+      <rect class="box" x="360" y="30" width="200" height="80"/>
+      <rect x="360" y="30" width="200" height="10" fill="#A8324A"/>
+      <text class="name" x="460" y="76" text-anchor="middle">Kiefe</text>
+      <text class="role" x="460" y="95" text-anchor="middle">Chief Executive Officer</text>
+    </a>
+      <a class="node" href="members/felix.html" aria-label="Felix, Chief Technology Officer">
+      <rect class="box" x="150" y="220" width="200" height="80"/>
+      <rect x="150" y="220" width="200" height="10" fill="#2E3A55"/>
+      <text class="name" x="250" y="266" text-anchor="middle">Felix</text>
+      <text class="role" x="250" y="285" text-anchor="middle">Chief Technology Officer</text>
+    </a>
+      <a class="node" href="members/rafael" aria-label="Rafael, Chief Information Officer">
+      <rect class="box" x="570" y="220" width="200" height="80"/>
+      <rect x="570" y="220" width="200" height="10" fill="#5b4b8a"/>
+      <text class="name" x="670" y="266" text-anchor="middle">Rafael</text>
+      <text class="role" x="670" y="285" text-anchor="middle">Chief Information Officer</text>
+    </a>
+      <a class="node" href="members/christo.html" aria-label="Christo, Designer">
+      <rect class="box" x="20" y="410" width="200" height="80"/>
+      <rect x="20" y="410" width="200" height="10" fill="#C58F3A"/>
+      <text class="name" x="120" y="456" text-anchor="middle">Christo</text>
+      <text class="role" x="120" y="475" text-anchor="middle">Designer</text>
+    </a>
+      <a class="node" href="members/bryan.html" aria-label="Bryan, Technical Writer">
+      <rect class="box" x="250" y="410" width="200" height="80"/>
+      <rect x="250" y="410" width="200" height="10" fill="#3F7A5C"/>
+      <text class="name" x="350" y="456" text-anchor="middle">Bryan</text>
+      <text class="role" x="350" y="475" text-anchor="middle">Technical Writer</text>
+    </a>
+      <a class="node" href="members/richard.html" aria-label="Richard, Lead Tester & QA">
+      <rect class="box" x="620" y="410" width="200" height="80"/>
+      <rect x="620" y="410" width="200" height="10" fill="#2f6d78"/>
+      <text class="name" x="720" y="456" text-anchor="middle">Richard</text>
+      <text class="role" x="720" y="475" text-anchor="middle">Lead Tester & QA</text>
+    </a>
+      </svg>
+      <div class="legend">
+        <span><span class="swatch"></span> reporting line (manages)</span>
+        <span><span class="swatch dash"></span> close collaboration</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="padding-top:0;">
+  <div class="wrap">
+    <h2><span class="secnum">4</span> Meet the team</h2>
+    <p class="sub">Each member maintains their own profile page. Tap a card to read more.</p>
+    <div class="team-grid">
+      <article class="member">
+        <img class="photo" src="elements/avatar-kiefe.png" alt="Portrait of Kiefe" width="400" height="400">
+        <div class="body">
+          <span class="role-tag rt-crimson">Chief Executive Officer</span>
+          <h3><a href="members/kiefe.html" style="text-decoration:none;color:inherit;">Kiefe</a></h3>
+          <p>Keeps the whole build on schedule and on-theme, and signs off every milestone before release.</p>
+        </div>
+        <a class="btn btn-sm more" href="members/kiefe.html">View profile →</a>
+      </article>
+      <article class="member">
+        <img class="photo" src="elements/avatar-christo.png" alt="Portrait of Christo" width="400" height="400">
+        <div class="body">
+          <span class="role-tag rt-gold">Designer</span>
+          <h3><a href="members/christo.html" style="text-decoration:none;color:inherit;">Christo</a></h3>
+          <p>Shapes the look and the flow so learning C feels calm and welcoming, not scary.</p>
+        </div>
+        <a class="btn btn-sm more" href="members/christo.html">View profile →</a>
+      </article>
+      <article class="member">
+        <img class="photo" src="elements/avatar-bryan.png" alt="Portrait of Bryan" width="400" height="400">
+        <div class="body">
+          <span class="role-tag rt-emerald">Technical Writer & Content Strategist</span>
+          <h3><a href="members/bryan.html" style="text-decoration:none;color:inherit;">Bryan</a></h3>
+          <p>Turns hard C concepts into friendly, bite-size lessons and keeps the docs tidy.</p>
+        </div>
+        <a class="btn btn-sm more" href="members/bryan.html">View profile →</a>
+      </article>
+      <article class="member">
+        <img class="photo" src="elements/avatar-felix.png" alt="Portrait of Felix" width="400" height="400">
+        <div class="body">
+          <span class="role-tag rt-navy">Chief Technology Officer</span>
+          <h3><a href="members/felix.html" style="text-decoration:none;color:inherit;">Felix</a></h3>
+          <p>Runs the GitHub repo and architects the UI that ties the whole site together.</p>
+        </div>
+        <a class="btn btn-sm more" href="members/felix.html">View profile →</a>
+      </article>
+      <article class="member">
+        <img class="photo" src="elements/avatar-rafael.png" alt="Portrait of Rafael" width="400" height="400">
+        <div class="body">
+          <span class="role-tag rt-plum">Chief Information Officer</span>
+          <h3><a href="members/rafael" style="text-decoration:none;color:inherit;">Rafael</a></h3>
+          <p>Writes and maintains the codebase, guards its quality, and tracks the schedule.</p>
+        </div>
+        <a class="btn btn-sm more" href="members/rafael.html">View profile →</a>
+      </article>
+      <article class="member">
+        <img class="photo" src="elements/avatar-richard.png" alt="Portrait of Richard" width="400" height="400">
+        <div class="body">
+          <span class="role-tag rt-teal">Lead Tester & QA Specialist</span>
+          <h3><a href="members/richard.html" style="text-decoration:none;color:inherit;">Richard</a></h3>
+          <p>Breaks things on purpose so learners never have to — bugs get caught here first.</p>
+        </div>
+        <a class="btn btn-sm more" href="members/richard.html">View profile →</a>
+      </article>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot">
+    <span>© 2026 Hei You </span>
+    <span class="zh">老师 Wáng: teamwork makes the tower stand. 加油!</span>
+  </div>
+</footer>
+
+<script>
+  function wangReact(type) {
+    const textEl = document.getElementById('wang-text');
+    
+    // Add a quick fade effect
+    textEl.style.opacity = 0;
+    
+    setTimeout(() => {
+      if(type === 'win') {
+        textEl.innerHTML = "&ldquo;Proud of you.&rdquo;";
+        textEl.style.color = "#3F7A5C"; // Emerald
+      } else if(type === 'error') {
+        textEl.innerHTML = "&ldquo;Shame on you. Check line 4.&rdquo;";
+        textEl.style.color = "#A8324A"; // Crimson
+      } else if(type === 'done') {
+        textEl.innerHTML = "&ldquo;See you next lesson.&rdquo;";
+        textEl.style.color = "#2E3A55"; // Navy
+      }
+      textEl.style.opacity = 1;
+    }, 200);
+  }
+</script>
+
+</body>
+</html>
