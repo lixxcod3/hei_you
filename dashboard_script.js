@@ -100,16 +100,13 @@
       }
       towerEl.innerHTML = html;
 
-      // Attach mock progression events
-      var continueBtns = towerEl.querySelectorAll('.action-continue');
-      continueBtns.forEach(function(btn) {
+      // Attach real navigation events to launch the lesson
+      var actionBtns = towerEl.querySelectorAll('button');
+      actionBtns.forEach(function(btn) {
         btn.addEventListener('click', function() {
-          if (user.progress < modules.length) {
-            user.progress++;
-            users[key] = user;
-            saveUsers(users);
-            showBanner('Professor Wáng: “Proud of you.” Brick placed successfully!', 'win');
-            render();
+          var modIndex = this.getAttribute('data-index');
+          if (modIndex !== null && !this.classList.contains('is-disabled')) {
+            window.location.href = 'lesson.html?mod=' + modIndex;
           }
         });
       });
