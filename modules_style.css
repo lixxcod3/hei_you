@@ -1,4 +1,4 @@
-/* modules_style.css — the Curriculum page. Loaded after master style.css. */
+/* modules_style.css — the Curriculum page.*/
 
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=JetBrains+Mono:wght@400;500;700;800&display=swap');
 
@@ -112,9 +112,5 @@ footer{background:var(--navy);color:#aeb8cc;border-top:10px solid var(--navy-dar
 .nav-right .who2 b{color:var(--gold-light);}
 .guest-banner{display:flex;align-items:center;gap:14px;flex-wrap:wrap;background:var(--gold);border:3px solid var(--navy-dark);box-shadow:var(--brick-sm);padding:14px 18px;margin:26px 0 0;font-weight:700;color:var(--navy-dark);font-size:14px;}
 .guest-banner .g-actions{margin-left:auto;display:flex;gap:10px;}
-.lockmsg{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:14px;background:#f4efe6;border:3px dashed #b9a98a;padding:14px 16px;font-size:14px;color:#6b5d45;font-weight:700;}
-.lockmsg svg{flex:0 0 auto;}
-.lockmsg .btn{margin-left:auto;}
 .mod.locked .lessons{display:none;}
 .mod.locked.unlocked .lessons{display:grid;}
-.mod.locked.unlocked .lockmsg{display:none;}
