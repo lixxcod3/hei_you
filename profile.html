@@ -8,7 +8,6 @@
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="login_style.css" />
   <style>
-    /* Minor adjustments for the profile layout */
     .profile-wrap { display: flex; justify-content: center; padding: 60px 24px; min-height: calc(100vh - 74px); }
     .formwrap { background: var(--paper); padding: 40px; border: 3px solid var(--navy-dark); box-shadow: var(--brick); }
     hr { border: none; border-top: 3px dashed var(--navy-dark); margin: 30px 0; opacity: 0.2; }
@@ -24,7 +23,7 @@
       </svg>
       <span><b>Hei You</b><small>嘿，你 · learn C</small></span>
     </a>
-    <div class="nav-right">
+    <div class="nav-right" id="nav-actions">
       <!-- Session.js will dynamically populate this if logged in -->
     </div>
   </div>
@@ -47,11 +46,12 @@
         </div>
       </div>
 
-      <div class="field">
+      <div class="field" id="f-name">
         <label for="p-name">Username</label>
         <div class="inpwrap">
           <input type="text" id="p-name" placeholder="How should Professor Wáng call you?" />
         </div>
+        <span class="msg" id="m-name">Please enter a valid username.</span>
       </div>
 
       <hr>
@@ -64,7 +64,7 @@
 
       <div class="field" id="f-new-pass">
         <label for="p-new-pass">New Password</label>
-        <div class="inpwrap"><input type="password" id="p-new-pass" placeholder="Minimum 6 characters" /></div>
+        <div class="inpwrap"><input type="password" id="p-new-pass" placeholder="Minimum 8 characters" /></div>
       </div>
 
       <button type="submit" class="btn btn-primary" id="submit" style="margin-top:10px;">Save Changes</button>
