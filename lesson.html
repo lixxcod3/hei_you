@@ -18,24 +18,31 @@
       </svg>
       <span><b>Hei You</b><small>← Back to Dashboard</small></span>
     </a>
+    
     <div class="lesson-title" id="lesson-title">Loading Module...</div>
+    
+    <div class="nav-right dont-print">
+      <button class="btn btn-sm btn-ghost" id="btn-print" style="color:var(--cream); border-color:var(--gold);">🖨️ Save as PDF</button>
+    </div>
   </div>
 </header>
 
 <main class="lesson-layout">
-  <!-- Left Panel: Lesson Theory & Materials -->
+  <!-- Left Panel: Lesson Theory -->
   <section class="lesson-content">
+    <div class="sub-nav dont-print" id="sub-nav">Loading sub-lesson...</div>
+    
     <div class="content-body" id="content-body">
-      <!-- Injected by lesson_script.js -->
+      <!-- Injected from curriculum_data.js -->
     </div>
     
-    <div class="lesson-footer">
+    <div class="lesson-footer dont-print">
       <button class="btn btn-primary" id="btn-complete" disabled>Run successful code to unlock</button>
     </div>
   </section>
 
-  <!-- Right Panel: Editor & Console -->
-  <section class="lesson-editor demo-grid">
+  <!-- Right Panel: Code Editor -->
+  <section class="lesson-editor demo-grid dont-print">
     <div class="editor" style="height: 50%;">
       <div class="bar"><span class="dot r"></span><span class="dot y"></span><span class="dot g"></span><span class="file">main.c</span></div>
       <textarea id="code" spellcheck="false"></textarea>
@@ -56,6 +63,8 @@
   </section>
 </main>
 
+<script src="session.js"></script>
+<script src="curriculum_data.js"></script>
 <script src="lesson_script.js"></script>
 </body>
 </html>
