@@ -1,9 +1,9 @@
-/* lesson_style.css — Styles for the split-pane interactive lesson interface */
+/* lesson_style.css */
 
 .lesson-layout {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  height: calc(100vh - 74px); /* Subtract header height */
+  height: calc(100vh - 74px); 
   overflow: hidden;
 }
 
@@ -16,13 +16,24 @@
   overflow-y: auto;
   position: relative;
 }
+
+.sub-nav {
+  padding: 15px 40px;
+  background: #f0f2f5;
+  border-bottom: 2px solid var(--navy-dark);
+  font-weight: 800;
+  font-size: 13px;
+  color: var(--muted);
+}
+
 .content-body {
   padding: 40px;
   flex: 1;
-  font-size: 16px;
+  font-size: 15px;
   color: var(--ink);
   line-height: 1.7;
 }
+
 .content-body h2 { font-size: 24px; margin-bottom: 20px; color: var(--navy-dark); }
 .content-body h3 { font-size: 18px; margin: 30px 0 15px; color: var(--crimson); }
 .content-body p { margin-bottom: 20px; }
@@ -48,13 +59,14 @@
 }
 .content-body ul { padding-left: 20px; margin-bottom: 20px; }
 .content-body li { margin-bottom: 10px; }
-.content-body .task-box {
+
+.task-box {
   background: #fcf4e8;
   border: 3px solid var(--gold);
   padding: 20px;
   margin-top: 30px;
 }
-.content-body .task-box h3 { margin-top: 0; color: var(--gold); filter: drop-shadow(1px 1px 0px var(--navy-dark)); }
+.task-box h3 { margin-top: 0; color: var(--gold); filter: drop-shadow(1px 1px 0px var(--navy-dark)); }
 
 .lesson-footer {
   padding: 20px 40px;
@@ -77,9 +89,60 @@
   border-bottom: 4px solid var(--navy-dark);
 }
 .lesson-editor .console { border-bottom: none; }
-.lesson-title { font-family: var(--pixel); font-size: 14px; color: var(--gold-light); margin-left: 20px; border-left: 2px solid var(--muted); padding-left: 20px; }
+.lesson-title { 
+  font-family: var(--pixel); 
+  font-size: 14px; 
+  color: var(--gold-light); 
+  margin-left: 20px; 
+  border-left: 2px solid var(--muted); 
+  padding-left: 20px; 
+}
 
 @media (max-width: 900px) {
   .lesson-layout { grid-template-columns: 1fr; overflow-y: auto; height: auto; }
   .lesson-editor { height: 800px; border-top: 4px solid var(--navy-dark); }
+}
+
+/* =========================================
+   PRINT MODE (For generating clean PDFs)
+========================================= */
+@media print {
+  body { background: white; }
+  
+  .site-header, 
+  .lesson-editor, 
+  .dont-print, 
+  .sub-nav {
+    display: none !important;
+  }
+
+  .lesson-layout {
+    display: block;
+    height: auto;
+    overflow: visible;
+  }
+  
+  .lesson-content {
+    border: none;
+    background: white;
+    width: 100%;
+    overflow: visible;
+  }
+
+  .content-body {
+    padding: 0;
+    color: black;
+  }
+
+  pre {
+    page-break-inside: avoid;
+    border: 1px solid #ccc;
+    background: #f9f9f9;
+    color: #333;
+    box-shadow: none;
+  }
+
+  h2, h3 {
+    page-break-after: avoid;
+  }
 }

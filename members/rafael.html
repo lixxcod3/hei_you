@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rafael Feng | Computer Science & Technology Undergraduate Student</title>
+    <title>Rafael Feng | Undergraduate Student</title>
     <style>
         /* Color Palette & Purpose */
         :root {
-            --crimson: #A8324A; /* Urgensi + fokus */
-            --navy: #2E3A55;    /* Kedalaman + percaya */
-            --gold: #C58F3A;    /* Pencapaian + kerja keras */
-            --emerald: #3F7A5C; /* Kemajuan + tumbuh */
-            --cream: #FAF7F2;   /* Hangat + tenang */
+            --crimson: #A8324A; /* Urgency + focus */
+            --navy: #2E3A55;    /* Depth + trust */
+            --gold: #C58F3A;    /* Achievement + hard work */
+            --emerald: #3F7A5C; /* Progress + growth */
+            --cream: #FAF7F2;   /* Warm + calm */
         }
 
         body {
@@ -37,6 +37,16 @@
         header {
             text-align: center;
             margin-bottom: 40px;
+        }
+
+        .profile-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--gold);
+            margin: 0 auto 20px;
+            display: block;
         }
 
         h1 {
@@ -91,26 +101,39 @@
             font-size: 0.95em;
             color: var(--emerald);
             font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .entry .location-date {
+            font-size: 0.85em;
+            color: #666;
             margin-bottom: 10px;
+            font-style: italic;
         }
 
         .entry p {
-            margin: 0;
+            margin: 0 0 5px 0;
+            font-size: 0.95em;
+        }
+        
+        .entry ul {
+            margin: 5px 0 0 0;
+            padding-left: 20px;
             font-size: 0.95em;
         }
 
-        ul.achievements {
+        ul.achievements, ul.organizations, ul.languages {
             list-style-type: none;
             padding: 0;
         }
 
-        ul.achievements li {
+        ul.achievements li, ul.organizations li, ul.languages li {
             position: relative;
             padding-left: 20px;
             margin-bottom: 10px;
         }
 
-        ul.achievements li::before {
+        ul.achievements li::before, ul.organizations li::before, ul.languages li::before {
             content: "✦";
             position: absolute;
             left: 0;
@@ -140,56 +163,95 @@
 
 <div class="profile-container">
     <header>
+        <!-- Replace 'rafael_photo.jpg' with your actual image file path -->
+        <img src="rafael_photo.jpg" alt="Rafael Feng" class="profile-photo">
         <h1>Rafael Feng</h1>
-        <div class="title">Computer Science & Technology Undergraduate Student<br>Beijing Institute of Technology</div>
+        <div class="title">Undergraduate Student</div>
         <div class="contact-info">
-            Beijing, China | Malang, Indonesia <br>
-            rafaelfeng716@gmail.com | +62 85959651193
+            Beijing, China | Malang, Indonesia<br>
+            rafaelfeng716@gmail.com | +62 85959651193<br>
+            linkedin.com/in/rafael-feng-603a5b267
         </div>
     </header>
 
     <div class="summary">
-        <p>An undergraduate student from Indonesia with a strong passion for mathematics and informatics. Experienced in national mathematics competitions, utilizing these opportunities to sharpen problem-solving skills for real-life situations.</p>
+        <p>I'm a undergraduate student from Indonesia with a strong passion for mathematics and informatics. Throughout my studies, I've had the chance to compete in national mathematics competitions, which helped me sharpen my skills in problem-solving skills and helping me for solve problem in real-life situations.</p>
     </div>
 
     <h2>Education</h2>
     <div class="entry">
         <h3>Bachelor of Computer Science</h3>
-        <div class="meta">Beijing Institute of Technology | 09/2025 - Present</div>
-        <p>Status: BIT International Scholarship (4 years fully funded).</p>
+        <div class="meta">Beijing Institute of Technology</div>
+        <div class="location-date">Beijing, China | 09/2025-Present</div>
+        <p>Status: BIT International Scholarship (4 years fully funded)</p>
     </div>
     <div class="entry">
         <h3>Senior High School (National Curriculum)</h3>
-        <div class="meta">St. Albertus Catholic Senior High School | 07/2022 - 05/2025</div>
-        <p>GPA: 96.77</p>
+        <div class="meta">St. Albertus Catholic Senior High School</div>
+        <div class="location-date">07/2022-05/2025</div>
+        <p>GPA: 96,77</p>
     </div>
 
-    <h2>Experience Highlights</h2>
+    <h2>Work Experience</h2>
     <div class="entry">
         <h3>Corrections and Question Division Staff</h3>
-        <div class="meta">Kontes Terbuka Olimpiade Matematika Indonesia | 09/2024 - Present</div>
-        <p>Graded participants' essay questions and created participant grade reports for the contest event.</p>
+        <div class="meta">Kontes Terbuka Olimpiade Matematika Indonesia</div>
+        <div class="location-date">09/2024-Present</div>
+        <p>Kontes Terbuka Olimpiade Matematika (KTOM) operates under the Indonesian Mathematics Olympiad Team (TOMI), which serves as Indonesia's official national mathematics team for the International Mathematical Olympiad (IMO)</p>
+        <p><strong>Tasks:</strong></p>
+        <ul>
+            <li>Graded the participants' questions to the essay questions of the contest.</li>
+            <li>Created a participants grade report of the contest event.</li>
+        </ul>
+    </div>
+    <div class="entry">
+        <h3>Judge of Dempo Cup</h3>
+        <div class="meta">St. Albertus Senior High School</div>
+        <div class="location-date">Malang, Indonesia | 09/2024-10/2024</div>
+        <p>Dempo Cup is a competition that held annually by St. Albertus Catholic Senior High School for Junior High School in East Java region.</p>
+    </div>
+    <div class="entry">
+        <h3>Advanced Academic Program: World Economics</h3>
+        <div class="meta">New College, University of Toronto</div>
+        <div class="location-date">Toronto, Canada | 06/2024-07/2024</div>
+        <p>The program focused on world economics and discussed about food insecurity and housing problems. This program was sponsored by Ministry of Education, Culture, Research, and Technology.</p>
     </div>
     <div class="entry">
         <h3>Mathematics Tutor</h3>
-        <div class="meta">ALC Indonesia, Scuola, Olimpiade Bersama, etc. | 01/2024 - Present</div>
-        <p>Delivered bilingual mathematics olympiad instruction, accumulating over 2,000 teaching hours and mentoring approximately 500 students for OSN 2025 preparation.</p>
+        <div class="meta">ALC Indonesia, Scuola, Olimpiade Bersama, Mandiri OSN, Star Generation, etc</div>
+        <div class="location-date">Indonesia | 01/2024-Present</div>
+        <p>Delivered bilingual (English-Indonesian) mathematics olympiad instruction through online and in-person classes, accumulating 2,000+ teaching hours and mentoring approximately 500 students, focused on OSN 2025 preparation at the Regional, Provincial, and National stages.</p>
     </div>
 
-    <h2>Key Achievements</h2>
-    <ul class="achievements">
-        <li>Bronze Medal of National Math Olympiad (OSN) 2024</li>
-        <li>Second Round Participant, Indonesia Team Selection Test for International Mathematical Olympiad (IMO) 2024</li>
-        <li>Silver Medal of National Math Olympiad (OSN) 2023</li>
+    <h2>Organizations</h2>
+    <ul class="organizations">
+        <li><strong>Kontes Terbuka Olimpiade Matematika (09/2024-Present):</strong> Member of Question and Correctors Division.</li>
+        <li><strong>Dempo Mathematics Club (07/2022-03/2025):</strong> Member of Math Olympiad Team in St. Albertus Senior High School.</li>
     </ul>
 
-    <h2>Core Skills</h2>
+    <h2>Achievements</h2>
+    <ul class="achievements">
+        <li><strong>Bronze Medal of National Math Olympiad (OSN) 2024 (08/2024-09/2024):</strong> Bronze Medalist (top 15 of almost 30,000) in 2023 Indonesian National Science Olympiad in Mathematics (OSN Matematika). Involves solving proof-based math problems, testing creative thinking and mathematical problem solving ability.</li>
+        <li><strong>Second Round Participant, Indonesia Team Selection Test for International Mathematical Olympiad (IMO) 2024 (03/2024-03/2024):</strong> National training aimed to select 6 out of 16 medalists and veteran of the 2023 National Science Olympiads/OSN (Mathematics). It held by Indonesian Mathematics Olympiad Team (TOMI).</li>
+        <li><strong>Selected as a member of Indonesia's national delegation for Asian Pacific Mathematics Olympiad (APMO) 2024 (03/2024-03/2024):</strong> Top 16 nationwide participant, Second Round of Indonesia Team Selection Test for IMO 2024 & APMO 2024</li>
+        <li><strong>Silver Medal of National Math Olympiad (OSN) 2023 (08/2023-09/2023):</strong> Silver Medalist (top 15 of almost 30,000) in 2023 Indonesian National Science Olympiad in Mathematics (OSN Matematika). Involves solving proof-based math problems, testing creative thinking and mathematical problem solving ability.</li>
+    </ul>
+    
+    <h2>Languages</h2>
+    <ul class="languages">
+        <li><strong>Indonesian:</strong> Native or Bilingual Proficiency</li>
+        <li><strong>English:</strong> Full Professional Proficiency</li>
+    </ul>
+
+    <h2>Skills</h2>
     <div class="skills-container">
         <span class="skill-badge">Advance Math</span>
         <span class="skill-badge">C++</span>
         <span class="skill-badge">Python</span>
-        <span class="skill-badge">LaTeX</span>
+        <span class="skill-badge">Presentation Skills</span>
+        <span class="skill-badge">Communication</span>
         <span class="skill-badge">Problem-solving</span>
+        <span class="skill-badge">LaTeX</span>
     </div>
 </div>
 
