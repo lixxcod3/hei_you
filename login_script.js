@@ -11,7 +11,7 @@
   var winIco='<svg width="24" height="24" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" fill="#2c5741" stroke="#1C2436" stroke-width="2"/><rect x="7" y="8" width="3" height="3" fill="#fff"/><rect x="14" y="8" width="3" height="3" fill="#fff"/><rect x="7" y="15" width="10" height="2" fill="#fff"/></svg>';
   var infoIco='<svg width="24" height="24" viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" fill="#2E3A55" stroke="#1C2436" stroke-width="2"/><rect x="10" y="6" width="4" height="4" fill="#E3B25E"/><rect x="10" y="12" width="4" height="6" fill="#E3B25E"/></svg>';
 
-  /* ---- Hei You local store (Option A: browser-only, front-end demo) ----
+  /* ---- Hei You local store ----
      Users live in localStorage under 'heiyou_users'. Passwords are hashed
      with SHA-256 so plaintext isn't stored. This is fine for a scoped
      prototype but is NOT real security — anyone with the device can read it. */
