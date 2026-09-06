@@ -20,7 +20,7 @@
       <a href="index.html#demo">Playground</a>
       <a href="about.html">About Us</a>
     </nav>
-    <div class="nav-right">
+    <div class="nav-right" id="nav-actions">
       <a class="btn btn-sm" href="login.html">Log in</a>
       <a class="btn btn-gold btn-sm" href="signup.html">Sign up</a>
     </div>
@@ -50,15 +50,24 @@
 
 <section class="section">
   <div class="wrap">
-    <h2>Course modules</h2>
+    
+    <div class="guest-banner" id="guest-banner">
+      <span>You're browsing as a guest — showing 2 of 5 modules.</span>
+      <div class="g-actions">
+        <a class="btn btn-primary btn-sm" href="signup.html">Create free account to unlock</a>
+      </div>
+    </div>
+
+    <h2 style="margin-top: 30px;">Course modules</h2>
     <div class="legend">
       Difficulty:
       <span class="lvl lvl-beginner">Beginner</span>
       <span class="lvl lvl-core">Core</span>
       <span class="lvl lvl-advanced">Advanced</span>
     </div>
+
     <div class="mods">
-      <article class="mod">
+      <article class="mod" id="mod-article-0">
         <div class="num" style="background:#A8324A;">1</div>
         <div>
           <div class="mod-head">
@@ -74,10 +83,14 @@
           <li>Comments and clean formatting</li>
           <li>Escape sequences and printing values</li>
           </ul>
-          <div class="mod-foot"><span class="status available">Available</span><a class="btn btn-primary btn-sm" href="index.html#demo">Try in the playground →</a></div>
+          <div class="mod-foot">
+            <span class="status available" id="mod-status-0">Available</span>
+            <a class="btn btn-primary btn-sm" id="mod-link-0" href="lesson.html?mod=0">Start Lesson →</a>
+          </div>
         </div>
       </article>
-      <article class="mod">
+
+      <article class="mod" id="mod-article-1">
         <div class="num" style="background:#C58F3A;">2</div>
         <div>
           <div class="mod-head">
@@ -93,10 +106,14 @@
           <li>Arithmetic and assignment operators</li>
           <li>Type conversion and casting basics</li>
           </ul>
-          <div class="mod-foot"><span class="status available">Available</span><a class="btn btn-primary btn-sm" href="index.html#demo">Try in the playground →</a></div>
+          <div class="mod-foot">
+            <span class="status available" id="mod-status-1">Available</span>
+            <a class="btn btn-primary btn-sm" id="mod-link-1" href="lesson.html?mod=1">Start Lesson →</a>
+          </div>
         </div>
       </article>
-      <article class="mod">
+
+      <article class="mod locked" id="mod-article-2">
         <div class="num" style="background:#3F7A5C;">3</div>
         <div>
           <div class="mod-head">
@@ -105,6 +122,10 @@
           </div>
           <p class="desc">Meet the feature that makes C powerful: direct access to memory.</p>
           <h4>Lessons in this module</h4>
+          <div class="lockmsg">
+            <svg width="20" height="20" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="11" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8 10V7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7V10" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="15" r="1" fill="currentColor"/></svg>
+            Log in to see the lessons in this module.
+          </div>
           <ul class="lessons">
           <li>What an address is, and the <code>&amp;</code> operator</li>
           <li>Declaring pointers and dereferencing with <code>*</code></li>
@@ -112,10 +133,14 @@
           <li>Pointer arithmetic, carefully</li>
           <li>A first look at dynamic memory (<code>malloc</code> / <code>free</code>)</li>
           </ul>
-          <div class="mod-foot"><span class="status soon">Coming soon</span><span class="btn btn-sm is-disabled">Locked</span></div>
+          <div class="mod-foot">
+            <span class="status soon" id="mod-status-2">Locked</span>
+            <a class="btn btn-sm is-disabled" id="mod-link-2">Locked</a>
+          </div>
         </div>
       </article>
-      <article class="mod">
+
+      <article class="mod locked" id="mod-article-3">
         <div class="num" style="background:#2E3A55;">4</div>
         <div>
           <div class="mod-head">
@@ -124,6 +149,10 @@
           </div>
           <p class="desc">Work with collections of values and C's null-terminated strings.</p>
           <h4>Lessons in this module</h4>
+          <div class="lockmsg">
+            <svg width="20" height="20" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="11" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8 10V7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7V10" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="15" r="1" fill="currentColor"/></svg>
+            Log in to see the lessons in this module.
+          </div>
           <ul class="lessons">
           <li>Declaring and indexing arrays</li>
           <li>Looping over arrays with <code>for</code> and <code>while</code></li>
@@ -131,10 +160,14 @@
           <li>C strings and the null terminator <code>'\0'</code></li>
           <li>Handy functions: <code>strlen</code>, <code>strcpy</code>, <code>strcmp</code></li>
           </ul>
-          <div class="mod-foot"><span class="status soon">Coming soon</span><span class="btn btn-sm is-disabled">Locked</span></div>
+          <div class="mod-foot">
+            <span class="status soon" id="mod-status-3">Locked</span>
+            <a class="btn btn-sm is-disabled" id="mod-link-3">Locked</a>
+          </div>
         </div>
       </article>
-      <article class="mod">
+
+      <article class="mod locked" id="mod-article-4">
         <div class="num" style="background:#7d2537;">5</div>
         <div>
           <div class="mod-head">
@@ -143,6 +176,10 @@
           </div>
           <p class="desc">Bundle related data together and build your first real data structures.</p>
           <h4>Lessons in this module</h4>
+          <div class="lockmsg">
+            <svg width="20" height="20" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="11" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8 10V7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7V10" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="15" r="1" fill="currentColor"/></svg>
+            Log in to see the lessons in this module.
+          </div>
           <ul class="lessons">
           <li>Defining and using <code>struct</code></li>
           <li>Arrays of structs</li>
@@ -150,7 +187,10 @@
           <li>Pointers to structs and the <code>-&gt;</code> operator</li>
           <li>Your first linked list</li>
           </ul>
-          <div class="mod-foot"><span class="status soon">Coming soon</span><span class="btn btn-sm is-disabled">Locked</span></div>
+          <div class="mod-foot">
+            <span class="status soon" id="mod-status-4">Locked</span>
+            <a class="btn btn-sm is-disabled" id="mod-link-4">Locked</a>
+          </div>
         </div>
       </article>
     </div>
@@ -162,7 +202,7 @@
   <p>Create a free account to save your progress, then start with <strong>Hello, World</strong>.</p>
   <div class="row">
     <a class="btn btn-primary" href="signup.html">Sign up free</a>
-    <a class="btn btn-gold" href="index.html#demo">Open the playground</a>
+    <a class="btn btn-gold" href="dashboard.html">Go to Dashboard</a>
   </div>
 </section>
 
@@ -173,5 +213,7 @@
   </div>
 </footer>
 
+<script src="session.js"></script>
+<script src="modules_script.js"></script>
 </body>
 </html>
