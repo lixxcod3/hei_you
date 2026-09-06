@@ -26,36 +26,29 @@
   var banner = document.getElementById('guest-banner');
   if (banner) banner.style.display = 'none';
 
-  // 2. Loop through all 5 modules and update based on user progress
+  // 2. Hide the bottom CTA (signup/dashboard) for logged-in users
+  var cta = document.querySelector('.cta');
+  if (cta) cta.style.display = 'none';
+
+  // 3. Loop through all 5 modules and unlock them all
   for (var i = 0; i < 5; i++) {
     var btn = document.getElementById('mod-link-' + i);
     var status = document.getElementById('mod-status-' + i);
     var article = document.getElementById('mod-article-' + i);
 
     if (btn && status && article) {
-      if (i <= p) {
-        // Module is UNLOCKED (either completed or next in line)
-        article.classList.remove('locked');
-        article.classList.add('unlocked');
-        
-        status.className = 'status available';
-        status.textContent = 'Available';
+      // ALL modules are UNLOCKED for logged-in users, overriding the progress lock
+      article.classList.remove('locked');
+      article.classList.add('unlocked');
+      
+      status.className = 'status available';
+      status.textContent = 'Available';
 
-        btn.className = 'btn btn-primary btn-sm';
-        btn.href = 'lesson.html?mod=' + i;
-        btn.textContent = (i < p) ? 'Review Lesson →' : 'Start Lesson →';
-      } else {
-        // Module is LOCKED (too far ahead)
-        article.classList.add('locked');
-        article.classList.remove('unlocked');
-        
-        status.className = 'status soon';
-        status.textContent = 'Locked';
-
-        btn.className = 'btn btn-sm is-disabled';
-        btn.removeAttribute('href');
-        btn.textContent = 'Locked';
-      }
+      btn.className = 'btn btn-primary btn-sm';
+      btn.href = 'lesson.html?mod=' + i;
+      
+      // Still swap the button text based on their actual progress
+      btn.textContent = (i < p) ? 'Review Lesson →' : 'Start Lesson →';
     }
   }
 })();
