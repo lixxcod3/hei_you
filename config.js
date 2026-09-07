@@ -1,0 +1,1 @@
+const LOCAL_GEMINI_API_KEY = "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";

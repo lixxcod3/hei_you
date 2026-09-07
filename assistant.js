@@ -1,34 +1,44 @@
-/* assistant.js — Professor Wáng AI Assistant connected to Gemini API with Markdown Parser */
+/* assistant.js — Professor Wáng AI Assistant powered by DeepSeek (via OpenRouter) */
 (function () {
   "use strict";
 
-  const API_KEY = "AQ.Ab8RN6LVBRA6U099sQZ6b_4SpP8MVgMzynkJiAGLFe6XxgjF6A";
+  // 1. Key Retrieval Strategy (Checks config.js -> localStorage -> prompts user)
+  function getApiKey() {
+    if (typeof LOCAL_GEMINI_API_KEY !== "undefined" && LOCAL_GEMINI_API_KEY.trim() !== "") {
+      return LOCAL_GEMINI_API_KEY.trim();
+    }
+    try {
+      return (localStorage.getItem("heiyou_ai_key") || "").trim();
+    } catch (e) {
+      return "";
+    }
+  }
 
-  // 1. Build Curriculum Context String from curriculum_data.js
+  // 2. Build Curriculum Context String from curriculum_data.js
   function buildCurriculumContext() {
-    if (typeof curriculum === "undefined") {
-      return "No curriculum data loaded.";
+    if (typeof curriculum === "undefined" || !curriculum) {
+      return "No explicit curriculum loaded. Act as a foundational C tutor.";
     }
 
     let summary = "CURRENT COURSE CURRICULUM (Hei You - C Programming):\n";
     for (let modId in curriculum) {
-      const mod = curriculum[modId];
-      summary += `\n[Module ${modId}: ${mod.title}]\n`;
-      if (mod.sub_lessons) {
-        mod.sub_lessons.forEach(sub => {
-          const plainTheory = (sub.theory || "").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
-          summary += ` - Sub-lesson ${sub.sub_id}: ${sub.title}\n`;
-          summary += `   Theory: ${plainTheory}\n`;
-          if (sub.starter) {
-            summary += `   Task Starter Code: ${sub.starter}\n`;
-          }
-        });
+      if (Object.prototype.hasOwnProperty.call(curriculum, modId)) {
+        const mod = curriculum[modId];
+        summary += `\n[Module ${modId}: ${mod.title || "Untitled"}]\n`;
+        if (Array.isArray(mod.sub_lessons)) {
+          mod.sub_lessons.forEach(sub => {
+            const plainTheory = (sub.theory || "").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+            summary += ` - Sub-lesson ${sub.sub_id}: ${sub.title}\n`;
+            if (plainTheory) summary += `   Theory: ${plainTheory}\n`;
+            if (sub.starter) summary += `   Task Starter Code:\n${sub.starter}\n`;
+          });
+        }
       }
     }
     return summary;
   }
 
-  // 2. System Instructions for Professor Wáng Persona
+  // 3. System Instructions for Professor Wáng Persona
   const SYSTEM_INSTRUCTION = `
 You are Professor Wáng (老师 Wáng), a scholar who teaches C programming on the Hei You learning platform.
 Tone: Encouraging, knowledgeable, with a touch of wit and occasional friendly Chinese phrases like "好样的!" (Proud of you) on success or "加油!" (Keep it up!).
@@ -42,7 +52,7 @@ RULES:
 ${buildCurriculumContext()}
 `;
 
-  // 3. Markdown to HTML Parser
+  // 4. Markdown to HTML Parser
   function parseMarkdown(md) {
     if (!md) return "";
 
@@ -93,8 +103,10 @@ ${buildCurriculumContext()}
     return text;
   }
 
-  // 4. Inject Assistant Markup into DOM
+  // 5. Inject Assistant Markup into DOM
   function injectWidget() {
+    if (document.getElementById("ai-chat-window")) return;
+
     const fab = document.createElement("button");
     fab.className = "ai-fab";
     fab.id = "ai-fab";
@@ -118,7 +130,7 @@ ${buildCurriculumContext()}
         <div class="ai-chat-title">
           <span>老师 Wáng AI</span>
         </div>
-        <button class="ai-chat-close" id="ai-chat-close">&times;</button>
+        <button class="ai-chat-close" id="ai-chat-close" type="button">&times;</button>
       </div>
       <div class="ai-messages" id="ai-messages">
         <div class="ai-bubble bot">
@@ -135,50 +147,55 @@ ${buildCurriculumContext()}
     document.body.appendChild(chat);
   }
 
-  // 5. Client-side Gemini API Call
-  async function callGemini(prompt, history) {
-    const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.6-flash:generateContent?key=${API_KEY}`;
+  // 6. Client-side AI API Call (OpenRouter/DeepSeek)
+  async function callAI(apiKey, prompt, history) {
+    const endpoint = "https://openrouter.ai/api/v1/chat/completions";
 
-    const contents = [];
+    const messages = [{ role: "system", content: SYSTEM_INSTRUCTION }];
+    
+    // Convert history into OpenAI/OpenRouter structure
     history.forEach(msg => {
-      contents.push({
-        role: msg.role === "user" ? "user" : "model",
-        parts: [{ text: msg.text }]
+      messages.push({
+        role: msg.role === "user" ? "user" : "assistant",
+        content: msg.text
       });
     });
-    contents.push({
-      role: "user",
-      parts: [{ text: prompt }]
-    });
+    
+    messages.push({ role: "user", content: prompt });
 
     const body = {
-      systemInstruction: {
-        parts: [{ text: SYSTEM_INSTRUCTION }]
-      },
-      contents: contents,
-      generationConfig: {
-        temperature: 0.6,
-        maxOutputTokens: 600
-      }
+      model: "minimax/minimax-m3:free",
+      messages: messages,
+      temperature: 0.6,
+      max_tokens: 1024
     };
 
     const response = await fetch(endpoint, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Authorization": `Bearer ${apiKey}`,
+        "Content-Type": "application/json",
+        "HTTP-Referer": window.location.href, // Required by OpenRouter API
+        "X-Title": "Hei You C Platform"
+      },
       body: JSON.stringify(body)
     });
 
     if (!response.ok) {
-      const err = await response.json();
-      throw new Error(err.error?.message || "Failed to contact Gemini API");
+      const err = await response.json().catch(() => ({}));
+      throw new Error(err.error?.message || `Failed to contact API (Status: ${response.status})`);
     }
 
     const data = await response.json();
-    return data.candidates[0].content.parts[0].text;
+    if (!data.choices || !data.choices[0] || !data.choices[0].message) {
+      throw new Error("Empty response from AI.");
+    }
+
+    return data.choices[0].message.content;
   }
 
-  // 6. Event Handlers & Initialization
-  document.addEventListener("DOMContentLoaded", function () {
+  // 7. Event Handlers & Initialization
+  function init() {
     injectWidget();
 
     const fab = document.getElementById("ai-fab");
@@ -221,11 +238,22 @@ ${buildCurriculumContext()}
     form.addEventListener("submit", async function (e) {
       e.preventDefault();
       const text = input.value.trim();
-
       if (!text) return;
-      if (!API_KEY) {
-        appendBotMessage(`<span style="color:var(--crimson);">Please insert your Gemini API key inside <code>assistant.js</code>.</span>`);
-        return;
+
+      let key = getApiKey();
+
+      // Trigger prompt if the key isn't provided locally
+      if (!key) {
+        const userPromptKey = prompt("Please enter your OpenRouter API Key to chat with Professor Wáng:");
+        if (userPromptKey && userPromptKey.trim()) {
+          key = userPromptKey.trim();
+          try {
+            localStorage.setItem("heiyou_ai_key", key);
+          } catch (err) {}
+        } else {
+          appendBotMessage(`<span style="color:var(--crimson);">A valid API key is required to start chatting.</span>`);
+          return;
+        }
       }
 
       appendUserMessage(text);
@@ -234,11 +262,15 @@ ${buildCurriculumContext()}
       sendBtn.textContent = "...";
 
       try {
-        const reply = await callGemini(text, history);
+        const reply = await callAI(key, text, history);
         history.push({ role: "user", text: text });
-        history.push({ role: "model", text: reply });
+        history.push({ role: "assistant", text: reply });
 
-        // Parse full Markdown format into clean HTML
+        // Maintain context limit to prevent token bloat
+        if (history.length > 12) {
+          history = history.slice(-12);
+        }
+
         const parsedHtml = parseMarkdown(reply);
         appendBotMessage(parsedHtml);
       } catch (err) {
@@ -246,7 +278,14 @@ ${buildCurriculumContext()}
       } finally {
         sendBtn.disabled = false;
         sendBtn.textContent = "Send";
+        input.focus();
       }
     });
-  });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
 })();
