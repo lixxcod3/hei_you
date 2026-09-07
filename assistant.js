@@ -2,7 +2,7 @@
 (function () {
   "use strict";
 
-  const API_KEY = "AQ.Ab8RN6LS2QuzHSMS0IiVN6ren2ex2Ja15s94iErhbm6uIXaHLg";
+  const API_KEY = "AQ.Ab8RN6JHKYSLbZ5hTpeBCXuppiV1LTbb1MNusFRLIoSL8FeMHg";
 
   // 1. Build Curriculum Context String from curriculum_data.js
   function buildCurriculumContext() {
