@@ -1,0 +1,194 @@
+/* assistant_style.css — Floating Professor Wáng AI Assistant */
+
+/* Floating Toggle Button */
+.ai-fab {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 999;
+  background: var(--paper, #fffdf9);
+  border: 3px solid var(--navy-dark, #1C2436);
+  box-shadow: 4px 4px 0 var(--navy-dark, #1C2436);
+  padding: 10px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  font-family: var(--pixel, 'Press Start 2P', monospace);
+  font-size: 11px;
+  color: var(--navy-dark, #1C2436);
+  transition: transform .06s steps(2), box-shadow .06s steps(2);
+}
+
+.ai-fab:hover {
+  background: #fff;
+  transform: translate(-2px, -2px);
+  box-shadow: 6px 6px 0 var(--navy-dark, #1C2436);
+}
+
+.ai-fab:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--navy-dark, #1C2436);
+}
+
+.ai-fab-icon {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+}
+
+/* Chat Dialog Window */
+.ai-chat-window {
+  position: fixed;
+  bottom: 84px;
+  right: 24px;
+  width: 380px;
+  max-width: calc(100vw - 32px);
+  height: 520px;
+  max-height: calc(100vh - 120px);
+  background: var(--paper, #fffdf9);
+  border: 3px solid var(--navy-dark, #1C2436);
+  box-shadow: 6px 6px 0 var(--navy-dark, #1C2436);
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+  overflow: hidden;
+  font-family: var(--mono, 'JetBrains Mono', monospace);
+}
+
+.ai-chat-window.hidden {
+  display: none !important;
+}
+
+/* Chat Header */
+.ai-chat-header {
+  background: var(--navy, #2E3A55);
+  color: var(--cream, #FAF7F2);
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 3px solid var(--navy-dark, #1C2436);
+}
+
+.ai-chat-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--pixel, 'Press Start 2P', monospace);
+  font-size: 11px;
+  color: var(--gold-light, #E3B25E);
+}
+
+.ai-chat-close {
+  background: none;
+  border: none;
+  color: var(--cream, #FAF7F2);
+  font-size: 20px;
+  font-weight: 800;
+  cursor: pointer;
+  line-height: 1;
+  padding: 0 4px;
+}
+
+.ai-chat-close:hover {
+  color: var(--crimson, #A8324A);
+}
+
+/* Messages Container */
+.ai-messages {
+  flex: 1;
+  padding: 14px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: var(--cream, #FAF7F2);
+}
+
+.ai-bubble {
+  max-width: 86%;
+  padding: 10px 12px;
+  font-size: 13px;
+  line-height: 1.5;
+  border: 2px solid var(--navy-dark, #1C2436);
+  box-shadow: 3px 3px 0 var(--navy-dark, #1C2436);
+  word-break: break-word;
+}
+
+.ai-bubble.bot {
+  align-self: flex-start;
+  background: var(--paper, #fffdf9);
+  color: var(--ink, #2E3A55);
+}
+
+.ai-bubble.user {
+  align-self: flex-end;
+  background: var(--navy, #2E3A55);
+  color: #fff;
+}
+
+.ai-bubble pre {
+  background: #101827;
+  color: #e7edf7;
+  padding: 8px;
+  margin: 6px 0 0;
+  overflow-x: auto;
+  font-size: 12px;
+  border: 1px solid var(--navy-dark, #1C2436);
+}
+
+.ai-bubble code {
+  font-family: var(--mono, monospace);
+  font-weight: 700;
+  background: rgba(46, 58, 85, 0.1);
+  padding: 2px 4px;
+}
+
+/* Input Area */
+.ai-chat-form {
+  display: flex;
+  border-top: 3px solid var(--navy-dark, #1C2436);
+  background: var(--paper, #fffdf9);
+}
+
+.ai-chat-input {
+  flex: 1;
+  border: none;
+  padding: 12px 14px;
+  font-family: var(--mono, monospace);
+  font-size: 13px;
+  outline: none;
+  background: transparent;
+  color: var(--ink, #2E3A55);
+}
+
+.ai-chat-send {
+  background: var(--crimson, #A8324A);
+  color: #fff;
+  border: none;
+  border-left: 3px solid var(--navy-dark, #1C2436);
+  padding: 0 16px;
+  font-family: var(--mono, monospace);
+  font-weight: 800;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.ai-chat-send:hover {
+  background: var(--crimson-dark, #7d2537);
+}
+
+.ai-chat-send:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Key Modal Overlay */
+.ai-key-box {
+  padding: 12px;
+  background: #fff;
+  border: 2px solid var(--navy-dark, #1C2436);
+  margin-bottom: 10px;
+  font-size: 12px;
+}
