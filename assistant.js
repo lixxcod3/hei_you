@@ -1,116 +1,51 @@
-/* assistant.js — Professor Wáng AI Assistant powered by DeepSeek (via OpenRouter) */
+/* assistant.js — Professor Wáng AI (Local WebLLM with Streaming) */
 (function () {
   "use strict";
 
-  // 1. Key Retrieval Strategy (Checks config.js -> localStorage -> prompts user)
-  function getApiKey() {
-    if (typeof LOCAL_GEMINI_API_KEY !== "undefined" && LOCAL_GEMINI_API_KEY.trim() !== "") {
-      return LOCAL_GEMINI_API_KEY.trim();
-    }
-    try {
-      return (localStorage.getItem("heiyou_ai_key") || "").trim();
-    } catch (e) {
-      return "";
-    }
-  }
-
-  // 2. Build Curriculum Context String from curriculum_data.js
+  // 1. Condense the Curriculum Context (To speed up the GPU "prefill" phase)
   function buildCurriculumContext() {
     if (typeof curriculum === "undefined" || !curriculum) {
-      return "No explicit curriculum loaded. Act as a foundational C tutor.";
+      return "Foundational C tutor.";
     }
-
-    let summary = "CURRENT COURSE CURRICULUM (Hei You - C Programming):\n";
+    let summary = "CURRICULUM TOPICS:\n";
     for (let modId in curriculum) {
       if (Object.prototype.hasOwnProperty.call(curriculum, modId)) {
         const mod = curriculum[modId];
-        summary += `\n[Module ${modId}: ${mod.title || "Untitled"}]\n`;
-        if (Array.isArray(mod.sub_lessons)) {
-          mod.sub_lessons.forEach(sub => {
-            const plainTheory = (sub.theory || "").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
-            summary += ` - Sub-lesson ${sub.sub_id}: ${sub.title}\n`;
-            if (plainTheory) summary += `   Theory: ${plainTheory}\n`;
-            if (sub.starter) summary += `   Task Starter Code:\n${sub.starter}\n`;
-          });
-        }
+        summary += `- ${mod.title || "Module"}\n`;
       }
     }
     return summary;
   }
 
-  // 3. System Instructions for Professor Wáng Persona
   const SYSTEM_INSTRUCTION = `
-You are Professor Wáng (老师 Wáng), a scholar who teaches C programming on the Hei You learning platform.
-Tone: Encouraging, knowledgeable, with a touch of wit and occasional friendly Chinese phrases like "好样的!" (Proud of you) on success or "加油!" (Keep it up!).
-
-RULES:
-1. Always guide students according to the Hei You curriculum provided below.
-2. If asked questions related to exercises, provide hints and explanations first rather than giving away the full code directly.
-3. Keep code explanations clean, standard C (C99/C11).
-4. If a question is outside C programming or computer science, gently steer them back to laying bricks in C.
-
+You are Professor Wáng (老师 Wáng), a scholar teaching C programming on Hei You.
+- Keep replies extremely concise to save browser processing power.
+- Give conceptual hints first, standard C (C99/C11).
 ${buildCurriculumContext()}
 `;
 
-  // 4. Markdown to HTML Parser
+  // 2. Markdown Parser
   function parseMarkdown(md) {
     if (!md) return "";
-
-    // Escape raw HTML tags to prevent broken injection
-    let text = md
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;");
-
-    // Preserve multiline code blocks
+    let text = md.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
     const codeBlocks = [];
     text = text.replace(/```(?:c|C)?\n?([\s\S]*?)```/g, function (_, code) {
       codeBlocks.push(`<pre><code>${code.trim()}</code></pre>`);
       return `__CODE_BLOCK_${codeBlocks.length - 1}__`;
     });
-
-    // Inline code `code`
     text = text.replace(/`([^`]+)`/g, "<code>$1</code>");
-
-    // Headings (### h3, ## h2, # h1)
-    text = text.replace(/^### (.*$)/gim, '<strong style="display:block; margin:6px 0 2px;">$1</strong>');
-    text = text.replace(/^## (.*$)/gim, '<strong style="display:block; margin:8px 0 3px; font-size:14px;">$1</strong>');
-    text = text.replace(/^# (.*$)/gim, '<strong style="display:block; margin:10px 0 4px; font-size:15px;">$1</strong>');
-
-    // Bold (**text** or __text__)
     text = text.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
-    text = text.replace(/__(.*?)__/g, "<strong>$1</strong>");
-
-    // Italics (*text* or _text_)
-    text = text.replace(/\*(.*?)\*/g, "<em>$1</em>");
-    text = text.replace(/_([^_]+)_/g, "<em>$1</em>");
-
-    // Bullet points (* list or - list)
-    text = text.replace(/^\s*[\*\-]\s+(.*)$/gim, '<div style="margin-left:14px;">• $1</div>');
-
-    // Numbered lists (1. list)
-    text = text.replace(/^\s*(\d+)\.\s+(.*)$/gim, '<div style="margin-left:14px;">$1. $2</div>');
-
-    // Line breaks (convert newlines to <br>, but collapse excess)
-    text = text.replace(/\n\n+/g, '<br><br>');
-    text = text.replace(/\n/g, '<br>');
-
-    // Restore code blocks
-    text = text.replace(/__CODE_BLOCK_(\d+)__/g, function (_, index) {
-      return codeBlocks[Number(index)];
-    });
-
+    text = text.replace(/\n\n+/g, '<br><br>').replace(/\n/g, '<br>');
+    text = text.replace(/__CODE_BLOCK_(\d+)__/g, (_, idx) => codeBlocks[Number(idx)]);
     return text;
   }
 
-  // 5. Inject Assistant Markup into DOM
+  // 3. Inject Widget DOM
   function injectWidget() {
     if (document.getElementById("ai-chat-window")) return;
-
     const fab = document.createElement("button");
     fab.className = "ai-fab";
     fab.id = "ai-fab";
-    fab.setAttribute("aria-label", "Ask Professor Wáng");
     fab.innerHTML = `
       <svg class="ai-fab-icon" viewBox="0 0 40 40">
         <rect x="2" y="9" width="7" height="4" fill="#C58F3A" stroke="#1C2436" stroke-width="1.5"/>
@@ -119,85 +54,33 @@ ${buildCurriculumContext()}
         <rect x="11" y="13" width="18" height="14" fill="#E8C48E" stroke="#1C2436" stroke-width="1.5"/>
         <rect x="8" y="30" width="24" height="9" fill="#A8324A" stroke="#1C2436" stroke-width="1.5"/>
       </svg>
-      <span>Ask Wáng</span>
-    `;
-
+      <span>Ask Wáng</span>`;
+    
     const chat = document.createElement("div");
     chat.className = "ai-chat-window hidden";
     chat.id = "ai-chat-window";
     chat.innerHTML = `
       <div class="ai-chat-header">
-        <div class="ai-chat-title">
-          <span>老师 Wáng AI</span>
-        </div>
+        <div class="ai-chat-title"><span>老师 Wáng (Local AI)</span></div>
         <button class="ai-chat-close" id="ai-chat-close" type="button">&times;</button>
       </div>
       <div class="ai-messages" id="ai-messages">
-        <div class="ai-bubble bot">
-          <strong>老师 Wáng:</strong> “嘿，你！” Ask me anything about our lessons.
-        </div>
+        <div class="ai-bubble bot"><strong>老师 Wáng:</strong> Booting local brain...</div>
       </div>
+      <div id="ai-loading-bar" style="height:4px; background:var(--crimson); width:0%; transition: width 0.2s;"></div>
       <form class="ai-chat-form" id="ai-chat-form">
-        <input type="text" class="ai-chat-input" id="ai-chat-input" placeholder="Ask about C, pointers, tasks..." autocomplete="off" required />
-        <button type="submit" class="ai-chat-send" id="ai-chat-send">Send</button>
-      </form>
-    `;
-
+        <input type="text" class="ai-chat-input" id="ai-chat-input" placeholder="Loading model..." disabled required />
+        <button type="submit" class="ai-chat-send" id="ai-chat-send" disabled>Load</button>
+      </form>`;
+    
     document.body.appendChild(fab);
     document.body.appendChild(chat);
   }
 
-  // 6. Client-side AI API Call (OpenRouter/DeepSeek)
-  async function callAI(apiKey, prompt, history) {
-    const endpoint = "https://openrouter.ai/api/v1/chat/completions";
-
-    const messages = [{ role: "system", content: SYSTEM_INSTRUCTION }];
-    
-    // Convert history into OpenAI/OpenRouter structure
-    history.forEach(msg => {
-      messages.push({
-        role: msg.role === "user" ? "user" : "assistant",
-        content: msg.text
-      });
-    });
-    
-    messages.push({ role: "user", content: prompt });
-
-    const body = {
-      model: "minimax/minimax-m3:free",
-      messages: messages,
-      temperature: 0.6,
-      max_tokens: 1024
-    };
-
-    const response = await fetch(endpoint, {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${apiKey}`,
-        "Content-Type": "application/json",
-        "HTTP-Referer": window.location.href, // Required by OpenRouter API
-        "X-Title": "Hei You C Platform"
-      },
-      body: JSON.stringify(body)
-    });
-
-    if (!response.ok) {
-      const err = await response.json().catch(() => ({}));
-      throw new Error(err.error?.message || `Failed to contact API (Status: ${response.status})`);
-    }
-
-    const data = await response.json();
-    if (!data.choices || !data.choices[0] || !data.choices[0].message) {
-      throw new Error("Empty response from AI.");
-    }
-
-    return data.choices[0].message.content;
-  }
-
-  // 7. Event Handlers & Initialization
-  function init() {
+  // 4. WebLLM Initialization with Streaming
+  async function initWebLLM() {
     injectWidget();
-
+    
     const fab = document.getElementById("ai-fab");
     const chatWindow = document.getElementById("ai-chat-window");
     const closeBtn = document.getElementById("ai-chat-close");
@@ -205,77 +88,91 @@ ${buildCurriculumContext()}
     const input = document.getElementById("ai-chat-input");
     const messages = document.getElementById("ai-messages");
     const sendBtn = document.getElementById("ai-chat-send");
+    const loadingBar = document.getElementById("ai-loading-bar");
 
-    let history = [];
+    let engine = null;
+    let chatHistory = [{ role: "system", content: SYSTEM_INSTRUCTION }];
 
     fab.addEventListener("click", () => {
       chatWindow.classList.toggle("hidden");
-      if (!chatWindow.classList.contains("hidden")) {
-        input.focus();
-      }
+      if (!chatWindow.classList.contains("hidden") && !input.disabled) input.focus();
     });
+    closeBtn.addEventListener("click", () => chatWindow.classList.add("hidden"));
 
-    closeBtn.addEventListener("click", () => {
-      chatWindow.classList.add("hidden");
-    });
-
-    function appendUserMessage(text) {
+    function appendMessage(text, isUser) {
       const bubble = document.createElement("div");
-      bubble.className = "ai-bubble user";
-      bubble.textContent = text;
+      bubble.className = `ai-bubble ${isUser ? "user" : "bot"}`;
+      if (isUser) bubble.textContent = text;
+      else bubble.innerHTML = text;
       messages.appendChild(bubble);
       messages.scrollTop = messages.scrollHeight;
+      return bubble;
     }
 
-    function appendBotMessage(html) {
-      const bubble = document.createElement("div");
-      bubble.className = "ai-bubble bot";
-      bubble.innerHTML = html;
-      messages.appendChild(bubble);
-      messages.scrollTop = messages.scrollHeight;
+    try {
+      const webllm = await import("https://esm.run/@mlc-ai/web-llm");
+      const selectedModel = "Phi-3-mini-4k-instruct-q4f16_1-MLC";
+      
+      engine = await webllm.CreateMLCEngine(selectedModel, {
+        initProgressCallback: (progress) => {
+          const percent = Math.round(progress.progress * 100);
+          loadingBar.style.width = `${percent}%`;
+          input.placeholder = `Downloading... ${percent}%`;
+        }
+      });
+
+      loadingBar.style.opacity = "0";
+      input.disabled = false;
+      sendBtn.disabled = false;
+      input.placeholder = "Ask about C, pointers, tasks...";
+      messages.innerHTML = `<div class="ai-bubble bot"><strong>老师 Wáng:</strong> Fully loaded! “嘿，你！” What do you want to ask today?</div>`;
+
+    } catch (err) {
+      messages.innerHTML = `<div class="ai-bubble bot" style="color:red;">Error loading AI.<br>${err.message}</div>`;
+      return;
     }
 
     form.addEventListener("submit", async function (e) {
       e.preventDefault();
-      const text = input.value.trim();
-      if (!text) return;
+      const userText = input.value.trim();
+      if (!userText || !engine) return;
 
-      let key = getApiKey();
-
-      // Trigger prompt if the key isn't provided locally
-      if (!key) {
-        const userPromptKey = prompt("Please enter your OpenRouter API Key to chat with Professor Wáng:");
-        if (userPromptKey && userPromptKey.trim()) {
-          key = userPromptKey.trim();
-          try {
-            localStorage.setItem("heiyou_ai_key", key);
-          } catch (err) {}
-        } else {
-          appendBotMessage(`<span style="color:var(--crimson);">A valid API key is required to start chatting.</span>`);
-          return;
-        }
-      }
-
-      appendUserMessage(text);
+      appendMessage(userText, true);
+      chatHistory.push({ role: "user", content: userText });
+      
       input.value = "";
+      input.disabled = true;
       sendBtn.disabled = true;
       sendBtn.textContent = "...";
 
-      try {
-        const reply = await callAI(key, text, history);
-        history.push({ role: "user", text: text });
-        history.push({ role: "assistant", text: reply });
+      // Create an empty bubble for the bot's streaming response
+      const botBubble = appendMessage("", false);
+      let botResponse = "";
 
-        // Maintain context limit to prevent token bloat
-        if (history.length > 12) {
-          history = history.slice(-12);
+      try {
+        // stream: true forces the AI to output word-by-word
+        const chunks = await engine.chat.completions.create({
+          messages: chatHistory,
+          temperature: 0.6,
+          stream: true
+        });
+
+        for await (const chunk of chunks) {
+          const textDelta = chunk.choices[0]?.delta?.content || "";
+          botResponse += textDelta;
+          botBubble.innerHTML = parseMarkdown(botResponse);
+          messages.scrollTop = messages.scrollHeight;
         }
 
-        const parsedHtml = parseMarkdown(reply);
-        appendBotMessage(parsedHtml);
+        chatHistory.push({ role: "assistant", content: botResponse });
+        
+        if (chatHistory.length > 7) {
+          chatHistory = [chatHistory[0], ...chatHistory.slice(-6)];
+        }
       } catch (err) {
-        appendBotMessage(`<span style="color:var(--crimson);">Error: ${err.message}</span>`);
+        botBubble.innerHTML = `<span style="color:red;">Error: ${err.message}</span>`;
       } finally {
+        input.disabled = false;
         sendBtn.disabled = false;
         sendBtn.textContent = "Send";
         input.focus();
@@ -283,9 +180,6 @@ ${buildCurriculumContext()}
     });
   }
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", init);
-  } else {
-    init();
-  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initWebLLM);
+  else initWebLLM();
 })();
