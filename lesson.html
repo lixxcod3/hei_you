@@ -7,7 +7,6 @@
   <link rel="icon" type="image/svg+xml" href="elements/favicon.svg" />
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="lesson_style.css" />
-  <link rel="stylesheet" href="assistant_style.css" />
 </head>
 <body>
 
@@ -19,9 +18,9 @@
       </svg>
       <span><b>Hei You</b><small>← Back to Dashboard</small></span>
     </a>
-    
+
     <div class="lesson-title" id="lesson-title">Loading Module...</div>
-    
+
     <div class="nav-right dont-print">
       <button class="btn btn-sm btn-ghost" id="btn-print" style="color:var(--cream); border-color:var(--gold);">🖨️ Save as PDF</button>
     </div>
@@ -32,11 +31,11 @@
   <!-- Left Panel: Lesson Theory -->
   <section class="lesson-content">
     <div class="sub-nav dont-print" id="sub-nav">Loading sub-lesson...</div>
-    
+
     <div class="content-body" id="content-body">
-      <!-- Injected from curriculum_data.js -->
+      <!-- Injected from the curriculum/ modules -->
     </div>
-    
+
     <div class="lesson-footer dont-print">
       <button class="btn btn-primary" id="btn-complete" disabled>Run successful code to unlock</button>
     </div>
@@ -64,10 +63,9 @@
   </section>
 </main>
 
+<!-- session.js stays a classic script; the curriculum is now imported
+     inside lesson_script.js, so it must load as a module. -->
 <script src="session.js"></script>
-<script src="curriculum_data.js"></script>
-<script src="lesson_script.js"></script>
-<script src="curriculum_data.js"></script>
-<script src="assistant.js"></script>
+<script type="module" src="lesson_script.js"></script>
 </body>
 </html>
