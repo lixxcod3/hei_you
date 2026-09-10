@@ -1,10 +1,12 @@
 /* lesson_script.js */
+import { curriculum } from './curriculum/index.js';
+
 document.addEventListener('DOMContentLoaded', function () {
   "use strict";
 
   var key = localStorage.getItem('heiyou_session') || sessionStorage.getItem('heiyou_session');
   if (!key) { window.location.href = 'login.html'; return; }
-  
+
   var users = JSON.parse(localStorage.getItem('heiyou_users') || '{}');
   var user = users[key];
   if (typeof user.progress !== 'number') user.progress = 0;
@@ -14,9 +16,9 @@ document.addEventListener('DOMContentLoaded', function () {
   var subIndex = parseInt(urlParams.get('sub')) || 0;
 
   var moduleData = curriculum[modIndex];
-  if (!moduleData || !moduleData.sub_lessons[subIndex]) { 
-      window.location.href = 'dashboard.html'; 
-      return; 
+  if (!moduleData || !moduleData.sub_lessons[subIndex]) {
+      window.location.href = 'dashboard.html';
+      return;
   }
 
   var lesson = moduleData.sub_lessons[subIndex];
@@ -25,7 +27,7 @@ document.addEventListener('DOMContentLoaded', function () {
   document.getElementById('lesson-title').textContent = "Module " + (modIndex + 1) + ": " + moduleData.title;
   document.getElementById('sub-nav').textContent = `Sub-lesson ${subIndex + 1} of ${totalSubs}: ${lesson.title}`;
   document.getElementById('content-body').innerHTML = lesson.theory;
-  
+
   var codeEl = document.getElementById('code');
   var outEl = document.getElementById('out');
   var verdictEl = document.getElementById('verdict');
@@ -57,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function () {
       outEl.innerHTML = '<span class="err" style="color:var(--crimson);">✗ Build failed</span>\n\n' + evalResult;
       verdictEl.className = 'verdict lose';
       verdictEl.innerHTML = loseFace + '<span>Professor Wáng: “Shame on you.” Check your syntax.</span>';
-      
+
       completeBtn.disabled = true;
       completeBtn.textContent = 'Run successful code to unlock';
       completeBtn.style.background = '#e2e7f0';
@@ -66,11 +68,11 @@ document.addEventListener('DOMContentLoaded', function () {
       outEl.innerHTML = '<span class="ok" style="color:var(--emerald);">✓ Compiled successfully</span>\n\n[process exited with code 0]';
       verdictEl.className = 'verdict win';
       verdictEl.innerHTML = winFace + '<span>Professor Wáng: “Proud of you.” Code looks good!</span>';
-      
+
       completeBtn.disabled = false;
       completeBtn.style.background = 'var(--gold)';
       completeBtn.style.color = 'var(--navy-dark)';
-      
+
       if (subIndex + 1 < totalSubs) {
          completeBtn.textContent = 'Next Sub-lesson →';
       } else {
