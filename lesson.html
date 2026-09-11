@@ -7,6 +7,7 @@
   <link rel="icon" type="image/svg+xml" href="elements/favicon.svg" />
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="lesson_style.css" />
+  <link rel="stylesheet" href="assistant_style.css" />
 </head>
 <body>
 
@@ -33,7 +34,7 @@
     <div class="sub-nav dont-print" id="sub-nav">Loading sub-lesson...</div>
 
     <div class="content-body" id="content-body">
-      <!-- Injected from the curriculum/ modules -->
+      <!-- Injected from curriculum_data.js -->
     </div>
 
     <div class="lesson-footer dont-print">
@@ -63,9 +64,9 @@
   </section>
 </main>
 
-<!-- session.js stays a classic script; the curriculum is now imported
-     inside lesson_script.js, so it must load as a module. -->
 <script src="session.js"></script>
-<script type="module" src="lesson_script.js"></script>
+<script src="curriculum_data.js"></script>
+<script src="lesson_script.js"></script>
+<script src="assistant.js"></script>
 </body>
 </html>
