@@ -1,9 +1,9 @@
-/* curriculum/module-0-hello/module.js
-   Module metadata + the ordered list of its lessons.
-   level/time/desc/outline are here so the curriculum page can be driven
-   from data later instead of hardcoding each card (see README). */
-import lesson0 from './0-the-foundation.js';
-import lesson1 from './1-format-specifiers.js';
+/* curriculum/module-0-hello/module.js */
+import l0 from './0-your-first-program.js';
+import l1 from './1-anatomy.js';
+import l2 from './2-compile-run.js';
+import l3 from './3-comments.js';
+import l4 from './4-escape-sequences.js';
 
 export default {
   title: "Hello, World & Syntax",
@@ -17,5 +17,5 @@ export default {
     "Comments and clean formatting",
     "Escape sequences and printing values"
   ],
-  sub_lessons: [lesson0, lesson1]
+  sub_lessons: [l0, l1, l2, l3, l4]
 };
