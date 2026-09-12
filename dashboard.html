@@ -8,12 +8,65 @@
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="dashboard_style.css">
   <link rel="stylesheet" href="assistant_style.css" />
+  
+  <style>
+    /* Animation */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Animasi melayang untuk Profesor Wáng */
+    @keyframes floatProf {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+
+    .welcome { 
+      animation: fadeInUp 0.6s ease-out forwards; 
+    }
+    
+    .prof-svg { 
+      animation: floatProf 4s ease-in-out infinite; 
+      filter: drop-shadow(4px 4px 0px var(--navy-dark)) drop-shadow(0 0 10px rgba(197, 143, 58, 0.2)) !important;
+    }
+    
+    #modules { 
+      animation: fadeInUp 0.6s ease-out 0.2s forwards; 
+      opacity: 0; /* Mulai dari transparan sebelum animasi berjalan */
+    }
+    
+    aside .side-card:nth-child(1) { 
+      animation: fadeInUp 0.6s ease-out 0.3s forwards; 
+      opacity: 0; 
+    }
+    
+    aside .side-card:nth-child(2) { 
+      animation: fadeInUp 0.6s ease-out 0.4s forwards; 
+      opacity: 0; 
+    }
+
+    .brick-item {
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .brick-item:not(.lock):hover {
+      transform: translateX(6px) translateY(-2px);
+      box-shadow: 6px 6px 0 var(--navy-dark);
+    }
+    
+    /* Animasi progress bar saat halaman pertama kali load */
+    .progress-bar {
+      width: 0%;
+      transition: width 1.2s cubic-bezier(0.25, 1, 0.5, 1) 0.5s;
+    }
+  </style>
 </head>
 <body class="dash">
 <header>
-  <div class="wrap nav">
-    <a class="logo" href="index.html" aria-label="Hei You home">
-      <svg class="mark" viewBox="0 0 65 40" aria-label="Professor Wáng icon" role="img">
+  <div class="wrap nav" style="display: flex; justify-content: space-between; align-items: center; width: 100%;">
+    
+    <a class="logo" href="index.html" style="flex: 0 0 auto;">
+      <svg class="mark" viewBox="0 0 65 40" aria-hidden="true">
         <g class="logo-head">
           <rect x="2" y="9" width="7" height="4" fill="#C58F3A" stroke="#1C2436" stroke-width="1.5"/>
           <rect x="31" y="9" width="7" height="4" fill="#C58F3A" stroke="#1C2436" stroke-width="1.5"/>
@@ -46,12 +99,16 @@
       </svg>
       <span><b>Hei You</b><small>Classroom</small></span>
     </a>
-    <nav class="nav-links">
+
+    <!-- TENGAH: Navigasi Menu -->
+    <nav class="nav-links" style="flex: 1 1 auto; display: flex; justify-content: center; gap: 20px;">
       <a href="modules.html">Modules</a>
       <a href="index.html#demo">Playground</a>
       <a href="profile.html">Profile</a>
     </nav>
-    <div class="nav-right" id="nav-actions"></div>
+
+    <!-- KANAN: Tempat Session.js meletakkan tombol profil/logout -->
+    <div class="nav-right" id="nav-actions" style="flex: 0 0 auto; display: flex; justify-content: flex-end;"></div>
   </div>
 </header>
 
@@ -67,7 +124,9 @@
         <a class="btn btn-gold" href="index.html#demo">Playground</a>
       </div>
     </div>
-    <svg class="prof-svg" viewBox="-5 -5 165 190" width="130" style="filter: drop-shadow(4px 4px 0px var(--navy-dark));">
+    
+    <!-- Animasi melayang akan diaplikasikan ke SVG ini -->
+    <svg class="prof-svg" viewBox="-5 -5 165 190" width="130">
       <rect x="34" y="34" width="82" height="10" fill="#C58F3A" stroke="#1C2436" stroke-width="2"/>
       <rect x="40" y="14" width="70" height="22" fill="#2E3A55" stroke="#1C2436" stroke-width="2"/>
       <rect x="52" y="6" width="46" height="10" fill="#2E3A55" stroke="#1C2436" stroke-width="2"/>
@@ -88,7 +147,7 @@
       <p style="font-size:14px; color:var(--muted); margin-bottom:20px;">Finish the highlighted module to unlock the next.</p>
       
       <div class="progress-label"><span>Progress</span><span class="pct" style="color:var(--crimson);"><span id="done-count">0</span>/5 bricks</span></div>
-      <div class="progress"><div class="progress-bar" id="progress-bar" style="width:0%"></div></div>
+      <div class="progress"><div class="progress-bar" id="progress-bar"></div></div>
       
       <div class="tower" id="tower"></div>
     </section>
@@ -110,9 +169,17 @@
   </div>
 </main>
 
+<!-- Scripts -->
 <script src="session.js"></script>
 <script src="dashboard_script.js"></script>
 <script src="curriculum_data.js"></script>
 <script src="assistant.js"></script>
+
+<script>
+  setTimeout(() => {
+    var userProgress = parseInt(document.getElementById('done-count').textContent) || 0;
+    document.getElementById('progress-bar').style.width = (userProgress / 5 * 100) + '%';
+  }, 100);
+</script>
 </body>
 </html>
