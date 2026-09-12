@@ -1,148 +1,308 @@
 /* lesson_style.css */
-
-.lesson-layout {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  height: calc(100vh - 74px); 
-  overflow: hidden;
+:root{
+  --crimson:#A8324A; --crimson-dark:#7d2537;
+  --navy:#2E3A55;     --navy-dark:#1C2436;
+  --gold:#C58F3A;     --gold-light:#E3B25E;
+  --emerald:#3F7A5C;  --emerald-dark:#2c5741;
+  --cream:#FAF7F2;    --paper:#fffdf9; --ink:#2E3A55; --muted:#5a6377;
+  --pixel:'Press Start 2P', monospace;
+  --mono:'JetBrains Mono', ui-monospace, monospace;
 }
 
-/* Left Panel: Content */
-.lesson-content {
-  background: var(--paper);
-  border-right: 4px solid var(--navy-dark);
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-  position: relative;
+/* =========================================================
+   HEADER  — one tidy row that never wraps on desktop
+   ========================================================= */
+.site-header{
+  position:sticky; top:0; z-index:50;
+  background:var(--navy);
+  border-bottom:4px solid var(--navy-dark);
+}
+.site-header .nav{
+  display:flex; align-items:center; flex-wrap:nowrap;
+  gap:18px; height:74px; min-width:0;
+}
+.site-header .logo{ display:flex; align-items:center; gap:12px; flex:0 0 auto;
+  text-decoration:none; color:var(--cream); }
+.site-header .logo .mark{ width:34px; height:34px; flex:0 0 auto; }
+.site-header .logo b{ font-family:var(--pixel); font-size:14px; color:var(--gold-light); }
+.site-header .logo small{ font-size:11px; color:#c8cfdd; display:block; margin-top:3px; white-space:nowrap; }
+
+/* Module title: compact mono (not pixel) so it fits on one line and truncates */
+.site-header .lesson-title{
+  font-family:var(--mono); font-weight:800; font-size:14px; letter-spacing:.01em;
+  color:var(--gold-light);
+  flex:0 1 auto; min-width:0;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  margin-left:4px; padding-left:16px;
+  border-left:2px solid rgba(255,255,255,.16);
 }
 
-.sub-nav {
-  padding: 15px 40px;
-  background: #f0f2f5;
-  border-bottom: 2px solid var(--navy-dark);
-  font-weight: 800;
-  font-size: 13px;
-  color: var(--muted);
+/* Right cluster: print button + the menu session.js injects */
+.site-header .nav-right{
+  margin-left:auto; flex:0 0 auto;
+  display:flex; align-items:center; gap:12px; white-space:nowrap;
+}
+.site-header .session-menu{ display:flex; align-items:center; gap:12px; white-space:nowrap; }
+
+/* Header buttons/links — keep them on one line, sized consistently */
+.site-header .btn{ white-space:nowrap; box-shadow:var(--brick-sm,4px 4px 0 var(--navy-dark)); }
+.site-header .btn-sm{ padding:8px 13px; font-size:13px; }
+.site-header .login{
+  color:#dfe4ee; font-family:var(--mono); font-weight:700; font-size:14px;
+  text-decoration:none; white-space:nowrap; padding:6px 2px;
+}
+.site-header .login:hover{ color:var(--gold-light); }
+#btn-print{
+  background:transparent; color:var(--cream);
+  border:2px solid var(--gold); box-shadow:none;
+}
+#btn-print:hover{ background:rgba(197,143,58,.18); }
+
+/* =========================================================
+   LAYOUT  — textbook (left) | IDE (right)
+   ========================================================= */
+.lesson-layout{
+  display:grid; grid-template-columns:1.05fr 1fr;
+  height:calc(100vh - 74px); overflow:hidden;
 }
 
-.content-body {
-  padding: 40px;
-  flex: 1;
-  font-size: 15px;
-  color: var(--ink);
-  line-height: 1.7;
+/* -------- Left: the reading panel -------- */
+.lesson-content{
+  background:var(--paper);
+  border-right:4px solid var(--navy-dark);
+  display:flex; flex-direction:column;
+  overflow-y:auto; position:relative;
+  /* faint bitmap grid, same motif as the rest of the site */
+  background-image:linear-gradient(rgba(46,58,85,.03) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(46,58,85,.03) 1px,transparent 1px);
+  background-size:22px 22px;
+}
+.sub-nav{
+  position:sticky; top:0; z-index:2;
+  padding:13px 40px;
+  background:var(--navy-dark); color:var(--gold-light);
+  border-bottom:3px solid var(--navy-dark);
+  font-family:var(--mono); font-weight:800; font-size:12px; letter-spacing:.03em;
 }
 
-.content-body h2 { font-size: 24px; margin-bottom: 20px; color: var(--navy-dark); }
-.content-body h3 { font-size: 18px; margin: 30px 0 15px; color: var(--crimson); }
-.content-body p { margin-bottom: 20px; }
-.content-body code {
-  background: #f0f2f5;
-  border: 1px solid #d1d5df;
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-family: var(--mono);
-  font-size: 0.9em;
-  color: var(--crimson-dark);
-}
-.content-body pre {
-  background: var(--navy);
-  color: var(--cream);
-  padding: 15px;
-  border: 3px solid var(--navy-dark);
-  box-shadow: 4px 4px 0 var(--gold);
-  overflow-x: auto;
-  font-family: var(--mono);
-  font-size: 14px;
-  margin-bottom: 25px;
-}
-.content-body ul { padding-left: 20px; margin-bottom: 20px; }
-.content-body li { margin-bottom: 10px; }
+.content-body{ padding:38px 40px 48px; flex:1; font-size:15px; color:var(--ink); line-height:1.75; }
+.content-body > *{ max-width:64ch; }
 
-.task-box {
-  background: #fcf4e8;
-  border: 3px solid var(--gold);
-  padding: 20px;
-  margin-top: 30px;
+/* Headings: pixel for the lesson title, mono for sub-heads (readable, distinct) */
+.content-body h2{
+  font-family:var(--pixel); font-size:19px; line-height:1.5; color:var(--navy-dark);
+  margin:0 0 22px; padding-bottom:16px;
+  border-bottom:3px solid var(--gold);
 }
-.task-box h3 { margin-top: 0; color: var(--gold); filter: drop-shadow(1px 1px 0px var(--navy-dark)); }
+.content-body h3{
+  font-family:var(--mono); font-weight:800; font-size:13px; letter-spacing:.06em;
+  text-transform:uppercase; color:var(--crimson);
+  margin:34px 0 14px;
+}
+.content-body p{ margin:0 0 18px; }
+.content-body strong{ color:var(--navy-dark); }
+.content-body em{ color:var(--muted); font-style:italic; }
 
-.lesson-footer {
-  padding: 20px 40px;
-  background: #fff;
-  border-top: 3px solid var(--navy-dark);
-  display: flex;
-  justify-content: flex-end;
+.content-body code{
+  background:#eef0f4; border:1px solid #d4d8e0;
+  padding:1px 6px; font-family:var(--mono); font-size:.88em; color:var(--crimson-dark);
+}
+.content-body pre{
+  background:var(--navy-dark); color:var(--cream);
+  padding:16px 18px; margin:0 0 24px;
+  border:3px solid var(--navy-dark); box-shadow:5px 5px 0 var(--gold);
+  overflow-x:auto; font-family:var(--mono); font-size:13.5px; line-height:1.65;
+  white-space:pre; tab-size:4;
+}
+.content-body pre code{ background:none; border:none; padding:0; color:inherit; font-size:1em; }
+
+.content-body ul{ padding-left:0; margin:0 0 20px; list-style:none; }
+.content-body li{ position:relative; padding-left:22px; margin-bottom:10px; }
+.content-body li::before{
+  content:""; position:absolute; left:0; top:.55em;
+  width:9px; height:9px; background:var(--crimson); border:2px solid var(--navy-dark);
 }
 
-/* Right Panel: Editor */
-.lesson-editor {
-  display: flex;
-  flex-direction: column;
-  background: #f8f9fa;
-  padding: 0;
+/* Task box — a gold "brick" that clearly separates doing from reading */
+.task-box{
+  background:#fcf4e8; border:3px solid var(--gold); box-shadow:5px 5px 0 var(--navy-dark);
+  padding:20px 22px; margin-top:34px; max-width:64ch;
 }
-.lesson-editor .editor, .lesson-editor .console {
-  border: none;
-  box-shadow: none;
-  border-bottom: 4px solid var(--navy-dark);
+.task-box h3{
+  font-family:var(--pixel); font-size:12px; letter-spacing:0; text-transform:none;
+  margin:0 0 12px; color:var(--gold);
+  filter:drop-shadow(1.5px 1.5px 0 var(--navy-dark));
 }
-.lesson-editor .console { border-bottom: none; }
-.lesson-title { 
-  font-family: var(--pixel); 
-  font-size: 14px; 
-  color: var(--gold-light); 
-  margin-left: 20px; 
-  border-left: 2px solid var(--muted); 
-  padding-left: 20px; 
+.task-box p{ margin:0; color:var(--navy-dark); }
+
+/* Footer with the Complete button */
+.lesson-footer{
+  position:sticky; bottom:0;
+  padding:16px 40px; background:var(--paper);
+  border-top:3px solid var(--navy-dark);
+  display:flex; justify-content:flex-end;
 }
 
-@media (max-width: 900px) {
-  .lesson-layout { grid-template-columns: 1fr; overflow-y: auto; height: auto; }
-  .lesson-editor { height: 800px; border-top: 4px solid var(--navy-dark); }
+/* -------- Right: the code editor / console -------- */
+.lesson-editor{
+  display:flex; flex-direction:column; background:var(--navy-dark); min-width:0;
+}
+.lesson-editor .editor,
+.lesson-editor .console{
+  display:flex; flex-direction:column; min-height:0;
+  border:none; box-shadow:none;
+}
+.lesson-editor .editor{ border-bottom:4px solid #000; }
+
+/* window bar with the mac dots */
+.lesson-editor .bar{
+  display:flex; align-items:center; gap:8px;
+  padding:10px 16px; background:#151b28; color:#9fb0c9;
+  font-family:var(--mono); font-size:12px; font-weight:700; letter-spacing:.02em;
+  border-bottom:2px solid #000;
+}
+.lesson-editor .dot{ width:12px; height:12px; border:2px solid #000; display:inline-block; }
+.lesson-editor .dot.r{ background:var(--crimson); }
+.lesson-editor .dot.y{ background:var(--gold); }
+.lesson-editor .dot.g{ background:var(--emerald); }
+.lesson-editor .file{ margin-left:8px; color:#cfd8e6; }
+
+/* the code area */
+.lesson-editor textarea#code{
+  flex:1; width:100%; resize:none; border:none; outline:none;
+  background:#0f1420; color:#e8edf5;
+  font-family:var(--mono); font-size:14px; line-height:1.7;
+  padding:18px; tab-size:4; caret-color:var(--gold);
+}
+.lesson-editor textarea#code::selection{ background:rgba(197,143,58,.35); }
+
+/* run bar */
+.lesson-editor .runbar{
+  display:flex; gap:12px; padding:14px 16px;
+  background:#151b28; border-top:2px solid #000;
 }
 
-/* =========================================
-   PRINT MODE (For generating clean PDFs)
-========================================= */
-@media print {
-  body { background: white; }
-  
-  .site-header, 
-  .lesson-editor, 
-  .dont-print, 
-  .sub-nav {
-    display: none !important;
-  }
-
-  .lesson-layout {
-    display: block;
-    height: auto;
-    overflow: visible;
-  }
-  
-  .lesson-content {
-    border: none;
-    background: white;
-    width: 100%;
-    overflow: visible;
-  }
-
-  .content-body {
-    padding: 0;
-    color: black;
-  }
-
-  pre {
-    page-break-inside: avoid;
-    border: 1px solid #ccc;
-    background: #f9f9f9;
-    color: #333;
-    box-shadow: none;
-  }
-
-  h2, h3 {
-    page-break-after: avoid;
-  }
+/* console output */
+.lesson-editor .console .bar{ color:#9fb0c9; }
+.lesson-editor .out{
+  flex:1; overflow:auto; padding:18px;
+  background:#0f1420; color:#cdd6e4;
+  font-family:var(--mono); font-size:13.5px; line-height:1.6;
+  white-space:pre-wrap; word-break:break-word;
 }
+.lesson-editor .out .ok{ color:var(--emerald); font-weight:700; }
+.lesson-editor .out .err{ color:#e8788c; font-weight:700; }
+
+/* Professor Wáng verdict strip */
+.verdict{
+  display:flex; align-items:center; gap:12px;
+  padding:14px 18px; border-top:3px solid #000;
+  background:#151b28; color:#dbe3ef;
+  font-family:var(--mono); font-size:13.5px; font-weight:600;
+  border-left:6px solid var(--navy);
+}
+.verdict svg{ flex:0 0 auto; }
+.verdict.win{ background:rgba(63,122,92,.16); border-left-color:var(--emerald); color:#d6efe1; }
+.verdict.lose{ background:rgba(168,50,74,.16); border-left-color:var(--crimson); color:#f4d4db; }
+
+/* Buttons inside the lesson (fallbacks so the page looks right on its own) */
+.lesson-layout .btn{
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  font-family:var(--mono); font-weight:800; font-size:14px;
+  padding:11px 17px; border:3px solid var(--navy-dark);
+  background:var(--paper); color:var(--navy-dark);
+  box-shadow:4px 4px 0 var(--navy-dark); cursor:pointer; text-decoration:none;
+  transition:transform .06s steps(2), box-shadow .06s steps(2), background .12s;
+}
+.lesson-layout .btn:hover{ background:#fff; }
+.lesson-layout .btn:active{ transform:translate(4px,4px); box-shadow:0 0 0 var(--navy-dark); }
+.lesson-layout .btn-primary{ background:var(--crimson); color:#fff; }
+.lesson-layout .btn-primary:hover{ background:#b83a54; }
+.lesson-layout .btn:disabled{ opacity:.55; cursor:not-allowed; box-shadow:2px 2px 0 var(--navy-dark); }
+
+/* custom scrollbar on the reading panel */
+.lesson-content::-webkit-scrollbar{ width:12px; }
+.lesson-content::-webkit-scrollbar-track{ background:#efece5; }
+.lesson-content::-webkit-scrollbar-thumb{ background:var(--navy); border:3px solid #efece5; }
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+@media (max-width:1024px){
+  .site-header .lesson-title{ display:none; }   /* sub-nav still shows the lesson */
+}
+@media (max-width:900px){
+  .site-header .nav{ height:auto; flex-wrap:wrap; gap:10px 14px; padding:12px 0; }
+  .site-header .nav-right{ margin-left:auto; }
+  .lesson-layout{ grid-template-columns:1fr; height:auto; overflow:visible; }
+  .lesson-content{ border-right:none; border-bottom:4px solid var(--navy-dark); }
+  .lesson-editor{ min-height:640px; }
+  .sub-nav{ position:static; }
+  .lesson-footer{ position:static; }
+}
+@media (max-width:520px){
+  .site-header .logo small{ display:none; }
+  .content-body{ padding:26px 22px 40px; }
+  .sub-nav{ padding:12px 22px; }
+  .lesson-footer{ padding:14px 22px; }
+}
+
+/* =========================================================
+   PRINT — clean handout: just the lesson text
+   ========================================================= */
+@media print{
+  body{ background:#fff; }
+  .site-header, .lesson-editor, .dont-print, .sub-nav, .lesson-footer{ display:none !important; }
+  .lesson-layout{ display:block; height:auto; overflow:visible; }
+  .lesson-content{ border:none; background:#fff; width:100%; overflow:visible; background-image:none; }
+  .content-body{ padding:0; color:#000; }
+  .content-body > *{ max-width:none; }
+  .content-body pre{ page-break-inside:avoid; border:1px solid #ccc; background:#f7f7f7; color:#222; box-shadow:none; }
+  .content-body h2, .content-body h3{ page-break-after:avoid; }
+  .task-box{ box-shadow:none; }
+}
+
+/* =========================================================
+   ENGAGEMENT  — progress, brick step-dots, run hint, success pop
+   ========================================================= */
+.lesson-editor .editor,
+.lesson-editor .console{ flex:1 1 0; }
+
+/* progress sub-bar (replaces the plain sub-nav strip) */
+.lesson-subbar{
+  position:sticky; top:0; z-index:2;
+  background:var(--navy-dark); color:var(--gold-light);
+  border-bottom:3px solid #000; padding:12px 40px 14px;
+}
+.lesson-subbar-top{
+  display:flex; align-items:center; justify-content:space-between; gap:12px;
+  font-family:var(--mono); font-weight:800; font-size:12px; letter-spacing:.03em;
+}
+.lesson-subbar-top #sub-nav{ min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.lesson-subbar-top .sub-count{ color:#c8cfdd; font-variant-numeric:tabular-nums; flex:0 0 auto; }
+.progress{ height:8px; background:#0f1420; border:2px solid #000; margin-top:11px; }
+.progress-fill{ display:block; height:100%; width:0; background:var(--gold); transition:width .5s steps(10); }
+.dots{ display:flex; gap:6px; margin-top:11px; }
+.dots .brick{ width:24px; height:12px; background:#2a3346; border:2px solid #000; transition:background .2s; }
+.dots .brick.done, .dots .brick.lit{ background:var(--emerald); }
+.dots .brick.current{ background:var(--gold); }
+
+/* footer: hint on the left, action on the right */
+.lesson-footer{ justify-content:space-between; align-items:center; gap:14px; }
+.run-hint{ font-family:var(--mono); font-size:12px; color:var(--muted); }
+.run-hint kbd{
+  background:#eef0f4; border:1px solid #d4d8e0; padding:1px 6px;
+  font-family:var(--mono); font-size:11px; color:var(--navy-dark);
+}
+
+/* success moment */
+@keyframes pop{ 0%{transform:scale(1)} 40%{transform:scale(1.06)} 100%{transform:scale(1)} }
+#btn-complete.pop{ animation:pop .4s steps(6); }
+
+@media (max-width:900px){ .lesson-subbar{ position:static; } }
+@media (max-width:520px){ .lesson-subbar{ padding:12px 22px; } .run-hint{ display:none; } }
+
+/* gated brick dots: locked bricks are dim; unlocked ones are clickable for review */
+.dots a.brick{ cursor:pointer; text-decoration:none; }
+.dots a.brick:hover{ outline:2px solid var(--gold-light); outline-offset:2px; }
+.dots .brick.locked{ background:#222a3a; opacity:.45; cursor:not-allowed; }
