@@ -1,5 +1,9 @@
 /* curriculum/module-1-variables/module.js */
-import lesson0 from './0-data-types.js';
+import l0 from './0-declaring.js';
+import l1 from './1-data-types.js';
+import l2 from './2-scanf.js';
+import l3 from './3-operators.js';
+import l4 from './4-casting.js';
 
 export default {
   title: "Variables & Types",
@@ -13,5 +17,5 @@ export default {
     "Arithmetic and assignment operators",
     "Type conversion and casting basics"
   ],
-  sub_lessons: [lesson0]
+  sub_lessons: [l0, l1, l2, l3, l4]
 };
