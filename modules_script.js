@@ -22,7 +22,7 @@
   var ctaSection = document.querySelector('.cta');
   if (ctaSection) ctaSection.style.display = 'none';
 
-  // 3. Unlock ALL modules completely
+  // 3. Unlock ALL modules completely and hide lock messages
   for (var i = 0; i < 5; i++) {
     var btn = document.getElementById('mod-link-' + i);
     var status = document.getElementById('mod-status-' + i);
@@ -32,6 +32,12 @@
       // Remove locked styles
       article.classList.remove('locked');
       article.classList.add('unlocked');
+      
+      // Remove the lock message specifically
+      var lockmsg = article.querySelector('.lockmsg');
+      if (lockmsg) {
+        lockmsg.style.display = 'none';
+      }
       
       // Update Status badge
       status.className = 'status available';
